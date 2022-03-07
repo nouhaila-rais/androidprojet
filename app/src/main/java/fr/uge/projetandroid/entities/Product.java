@@ -178,7 +178,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
@@ -196,5 +196,18 @@ public class Product {
                 ", totalComment=" + totalComment +
                 ", avgRate=" + avgRate +
                 '}';
+    }
+
+
+    public String toJson(){
+
+        return    "    {\n"+
+                "        \"name\": \""+name+"\",\n"+
+                "        \"category\": \""+category+"\",\n"+
+                "        \"type\": \""+type+"\",\n"+
+                "        \"description\": \""+description+"\",\n"+
+                "        \"price\": "+price+",\n"+
+                "        \"state\": \""+state+"\"\n"+
+                "    }";
     }
 }

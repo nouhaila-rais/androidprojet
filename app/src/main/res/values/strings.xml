@@ -6,4 +6,69 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+
+    <string-array name="etat_array">
+        <item>Neuf</item>
+        <item>Bon</item>
+        <item>Ancien</item>
+    </string-array>
+
+
+    <string-array name="categorie_array">
+        <item>Bibliotheque</item>
+        <item>Electronique</item>
+        <item>Mode et vetements</item>
+        <item>Musique</item>
+        <item>Accessoires</item>
+        <item>Autre</item>
+    </string-array>
+
+
+    <string-array name="type_bibliotheque_array">
+        <item>Programmation</item>
+        <item>Roman</item>
+        <item>Proverbe</item>
+        <item>Cuisine</item>
+    </string-array>
+
+
+    <string-array name="type_electronique_array">
+        <item>Ordinateur</item>
+        <item>Telephone</item>
+        <item>Tablette</item>
+        <item>TV</item>
+        <item>Cle USB</item>
+        <item>Cable</item>
+    </string-array>
+
+
+    <string-array name="type_modevetement_array">
+        <item>Chemise</item>
+        <item>Pantalon</item>
+        <item>Pull</item>
+        <item>Robe</item>
+    </string-array>
+
+
+    <string-array name="type_music_array">
+        <item>Guitare</item>
+        <item>Piano</item>
+        <item>Percussion</item>
+    </string-array>
+
+
+    <string-array name="type_accessoire_array">
+        <item>Collier</item>
+        <item>Montre</item>
+        <item>Sac</item>
+    </string-array>
+
+    <string-array name="type_autre_array">
+        <item>Meuble</item>
+        <item>Jeux Video</item>
+        <item>Film</item>
+    </string-array>
+
+
 </resources>
