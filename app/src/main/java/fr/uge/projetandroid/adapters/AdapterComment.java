@@ -2,6 +2,9 @@ package fr.uge.projetandroid.adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,57 +12,85 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Comment;
 
-public class AdapterComment extends BaseAdapter {
+public class AdapterComment  extends RecyclerView.Adapter<AdapterComment.ViewHolder> {
 
-    private Vector<Comment> data;
+    private List<Comment> results;
+    private Map<String,Comment>  oldResult;
 
-    public AdapterComment(Vector<Comment> data) {
-        this.data=data;
-    }
-    @Override
-    public int getCount() {
-        return data.size();
+    public AdapterComment(List<Comment> results) {
+        this.results = results;
+        this.oldResult = new HashMap<>();
     }
 
+    @NonNull
     @Override
-    public Object getItem(int position) {
-        return data.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_commentaire, viewGroup, false));
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View item_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_commentaire,null);
-
-        TextView textView_nom_utilisateur_commentaire=item_view.findViewById(R.id.textView_nom_utilisateur_commentaire);
-        TextView textView_commentaire =item_view.findViewById(R.id.textView_commentaire);
-        TextView textView_date_commentaire  =item_view.findViewById(R.id.textView_date_commentaire);
-        ImageView imageView_ratingstar_comment  =item_view.findViewById(R.id.imageView_ratingstar_comment);
-
-
-        String utilisateur = data.get(position).getUser().getFirstName()  +" "+data.get(position).getUser().getLastName();
-        textView_nom_utilisateur_commentaire.setText(utilisateur);
-        textView_commentaire.setText(data.get(position).getContent());
-        textView_date_commentaire.setText(data.get(position).getCreatedAt());
-        setImageRatingStar(imageView_ratingstar_comment,data.get(position).getRate());
-        return item_view;
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        viewHolder.update(results.get(i));
     }
 
-    public void update(Vector<Comment> data){
-        this.data=data;
+    @Override
+    public int getItemCount() {
+        return results.size();
     }
 
-    public void setImageRatingStar(ImageView imageView,  int rate){
+    public void setResults(List<Comment> results) {
+        this.results = results;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView textView_nom_utilisateur_commentaire;
+        private TextView textView_commentaire;
+        private TextView textView_date_commentaire;
+        private ImageView imageView_ratingstar_comment;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textView_nom_utilisateur_commentaire = itemView.findViewById(R.id.textView_nom_utilisateur_commentaire);
+            textView_commentaire = itemView.findViewById(R.id.textView_commentaire);
+            textView_date_commentaire = itemView.findViewById(R.id.textView_date_commentaire);
+            imageView_ratingstar_comment = itemView.findViewById(R.id.imageView_ratingstar_comment);
+        }
+
+        public void update(Comment entity){
+
+            //if(!oldResult.containsKey(entity.getCreatedAt())) {
+
+            if (entity.getUser() != null) {
+                String utilisateur = entity.getUser().getFirstName() + " " + entity.getUser().getLastName();
+
+                //String utilisateur = entity.getUser().getFirstName() + " " + entity.getUser().getLastName();
+
+                textView_nom_utilisateur_commentaire.setText(utilisateur);
+                textView_commentaire.setText(entity.getContent());
+                textView_date_commentaire.setText(entity.getCreatedAt());
+                setImageRatingStar(imageView_ratingstar_comment, entity.getRate());
+                Comment c = entity;
+                Log.e("mohsine", "Rate :" + c.getRate() + " / " + " user : " + utilisateur + " content : " + c.getContent());
+                //oldResult.put(entity.getCreatedAt() ,entity);
+            }
+
+
+            //}
+        }
+    }
+
+    public void setImageRatingStar(ImageView imageView,  int note){
+        int rate = ConvertRate(note);
         switch(rate) {
             case 0:
                 imageView.setImageResource(R.drawable.s0);
@@ -97,5 +128,18 @@ public class AdapterComment extends BaseAdapter {
             default:
                 imageView.setImageResource(R.drawable.s0);
         }
+    }
+
+
+    int ConvertRate(int rate) {
+        int rate10 = rate*10;
+        int intRate = rate*10;
+
+        int intRate10 = (int)rate10;
+        int diff = intRate10 - intRate;
+
+        if(diff==5) return intRate10;
+        else if(diff<5) return intRate;
+        else return intRate+5;
     }
 }

@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +38,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import fr.uge.projetandroid.adapters.AdapterComment;
 import fr.uge.projetandroid.entities.Borrow;
@@ -67,7 +70,8 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
     private TextView textView_seconde;
 
 
-    private ListView listView_listAvis;
+    private RecyclerView listView_listAvis;
+    private AdapterComment adapterComment;
     private EditText editText_commentaire;
 
     private Button button_emprunter;
@@ -86,11 +90,11 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
 
 
 
-    private LinearLayout layout_boutton_emprunt;
-    private LinearLayout layout_saisirDate_emprunt;
-    private LinearLayout layout_demande_emprunt_boutton;
-    private LinearLayout layout_saisirDate_DemandeEmprunt;
-    private LinearLayout layout_demande_emprunt_countdown;
+    public LinearLayout layout_boutton_emprunt;
+    public LinearLayout layout_saisirDate_emprunt;
+    public LinearLayout layout_demande_emprunt_boutton;
+    public LinearLayout layout_saisirDate_DemandeEmprunt;
+    public LinearLayout layout_demande_emprunt_countdown;
 
 
     private String DATE_COUNTDOWN = "2020-04-31 05:02:00";
@@ -137,7 +141,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         setContentView(R.layout.activity_afficher_produit_emprunt);
 
         product = new Product();
-        url = "http://uge-webservice.herokuapp.com/api/product/3";
+        url = "http://uge-webservice.herokuapp.com/api/product/48";
         //product.setAvailable(false);
 
         initUi();
@@ -368,7 +372,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         textView_minute = (TextView)findViewById(R.id.textView_countdown_minute);
         textView_seconde = (TextView)findViewById(R.id.textView_countdown_seconde);
 
-        listView_listAvis = (ListView)findViewById(R.id.listView_listAvis);
+        listView_listAvis = (RecyclerView)findViewById(R.id.listView_listAvis);
         editText_commentaire=(EditText)findViewById(R.id.editText_commentaire);
 
 
@@ -389,6 +393,9 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         datePickerFinDemandeEmprunt = new DatePickerFragment();
         timePickerDebutDemandeEmprunt = new TimePickerFragment();
         timePickerFinDemandeEmprunt = new TimePickerFragment();
+
+        adapterComment = new AdapterComment(product.getComments());
+        listView_listAvis.setLayoutManager(new LinearLayoutManager(AfficherProduitEmprunt.this));
     }
 
 
@@ -431,10 +438,31 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         handler.removeCallbacks(runnable);
     }
 
+    public void changeLayoutEmprunt(){
+
+        Log.e("Step1","change1");
+
+        adapterComment.setResults(product.getComments());
+
+        listView_listAvis.setAdapter(new AdapterComment(product.getComments()));
+        Log.e("Step2","change2");
+        //Log.e("Comments : ", product.getComments().toString());
+
+        if(product.isAvailable()){
+            layout_demande_emprunt_boutton.setVisibility(View.GONE);
+            layout_demande_emprunt_countdown.setVisibility(View.GONE);
+
+        }
+        else {
+            layout_boutton_emprunt.setVisibility(View.GONE);
+            countDownStart();
+        }
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         month++;
-        date = dayOfMonth+"/"+month+"/"+year;
+        date = year+"-"+month+"-"+dayOfMonth;
         if(TYPE_DIALOG_FRAGMENT==DIALOG_FRAGMENT_DATE_DEBUT_EMPRUNT){
             button_dateDebut_emprunt.setText(date);
         }
@@ -547,7 +575,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                     JSONArray arrayResult = jsonObj.getJSONArray("comments");
 
 
-                    //Log.e("Taille" ,arrayResult.length()+"");
+                    Log.e("Taille comments : " ,arrayResult.length()+"");
                     for (int i = 0; i < arrayResult.length(); i++) {
 
                         JSONObject a = arrayResult.getJSONObject(i);
@@ -562,13 +590,16 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                         u.setFirstName(JsonUser.getString("firstName"));
                         u.setLastName(JsonUser.getString("lastName"));
                         c.setUser(u);
+
+                        Log.e("Commentaire json" , c.toJson());
+                        Log.e("Commentaire json user" , u.getFirstName() +" "+ u.getLastName()+"Comment : "+c.getContent());
                         product.addComment(c);
 
                     }
 
                     if(product.isAvailable()){
-                        layout_demande_emprunt_boutton.setVisibility(View.GONE);
-                        layout_demande_emprunt_countdown.setVisibility(View.GONE);
+                        //layout_demande_emprunt_boutton.setVisibility(View.GONE);
+                        //layout_demande_emprunt_countdown.setVisibility(View.GONE);
 
                     }
                     else {
@@ -585,12 +616,12 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                                 DATE_COUNTDOWN = jsonObj2.getString("endAt");
 
                             } catch (final JSONException e) {
-                                Log.e(TAG, "Json parsing error: " + e.getMessage());
+                                Log.e(TAG, "Mohsine" + e.getMessage());
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         Toast.makeText(getApplicationContext(),
-                                                "Json parsing error: " + e.getMessage(),
+                                                "mohsine" + e.getMessage(),
                                                 Toast.LENGTH_LONG)
                                                 .show();
                                     }
@@ -611,8 +642,8 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
 
                         }
 
-                        layout_boutton_emprunt.setVisibility(View.GONE);
-                        countDownStart();
+                        //layout_boutton_emprunt.setVisibility(View.GONE);
+                        //countDownStart();
                     }
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -620,7 +651,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),
-                                    "Json parsing error: " + e.getMessage(),
+                                    "mamadou" + e.getMessage(),
                                     Toast.LENGTH_LONG)
                                     .show();
                         }
@@ -652,18 +683,22 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                 pDialog.dismiss();
 
             Picasso.get().load(product.getPath())
+                    .error(R.drawable.erreurpicture)
+                    .into(Imageproduit_emprunt);
+            /*
+            //Picasso.get().load(product.getPath())
                     .resize(150, 150)
                     .centerCrop()
                     .error(R.drawable.erreurpicture)
                     .into(Imageproduit_emprunt);
-
+*/
             textView_categorie_type_emprunt.setText(product.getCategory()+" > "+ product.getType());
             textView_nom_emprunt.setText(product.getName());
             textView_description_produit_emprunt.setText(product.getDescription());
             textView_etat_produit_emprunt.setText(product.getState());
             setImageRatingStar(imageView_ratingstar_emprunt,avgRate);
-            AdapterComment adapterComment = new AdapterComment(product.getComments());
-            listView_listAvis.setAdapter(adapterComment);
+
+            changeLayoutEmprunt();
 
         }
 
@@ -696,6 +731,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             borrow.setProduct(product.getId());
 
             String data = borrow.toJson();
+            Log.e("Json", data);
             String result = null;
             try {
                 //Connect
@@ -815,7 +851,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                Log.e("Erreur", e.getMessage());
+                Log.e("Erreur Requestborrow", e.getMessage());
             }
             return null;
         }
@@ -916,13 +952,18 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             AdapterComment adapterComment = new AdapterComment(product.getComments());
             listView_listAvis.setAdapter(adapterComment);
             */
-            new AfficherProduitEmprunt.ShowProductTask().execute();
-            Toast.makeText(AfficherProduitEmprunt.this, "Commentaire bien ajouté", Toast.LENGTH_SHORT).show();
 
+            Toast.makeText(AfficherProduitEmprunt.this, "Commentaire bien ajouté", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AfficherProduitEmprunt.this, "Commentaire bienlkjh", Toast.LENGTH_SHORT).show();
+
+            updateComments();
         }
 
     }
 
+    void updateComments(){
+        new AfficherProduitEmprunt.ShowProductTask().execute();
+    }
 
 
 }

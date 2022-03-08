@@ -91,7 +91,7 @@ public class Borrow {
         return    "    {\n"+
                 "        \"startAt\": \""+startAt+"\",\n"+
                 "        \"endAt\": \""+endAt+"\",\n"+
-                "        \"product\": \""+product+"\"\n"+
+                "        \"product\": "+product+"\n"+
                 "    }";
     }
 

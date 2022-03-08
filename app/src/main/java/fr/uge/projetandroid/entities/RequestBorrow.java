@@ -103,7 +103,7 @@ public class RequestBorrow {
         return    "    {\n"+
                 "        \"startAt\": \""+startAt+"\",\n"+
                 "        \"endAt\": \""+endAt+"\",\n"+
-                "        \"product\": \""+product+"\"\n"+
+                "        \"product\": "+product+"\n"+
                 "    }";
     }
 }

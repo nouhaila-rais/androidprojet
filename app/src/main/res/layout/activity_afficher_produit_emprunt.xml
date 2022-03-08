@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginBottom="7dp"
-                    android:text='Veuillez cliquer sur "DATE" et "HEURE"'
+                    android:text='Veuillez cliquer sur "Date" et "Heure"'
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp" />
 
@@ -281,7 +281,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginBottom="7dp"
-                    android:text='Veuillez cliquer sur "DATE" et "HEURE"'
+                    android:text='Veuillez cliquer sur "Date" et "Heure"'
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp" />
 
@@ -506,6 +506,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
+                    android:layout_marginBottom="3dp"
                     android:text="Description"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp" />
@@ -516,6 +517,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp"
                     android:text="Les ordinateurs proposés par Apple sont réputés pour la qualité des composants utilisés, leur style, mais aussi pour l’ergonomie du système d’exploitation iOS qui n’a rien à envier à ses concurrents. " />
             </LinearLayout>
 
@@ -539,7 +541,7 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp" />
 
-                <ListView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/listView_listAvis"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
@@ -690,9 +692,12 @@
                     android:text="Ajouter"
                     android:textColor="@color/colorRatingStarBackground" />
 
+
+
             </LinearLayout>
 
         </LinearLayout>
+
 
     </ScrollView>
 
