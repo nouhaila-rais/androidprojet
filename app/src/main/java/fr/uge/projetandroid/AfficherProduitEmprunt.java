@@ -3,6 +3,7 @@ package fr.uge.projetandroid;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -140,8 +141,11 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afficher_produit_emprunt);
 
+        Intent myIntent = getIntent(); // gets the previously created intent
+        String idProduct = myIntent.getStringExtra("idProduct");
+
         product = new Product();
-        url = "http://uge-webservice.herokuapp.com/api/product/48";
+        url = "http://uge-webservice.herokuapp.com/api/product/"+idProduct;
         //product.setAvailable(false);
 
         initUi();

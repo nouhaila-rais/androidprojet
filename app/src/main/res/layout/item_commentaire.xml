@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -43,7 +44,8 @@
                 android:layout_width="3dp"
                 android:layout_height="31dp"
                 android:layout_weight="1"
-                android:adjustViewBounds="false" />
+                android:adjustViewBounds="false"
+                app:srcCompat="@drawable/s25" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="Pc en bonne etat" />
+                android:text="Bonne Etat" />
         </LinearLayout>
 
         <TextView

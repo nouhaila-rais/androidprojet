@@ -36,6 +36,8 @@ public class Product {
 
     private Collection<RequestBorrow> requestBorrows;
 
+    private int Rate;
+
     public Product() {
         this.borrows = new ArrayList<>();
         this.requestBorrows = new ArrayList<>();
@@ -43,7 +45,7 @@ public class Product {
     }
 
 
-    public Product(long id, String name, String category, String type, String description, double price, String state, boolean available, String createdAt, String path, User user, Vector<Comment> comments, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows) {
+    public Product(long id, String name, String category, String type, String description, double price, String state, boolean available, String createdAt, String path, User user, Vector<Comment> comments, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows, int rate) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -58,6 +60,7 @@ public class Product {
         this.comments = comments;
         this.borrows = borrows;
         this.requestBorrows = requestBorrows;
+        Rate = rate;
     }
 
     public void setId(long id) {
@@ -173,6 +176,14 @@ public class Product {
         this.requestBorrows = requestBorrows;
     }
 
+    public int getRate() {
+        return Rate;
+    }
+
+    public void setRate(int rate) {
+        Rate = rate;
+    }
+
     public void addComment(Comment c){
         comments.add(c);
     }
@@ -194,6 +205,7 @@ public class Product {
                 ", comments=" + comments +
                 ", borrows=" + borrows +
                 ", requestBorrows=" + requestBorrows +
+                ", Rate=" + Rate +
                 '}';
     }
 
