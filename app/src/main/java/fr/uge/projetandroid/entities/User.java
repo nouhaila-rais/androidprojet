@@ -168,6 +168,7 @@ public class User {
         this.comments = comments;
     }
 
+
     public Collection<Notification> getNotifications() {
         return notifications;
     }

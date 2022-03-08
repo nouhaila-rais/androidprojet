@@ -282,7 +282,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         imageFilePath = image.getAbsolutePath();
-        uploadFileName=imageFileName;
+        uploadFileName=image.getName();
         uploadFilePath=imageFilePath;
 
         return image;
@@ -314,7 +314,8 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         protected Void doInBackground(Void... arg0) {
 
             String fileName = uploadFilePath;
-
+            String path = "http://makcenter.ma/uge/projetAndroid/"+uploadFileName;
+            product.setPath(path);
             HttpURLConnection conn = null;
             DataOutputStream dos = null;
             String lineEnd = "\r\n";
@@ -333,7 +334,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
             else {
                 Log.e("path", uploadFilePath);
                 try {
-                    Log.e("mohsine2", "mohsine2");
+
                     // open a URL connection to the Servlet
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
                     URL url = new URL(upLoadServerUri);

@@ -205,7 +205,7 @@ public class Product {
                 "        \"type\": \""+type+"\",\n"+
                 "        \"description\": \""+description+"\",\n"+
                 "        \"price\": "+price+",\n"+
-                "        \"path\": "+path+",\n"+
+                "        \"path\": \""+path+"\",\n"+
                 "        \"state\": \""+state+"\"\n"+
                 "    }";
     }

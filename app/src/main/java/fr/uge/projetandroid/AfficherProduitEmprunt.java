@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,12 +27,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import fr.uge.projetandroid.adapters.AdapterComment;
+import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Comment;
 import fr.uge.projetandroid.entities.Product;
+import fr.uge.projetandroid.entities.RequestBorrow;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.fragments.DatePickerFragment;
 import fr.uge.projetandroid.fragments.TimePickerFragment;
@@ -58,11 +68,13 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
 
 
     private ListView listView_listAvis;
+    private EditText editText_commentaire;
 
-    private Button emprunter;
-    private Button demandeEmprunt;
-    private Button nouveauEmprunt;
-    private Button nouvelleDemandeEmprunt;
+    private Button button_emprunter;
+    private Button button_demandeEmprunt;
+    private Button button_nouveauEmprunt;
+    private Button button_nouvelleDemandeEmprunt;
+    private Button button_ajoutercommentaire;
     private Button button_dateDebut_emprunt;
     private Button button_heureDebut_emprunt;
     private Button button_dateFin_emprunt;
@@ -81,7 +93,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
     private LinearLayout layout_demande_emprunt_countdown;
 
 
-    private String EVENT_DATE_TIME = "2020-03-31 05:02:00";
+    private String DATE_COUNTDOWN = "2020-04-31 05:02:00";
     private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private LinearLayout linear_layout_jour, linear_layout_heure;
     private Handler handler = new Handler();
@@ -89,6 +101,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
 
 
     private int note=0;
+    private int avgRate=0;
 
     private Product product;
     private String date;
@@ -124,10 +137,11 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         setContentView(R.layout.activity_afficher_produit_emprunt);
 
         product = new Product();
-        product.setAvailable(false);
+        url = "http://uge-webservice.herokuapp.com/api/product/3";
+        //product.setAvailable(false);
 
         initUi();
-        new AfficherProduitEmprunt.ShowProduct().execute();
+        new AfficherProduitEmprunt.ShowProductTask().execute();
 
         star1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,7 +211,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         layout_saisirDate_DemandeEmprunt.setVisibility(View.GONE);
         layout_saisirDate_emprunt.setVisibility(View.GONE);
 
-        emprunter.setOnClickListener(new View.OnClickListener() {
+        button_emprunter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 layout_boutton_emprunt.setVisibility(View.GONE);
@@ -206,7 +220,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             }
         });
 
-        demandeEmprunt.setOnClickListener(new View.OnClickListener() {
+        button_demandeEmprunt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 layout_saisirDate_DemandeEmprunt.setVisibility(View.VISIBLE);
@@ -293,32 +307,39 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             }
         });
 
+        button_nouveauEmprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                new AfficherProduitEmprunt.AddBorrowTask().execute();
+            }
+        });
 
-        if(product.isAvailable()){
-            layout_demande_emprunt_boutton.setVisibility(View.GONE);
-            layout_demande_emprunt_countdown.setVisibility(View.GONE);
+        button_nouvelleDemandeEmprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                new AfficherProduitEmprunt.AddRequestBorrowTask().execute();
+            }
+        });
 
-        }//product is available
-        else {
-            layout_boutton_emprunt.setVisibility(View.GONE);
-            countDownStart();
+        button_ajoutercommentaire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-        }//product is not available
-
-
-
+                new AfficherProduitEmprunt.AddCommentTask().execute();
+            }
+        });
 
 
     }
 
     private void initUi(){
-        emprunter=(Button)findViewById(R.id.button_emprunter);
-        demandeEmprunt=(Button)findViewById(R.id.button_demande_emprunt);
-        nouveauEmprunt=(Button)findViewById(R.id.button_nouveau_emprunt);
-        nouvelleDemandeEmprunt=(Button)findViewById(R.id.button_nouveau_Demande_emprunt);
+        button_emprunter =(Button)findViewById(R.id.button_emprunter);
+        button_demandeEmprunt =(Button)findViewById(R.id.button_demande_emprunt);
+        button_nouveauEmprunt =(Button)findViewById(R.id.button_nouveau_emprunt);
+        button_nouvelleDemandeEmprunt =(Button)findViewById(R.id.button_nouveau_Demande_emprunt);
+        button_ajoutercommentaire=(Button)findViewById(R.id.button_ajoutercommentaire);
         button_dateDebut_emprunt=(Button)findViewById(R.id.button_dateDebut_emprunt);
         button_heureDebut_emprunt=(Button)findViewById(R.id.button_heureDebut_emprunt);
         button_dateFin_emprunt=(Button)findViewById(R.id.button_dateFin_emprunt);
@@ -348,6 +369,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         textView_seconde = (TextView)findViewById(R.id.textView_countdown_seconde);
 
         listView_listAvis = (ListView)findViewById(R.id.listView_listAvis);
+        editText_commentaire=(EditText)findViewById(R.id.editText_commentaire);
 
 
         layout_boutton_emprunt= findViewById(R.id.layout_boutton_emprunt);
@@ -378,7 +400,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                 try {
                     handler.postDelayed(this, 1000);
                     SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-                    Date event_date = dateFormat.parse(EVENT_DATE_TIME);
+                    Date event_date = dateFormat.parse(DATE_COUNTDOWN);
                     Date current_date = new Date();
                     if (!current_date.after(event_date)) {
                         long diff = event_date.getTime() - current_date.getTime();
@@ -445,8 +467,48 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
     }
 
 
+    public void setImageRatingStar(ImageView imageView,  int rate){
+        switch(rate) {
+            case 0:
+                imageView.setImageResource(R.drawable.s0);
+                break;
+            case 5:
+                imageView.setImageResource(R.drawable.s5);
+                break;
+            case 10:
+                imageView.setImageResource(R.drawable.s10);
+                break;
+            case 15:
+                imageView.setImageResource(R.drawable.s15);
+                break;
+            case 20:
+                imageView.setImageResource(R.drawable.s20);
+                break;
+            case 25:
+                imageView.setImageResource(R.drawable.s25);
+                break;
+            case 30:
+                imageView.setImageResource(R.drawable.s30);
+                break;
+            case 35:
+                imageView.setImageResource(R.drawable.s35);
+                break;
+            case 40:
+                imageView.setImageResource(R.drawable.s40);
+                break;
+            case 45:
+                imageView.setImageResource(R.drawable.s45);
+                break;
+            case 50:
+                imageView.setImageResource(R.drawable.s50);
+                break;
+            default:
+                imageView.setImageResource(R.drawable.s0);
+        }
+    }
 
-    private class ShowProduct extends AsyncTask<Void, Void, Void> {
+
+    private class ShowProductTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -480,6 +542,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                     product.setAvailable(jsonObj.getBoolean("available"));
                     product.setCreatedAt(jsonObj.getString("createdAt"));
                     product.setPath(jsonObj.getString("path"));
+                    avgRate = jsonObj.getInt("avgRate");
 
                     JSONArray arrayResult = jsonObj.getJSONArray("comments");
 
@@ -501,6 +564,55 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                         c.setUser(u);
                         product.addComment(c);
 
+                    }
+
+                    if(product.isAvailable()){
+                        layout_demande_emprunt_boutton.setVisibility(View.GONE);
+                        layout_demande_emprunt_countdown.setVisibility(View.GONE);
+
+                    }
+                    else {
+
+                        String url3 = "http://uge-webservice.herokuapp.com/api/borrow/borrowByProduct/"+product.getId();
+                        HttpHandler shh = new HttpHandler();
+                        jsonStr = shh.makeServiceCall(url3);
+                        Log.e(TAG, "Response from url: " + jsonStr);
+
+                        if (jsonStr != null) {
+                            try {
+
+                                JSONObject jsonObj2 = new JSONObject(jsonStr);
+                                DATE_COUNTDOWN = jsonObj2.getString("endAt");
+
+                            } catch (final JSONException e) {
+                                Log.e(TAG, "Json parsing error: " + e.getMessage());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Json parsing error: " + e.getMessage(),
+                                                Toast.LENGTH_LONG)
+                                                .show();
+                                    }
+                                });
+
+                            }
+                        } else {
+                            Log.e(TAG, "Couldn't get json from server.");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Couldn't get json from server. Check LogCat for possible errors!",
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            });
+
+                        }
+
+                        layout_boutton_emprunt.setVisibility(View.GONE);
+                        countDownStart();
                     }
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -542,22 +654,274 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             Picasso.get().load(product.getPath())
                     .resize(150, 150)
                     .centerCrop()
-                    .error(R.drawable.NoPicture)
+                    .error(R.drawable.erreurpicture)
                     .into(Imageproduit_emprunt);
 
             textView_categorie_type_emprunt.setText(product.getCategory()+" > "+ product.getType());
             textView_nom_emprunt.setText(product.getName());
             textView_description_produit_emprunt.setText(product.getDescription());
             textView_etat_produit_emprunt.setText(product.getState());
-
+            setImageRatingStar(imageView_ratingstar_emprunt,avgRate);
             AdapterComment adapterComment = new AdapterComment(product.getComments());
             listView_listAvis.setAdapter(adapterComment);
-
 
         }
 
     }
 
+
+
+    private class AddBorrowTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(AfficherProduitEmprunt.this);
+            pDialog.setMessage("Traitement en cours...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            HttpURLConnection urlConnection;
+            String url2 = "http://uge-webservice.herokuapp.com/api/borrow/";
+            Borrow borrow = new Borrow();
+            String startAt = button_dateDebut_emprunt.getText() + " " +button_heureDebut_emprunt.getText();
+            String endAt = button_dateFin_emprunt.getText() + " " +button_heureFin_emprunt.getText();
+            borrow.setStartAt(startAt);
+            borrow.setEndAt(endAt);
+            borrow.setProduct(product.getId());
+
+            String data = borrow.toJson();
+            String result = null;
+            try {
+                //Connect
+                urlConnection = (HttpURLConnection) ((new URL(url2).openConnection()));
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                //Write
+                OutputStream outputStream = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                writer.write(data);
+                writer.close();
+                outputStream.close();
+
+                //Read
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+
+                String line = null;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                result = sb.toString();
+                Log.e("Json", data);
+                Log.e("Message retour", "resultat : " + result);
+
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                Log.e("Erreur", e.getMessage());
+            }
+            return null;
+        }
+
+
+
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
+            Toast.makeText(AfficherProduitEmprunt.this, "Produit bien emprunté", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+
+    private class AddRequestBorrowTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(AfficherProduitEmprunt.this);
+            pDialog.setMessage("Traitement en cours...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            HttpURLConnection urlConnection;
+            String url2 = "http://uge-webservice.herokuapp.com/api/requestBorrow/";
+            RequestBorrow requestBorrow = new RequestBorrow();
+
+            String startAt = button_dateDebut_Demande_emprunt.getText() + " " +button_heureDebut_Demande_emprunt.getText();
+            String endAt = button_dateFin_Demande_emprunt.getText() + " " +button_heureFin_Demande_emprunt.getText();
+            requestBorrow.setStartAt(startAt);
+            requestBorrow.setEndAt(endAt);
+            requestBorrow.setProduct(product.getId());
+
+            String data = requestBorrow.toJson();
+            String result = null;
+            try {
+                //Connect
+                urlConnection = (HttpURLConnection) ((new URL(url2).openConnection()));
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                //Write
+                OutputStream outputStream = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                writer.write(data);
+                writer.close();
+                outputStream.close();
+
+                //Read
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+
+                String line = null;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                result = sb.toString();
+                Log.e("Json", data);
+                Log.e("Message retour", "resultat : " + result);
+
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                Log.e("Erreur", e.getMessage());
+            }
+            return null;
+        }
+
+
+
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
+            Toast.makeText(AfficherProduitEmprunt.this, "Demande bien enregistré", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+
+    private class AddCommentTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(AfficherProduitEmprunt.this);
+            pDialog.setMessage("Traitement en cours...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            HttpURLConnection urlConnection;
+            String url2 = "http://uge-webservice.herokuapp.com/api/comment/";
+            Comment comment = new Comment();
+            comment.setRate(note);
+            comment.setContent(editText_commentaire.getText().toString());
+            comment.setProduct(product.getId());
+            comment.setUser(product.getUser());
+            product.addComment(comment);
+            String data = comment.toJson();
+            String result = null;
+            try {
+                //Connect
+                urlConnection = (HttpURLConnection) ((new URL(url2).openConnection()));
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                //Write
+                OutputStream outputStream = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                writer.write(data);
+                writer.close();
+                outputStream.close();
+
+                //Read
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+
+                String line = null;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                result = sb.toString();
+                Log.e("Json", data);
+                Log.e("Message retour", "resultat : " + result);
+
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                Log.e("Erreur", e.getMessage());
+            }
+            return null;
+        }
+
+
+
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+/*
+            AdapterComment adapterComment = new AdapterComment(product.getComments());
+            listView_listAvis.setAdapter(adapterComment);
+            */
+            new AfficherProduitEmprunt.ShowProductTask().execute();
+            Toast.makeText(AfficherProduitEmprunt.this, "Commentaire bien ajouté", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
 
 
 
