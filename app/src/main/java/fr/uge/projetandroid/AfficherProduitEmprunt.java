@@ -1,22 +1,45 @@
 package fr.uge.projetandroid;
 
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
+import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AfficherProduitEmprunt extends AppCompatActivity {
+import fr.uge.projetandroid.adapters.AdapterComment;
+import fr.uge.projetandroid.entities.Comment;
+import fr.uge.projetandroid.entities.Product;
+import fr.uge.projetandroid.entities.User;
+import fr.uge.projetandroid.fragments.DatePickerFragment;
+import fr.uge.projetandroid.fragments.TimePickerFragment;
 
-    private ImageView Imageproduit;
+public class AfficherProduitEmprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+
+    private ImageView Imageproduit_emprunt;
+    private ImageView imageView_ratingstar_emprunt;
 
     private ImageButton star1;
     private ImageButton star2;
@@ -24,10 +47,38 @@ public class AfficherProduitEmprunt extends AppCompatActivity {
     private ImageButton star4;
     private ImageButton star5;
 
+    private TextView textView_categorie_type_emprunt;
+    private TextView textView_nom_emprunt;
+    private TextView textView_description_produit_emprunt;
+    private TextView textView_etat_produit_emprunt;
     private TextView textView_jour;
     private TextView textView_heure;
     private TextView textView_minute;
     private TextView textView_seconde;
+
+
+    private ListView listView_listAvis;
+
+    private Button emprunter;
+    private Button demandeEmprunt;
+    private Button nouveauEmprunt;
+    private Button nouvelleDemandeEmprunt;
+    private Button button_dateDebut_emprunt;
+    private Button button_heureDebut_emprunt;
+    private Button button_dateFin_emprunt;
+    private Button button_heureFin_emprunt;
+    private Button button_dateDebut_Demande_emprunt;
+    private Button button_heureDebut_Demande_emprunt;
+    private Button button_dateFin_Demande_emprunt;
+    private Button button_heureFin_Demande_emprunt;
+
+
+
+    private LinearLayout layout_boutton_emprunt;
+    private LinearLayout layout_saisirDate_emprunt;
+    private LinearLayout layout_demande_emprunt_boutton;
+    private LinearLayout layout_saisirDate_DemandeEmprunt;
+    private LinearLayout layout_demande_emprunt_countdown;
 
 
     private String EVENT_DATE_TIME = "2020-03-31 05:02:00";
@@ -37,32 +88,46 @@ public class AfficherProduitEmprunt extends AppCompatActivity {
     private Runnable runnable;
 
 
+    private int note=0;
+
+    private Product product;
+    private String date;
+    private String heure;
+    private String url;
+    private String TAG = AfficherProduitEmprunt.class.getSimpleName();
+
+    private DialogFragment datePickerDebutEmprunt;
+    private DialogFragment datePickerFinEmprunt;
+    private DialogFragment timePickerDebutEmprunt;
+    private DialogFragment timePickerFinEmprunt;
+    private DialogFragment datePickerDebutDemandeEmprunt;
+    private DialogFragment datePickerFinDemandeEmprunt;
+    private DialogFragment timePickerDebutDemandeEmprunt;
+    private DialogFragment timePickerFinDemandeEmprunt;
+
+    private ProgressDialog pDialog;
+
+
+    private int TYPE_DIALOG_FRAGMENT = 0;
+    private static final int DIALOG_FRAGMENT_DATE_DEBUT_EMPRUNT = 1;
+    private static final int DIALOG_FRAGMENT_DATE_FIN_EMPRUNT = 2;
+    private static final int DIALOG_FRAGMENT_TIME_DEBUT_EMPRUNT = 3;
+    private static final int DIALOG_FRAGMENT_TIME_FIN_EMPRUNT = 4;
+    private static final int DIALOG_FRAGMENT_DATE_DEBUT_DEMANDE_EMPRUNT = 5;
+    private static final int DIALOG_FRAGMENT_DATE_FIN_DEMANDE_EMPRUNT = 6;
+    private static final int DIALOG_FRAGMENT_TIME_DEBUT_DEMANDE_EMPRUNT = 7;
+    private static final int DIALOG_FRAGMENT_TIME_FIN_DEMANDE_EMPRUNT = 8;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afficher_produit_emprunt);
 
-        Imageproduit = (ImageView) findViewById(R.id.imageView_imageAfficherProduit_emprunt);
-        star1=(ImageButton)findViewById(R.id.imageButton_rating_1);
-        star2=(ImageButton)findViewById(R.id.imageButton_rating_2);
-        star3=(ImageButton)findViewById(R.id.imageButton_rating_3);
-        star4=(ImageButton)findViewById(R.id.imageButton_rating_4);
-        star5=(ImageButton)findViewById(R.id.imageButton_rating_5);
+        product = new Product();
+        product.setAvailable(false);
 
-        textView_jour = (TextView)findViewById(R.id.textView_countdown_jour);
-        textView_heure = (TextView)findViewById(R.id.textView_countdown_heure);
-        textView_minute = (TextView)findViewById(R.id.textView_countdown_minute);
-        textView_seconde = (TextView)findViewById(R.id.textView_countdown_seconde);
-
-        linear_layout_jour = findViewById(R.id.LinearLayout_Jour);
-        linear_layout_heure = findViewById(R.id.LinearLayout_Heure);
-
-        Picasso.get().load("http://marketingconfort.com/projetAndroid/IMG_20200329_012624_2710855663484451951.jpg")
-                .resize(150, 150)
-                .centerCrop()
-                .error(R.drawable.ic_camera_alt_black_24dp)
-                .into(Imageproduit);
-
+        initUi();
+        new AfficherProduitEmprunt.ShowProduct().execute();
 
         star1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +137,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity {
                 star3.setImageResource(R.drawable.star0);
                 star4.setImageResource(R.drawable.star0);
                 star5.setImageResource(R.drawable.star0);
+                note =1;
 
             }
         });
@@ -84,6 +150,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity {
                 star3.setImageResource(R.drawable.star0);
                 star4.setImageResource(R.drawable.star0);
                 star5.setImageResource(R.drawable.star0);
+                note =2;
 
             }
         });
@@ -96,6 +163,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity {
                 star3.setImageResource(R.drawable.star1);
                 star4.setImageResource(R.drawable.star0);
                 star5.setImageResource(R.drawable.star0);
+                note =3;
 
             }
         });
@@ -108,6 +176,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity {
                 star3.setImageResource(R.drawable.star1);
                 star4.setImageResource(R.drawable.star1);
                 star5.setImageResource(R.drawable.star0);
+                note =4;
 
             }
         });
@@ -120,23 +189,187 @@ public class AfficherProduitEmprunt extends AppCompatActivity {
                 star3.setImageResource(R.drawable.star1);
                 star4.setImageResource(R.drawable.star1);
                 star5.setImageResource(R.drawable.star1);
+                note =5;
+
+            }
+        });
+
+        layout_saisirDate_DemandeEmprunt.setVisibility(View.GONE);
+        layout_saisirDate_emprunt.setVisibility(View.GONE);
+
+        emprunter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout_boutton_emprunt.setVisibility(View.GONE);
+                layout_saisirDate_emprunt.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        demandeEmprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout_saisirDate_DemandeEmprunt.setVisibility(View.VISIBLE);
+                layout_demande_emprunt_boutton.setVisibility(View.GONE);
+                layout_demande_emprunt_countdown.setVisibility(View.GONE);
 
             }
         });
 
 
 
-        countDownStart();
+        button_dateDebut_emprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TYPE_DIALOG_FRAGMENT=DIALOG_FRAGMENT_DATE_DEBUT_EMPRUNT;
+                datePickerDebutEmprunt.show(getSupportFragmentManager(), "Datedebut");
+            }
+        });
+
+
+        button_dateFin_emprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TYPE_DIALOG_FRAGMENT=DIALOG_FRAGMENT_DATE_FIN_EMPRUNT;
+                datePickerFinEmprunt.show(getSupportFragmentManager(), "Datefin");
+            }
+        });
+
+        button_heureDebut_emprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TYPE_DIALOG_FRAGMENT=DIALOG_FRAGMENT_TIME_DEBUT_EMPRUNT;
+                timePickerDebutEmprunt.show(getSupportFragmentManager(), "Heuredebut");
+            }
+        });
+
+        button_heureFin_emprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TYPE_DIALOG_FRAGMENT=DIALOG_FRAGMENT_TIME_FIN_EMPRUNT;
+                timePickerFinEmprunt.show(getSupportFragmentManager(), "Heurefin");
+            }
+        });
+
+
+        button_dateDebut_Demande_emprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TYPE_DIALOG_FRAGMENT=DIALOG_FRAGMENT_DATE_DEBUT_DEMANDE_EMPRUNT;
+                datePickerDebutDemandeEmprunt.show(getSupportFragmentManager(), "Datedebut");
+            }
+        });
+
+
+        button_dateFin_Demande_emprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TYPE_DIALOG_FRAGMENT=DIALOG_FRAGMENT_DATE_FIN_DEMANDE_EMPRUNT;
+                datePickerFinDemandeEmprunt.show(getSupportFragmentManager(), "Datefin");
+            }
+        });
+
+        button_heureDebut_Demande_emprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TYPE_DIALOG_FRAGMENT=DIALOG_FRAGMENT_TIME_DEBUT_DEMANDE_EMPRUNT;
+                timePickerDebutDemandeEmprunt.show(getSupportFragmentManager(), "Heuredebut");
+            }
+        });
+
+        button_heureFin_Demande_emprunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TYPE_DIALOG_FRAGMENT=DIALOG_FRAGMENT_TIME_FIN_DEMANDE_EMPRUNT;
+                timePickerFinDemandeEmprunt.show(getSupportFragmentManager(), "Heurefin");
+            }
+        });
+
+
+
+        if(product.isAvailable()){
+            layout_demande_emprunt_boutton.setVisibility(View.GONE);
+            layout_demande_emprunt_countdown.setVisibility(View.GONE);
+
+
+        }//product is available
+        else {
+            layout_boutton_emprunt.setVisibility(View.GONE);
+            countDownStart();
+
+
+        }//product is not available
+
+
+
+
 
     }
 
+    private void initUi(){
+        emprunter=(Button)findViewById(R.id.button_emprunter);
+        demandeEmprunt=(Button)findViewById(R.id.button_demande_emprunt);
+        nouveauEmprunt=(Button)findViewById(R.id.button_nouveau_emprunt);
+        nouvelleDemandeEmprunt=(Button)findViewById(R.id.button_nouveau_Demande_emprunt);
+        button_dateDebut_emprunt=(Button)findViewById(R.id.button_dateDebut_emprunt);
+        button_heureDebut_emprunt=(Button)findViewById(R.id.button_heureDebut_emprunt);
+        button_dateFin_emprunt=(Button)findViewById(R.id.button_dateFin_emprunt);
+        button_heureFin_emprunt=(Button)findViewById(R.id.button_heureFin_emprunt);
+        button_dateDebut_Demande_emprunt=(Button)findViewById(R.id.button_dateDebut_Demande_emprunt);
+        button_heureDebut_Demande_emprunt=(Button)findViewById(R.id.button_heureDebut_Demande_emprunt);
+        button_dateFin_Demande_emprunt=(Button)findViewById(R.id.button_dateFin_Demande_emprunt);
+        button_heureFin_Demande_emprunt=(Button)findViewById(R.id.button_heureFin_Demande_emprunt);
+
+        Imageproduit_emprunt = (ImageView) findViewById(R.id.imageView_imageAfficherProduit_emprunt);
+        imageView_ratingstar_emprunt = (ImageView) findViewById(R.id.imageView_ratingstar_emprunt);
+
+        star1=(ImageButton)findViewById(R.id.imageButton_rating_1);
+        star2=(ImageButton)findViewById(R.id.imageButton_rating_2);
+        star3=(ImageButton)findViewById(R.id.imageButton_rating_3);
+        star4 = (ImageButton) findViewById(R.id.imageButton_rating_4);
+        star5=(ImageButton)findViewById(R.id.imageButton_rating_5);
 
 
+        textView_categorie_type_emprunt=(TextView)findViewById(R.id.textView_categorie_type_emprunt);
+        textView_nom_emprunt=(TextView)findViewById(R.id.textView_nom_emprunt);
+        textView_description_produit_emprunt=(TextView)findViewById(R.id.textView_description_prpduit_emprunt);
+        textView_etat_produit_emprunt=(TextView)findViewById(R.id.textView_etat_produit_emprunt);
+        textView_jour = (TextView)findViewById(R.id.textView_countdown_jour);
+        textView_heure = (TextView)findViewById(R.id.textView_countdown_heure);
+        textView_minute = (TextView)findViewById(R.id.textView_countdown_minute);
+        textView_seconde = (TextView)findViewById(R.id.textView_countdown_seconde);
+
+        listView_listAvis = (ListView)findViewById(R.id.listView_listAvis);
 
 
-    private void initUI() {
+        layout_boutton_emprunt= findViewById(R.id.layout_boutton_emprunt);
+        layout_saisirDate_emprunt= findViewById(R.id.layout_saisirDate_emprunt);
+        layout_demande_emprunt_boutton= findViewById(R.id.layout_demande_emprunt_boutton);
+        layout_saisirDate_DemandeEmprunt= findViewById(R.id.layout_saisirDate_Demande_emprunt);
+        layout_demande_emprunt_countdown= findViewById(R.id.layout_demande_emprunt_countdown);
+        linear_layout_jour = findViewById(R.id.LinearLayout_Jour);
+        linear_layout_heure = findViewById(R.id.LinearLayout_Heure);
 
+
+        datePickerDebutEmprunt = new DatePickerFragment();
+        datePickerFinEmprunt = new DatePickerFragment();
+        timePickerDebutEmprunt = new TimePickerFragment();
+        timePickerFinEmprunt = new TimePickerFragment();
+        datePickerDebutDemandeEmprunt = new DatePickerFragment();
+        datePickerFinDemandeEmprunt = new DatePickerFragment();
+        timePickerDebutDemandeEmprunt = new TimePickerFragment();
+        timePickerFinDemandeEmprunt = new TimePickerFragment();
     }
+
+
 
     private void countDownStart() {
         runnable = new Runnable() {
@@ -175,4 +408,157 @@ public class AfficherProduitEmprunt extends AppCompatActivity {
         super.onStop();
         handler.removeCallbacks(runnable);
     }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        month++;
+        date = dayOfMonth+"/"+month+"/"+year;
+        if(TYPE_DIALOG_FRAGMENT==DIALOG_FRAGMENT_DATE_DEBUT_EMPRUNT){
+            button_dateDebut_emprunt.setText(date);
+        }
+        else if(TYPE_DIALOG_FRAGMENT==DIALOG_FRAGMENT_DATE_FIN_EMPRUNT){
+            button_dateFin_emprunt.setText(date);
+        }
+        else if(TYPE_DIALOG_FRAGMENT==DIALOG_FRAGMENT_DATE_DEBUT_DEMANDE_EMPRUNT){
+            button_dateDebut_Demande_emprunt.setText(date);
+        }
+        else if(TYPE_DIALOG_FRAGMENT==DIALOG_FRAGMENT_DATE_FIN_DEMANDE_EMPRUNT){
+            button_dateFin_Demande_emprunt.setText(date);
+        }
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        heure=hourOfDay+":"+minute;
+        if(TYPE_DIALOG_FRAGMENT==DIALOG_FRAGMENT_TIME_DEBUT_EMPRUNT){
+            button_heureDebut_emprunt.setText(heure);
+        }
+        else if(TYPE_DIALOG_FRAGMENT==DIALOG_FRAGMENT_TIME_FIN_EMPRUNT){
+            button_heureFin_emprunt.setText(heure);
+        }
+        else if(TYPE_DIALOG_FRAGMENT==DIALOG_FRAGMENT_TIME_DEBUT_DEMANDE_EMPRUNT){
+            button_heureDebut_Demande_emprunt.setText(heure);
+        }
+        else if(TYPE_DIALOG_FRAGMENT==DIALOG_FRAGMENT_TIME_FIN_DEMANDE_EMPRUNT){
+            button_heureFin_Demande_emprunt.setText(heure);
+        }
+    }
+
+
+
+    private class ShowProduct extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(AfficherProduitEmprunt.this);
+            pDialog.setMessage("Chargement du produit...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            String jsonStr = sh.makeServiceCall(url);
+
+
+
+            Log.e(TAG, "Response from url: " + jsonStr);
+
+            if (jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    product.setId(jsonObj.getInt("id"));
+                    product.setName(jsonObj.getString("name"));
+                    product.setCategory(jsonObj.getString("category"));
+                    product.setType(jsonObj.getString("type"));
+                    product.setDescription((jsonObj.getString("description")));
+                    product.setPrice(jsonObj.getDouble("price"));
+                    product.setState(jsonObj.getString("state"));
+                    product.setAvailable(jsonObj.getBoolean("available"));
+                    product.setCreatedAt(jsonObj.getString("createdAt"));
+                    product.setPath(jsonObj.getString("path"));
+
+                    JSONArray arrayResult = jsonObj.getJSONArray("comments");
+
+
+                    //Log.e("Taille" ,arrayResult.length()+"");
+                    for (int i = 0; i < arrayResult.length(); i++) {
+
+                        JSONObject a = arrayResult.getJSONObject(i);
+
+                        Comment c = new Comment();
+                        c.setId(a.getInt("id"));
+                        c.setContent(a.getString("content"));
+                        c.setRate(a.getInt("rate"));
+                        c.setCreatedAt(a.getString("createdAt"));
+                        JSONObject JsonUser = a.getJSONObject("user");
+                        User u = new User();
+                        u.setFirstName(JsonUser.getString("firstName"));
+                        u.setLastName(JsonUser.getString("lastName"));
+                        c.setUser(u);
+                        product.addComment(c);
+
+                    }
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+
+                }
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
+            Picasso.get().load(product.getPath())
+                    .resize(150, 150)
+                    .centerCrop()
+                    .error(R.drawable.NoPicture)
+                    .into(Imageproduit_emprunt);
+
+            textView_categorie_type_emprunt.setText(product.getCategory()+" > "+ product.getType());
+            textView_nom_emprunt.setText(product.getName());
+            textView_description_produit_emprunt.setText(product.getDescription());
+            textView_etat_produit_emprunt.setText(product.getState());
+
+            AdapterComment adapterComment = new AdapterComment(product.getComments());
+            listView_listAvis.setAdapter(adapterComment);
+
+
+        }
+
+    }
+
+
+
+
 }

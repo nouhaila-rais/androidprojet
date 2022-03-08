@@ -4,34 +4,46 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 public class Product {
 
-    long id;
-    String name;
-    String category;
-    String type;
-    String description;
-    double price;
-    String state;
-    boolean available;
-    Date createdAt;
-    Media image;
-    User user;
-    List<Comment> comments;
-    List<Borrow> borrows;
-    List<RequestBorrow> requestBorrows;
-    int totalComment;
-    double avgRate;
+    private long id;
+
+    private String name;
+
+    private String category;
+
+    private String type;
+
+    private String description;
+
+    private double price;
+
+    private String state;
+
+    private boolean available;
+
+    private String createdAt;
+
+    private String path;
+
+    private User user;
+
+    private Vector<Comment> comments;
+
+    private Collection<Borrow> borrows;
+
+    private Collection<RequestBorrow> requestBorrows;
 
     public Product() {
         this.borrows = new ArrayList<>();
         this.requestBorrows = new ArrayList<>();
-        this.comments = new ArrayList<>();
+        this.comments = new Vector<>();
     }
 
 
-    public Product(long id, String name, String category, String type, String description, double price, String state, boolean available, Date createdAt, Media image, User user, List<Comment> comments, List<Borrow> borrows, List<RequestBorrow> requestBorrows, int totalComment, double avgRate) {
+    public Product(long id, String name, String category, String type, String description, double price, String state, boolean available, String createdAt, String path, User user, Vector<Comment> comments, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -41,15 +53,16 @@ public class Product {
         this.state = state;
         this.available = available;
         this.createdAt = createdAt;
-        this.image = image;
+        this.path = path;
         this.user = user;
         this.comments = comments;
         this.borrows = borrows;
         this.requestBorrows = requestBorrows;
-        this.totalComment = totalComment;
-        this.avgRate = avgRate;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getId() {
         return id;
@@ -112,20 +125,20 @@ public class Product {
         this.available = available;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Media getImage() {
-        return image;
+    public String getPath() {
+        return path;
     }
 
-    public void setImage(Media image) {
-        this.image = image;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public User getUser() {
@@ -136,49 +149,37 @@ public class Product {
         this.user = user;
     }
 
-    public List<Comment> getComments() {
+    public Vector<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(Vector<Comment> comments) {
         this.comments = comments;
     }
 
-    public List<Borrow> getBorrows() {
+    public Collection<Borrow> getBorrows() {
         return borrows;
     }
 
-    public void setBorrows(List<Borrow> borrows) {
+    public void setBorrows(Collection<Borrow> borrows) {
         this.borrows = borrows;
     }
 
-    public List<RequestBorrow> getRequestBorrows() {
+    public Collection<RequestBorrow> getRequestBorrows() {
         return requestBorrows;
     }
 
-    public void setRequestBorrows(List<RequestBorrow> requestBorrows) {
+    public void setRequestBorrows(Collection<RequestBorrow> requestBorrows) {
         this.requestBorrows = requestBorrows;
     }
 
-    public int getTotalComment() {
-        return totalComment;
-    }
-
-    public void setTotalComment(int totalComment) {
-        this.totalComment = totalComment;
-    }
-
-    public double getAvgRate() {
-        return avgRate;
-    }
-
-    public void setAvgRate(double avgRate) {
-        this.avgRate = avgRate;
+    public void addComment(Comment c){
+        comments.add(c);
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
@@ -187,17 +188,14 @@ public class Product {
                 ", price=" + price +
                 ", state='" + state + '\'' +
                 ", available=" + available +
-                ", createdAt=" + createdAt +
-                ", image=" + image +
+                ", createdAt='" + createdAt + '\'' +
+                ", path='" + path + '\'' +
                 ", user=" + user +
                 ", comments=" + comments +
                 ", borrows=" + borrows +
                 ", requestBorrows=" + requestBorrows +
-                ", totalComment=" + totalComment +
-                ", avgRate=" + avgRate +
                 '}';
     }
-
 
     public String toJson(){
 
@@ -207,6 +205,7 @@ public class Product {
                 "        \"type\": \""+type+"\",\n"+
                 "        \"description\": \""+description+"\",\n"+
                 "        \"price\": "+price+",\n"+
+                "        \"path\": "+path+",\n"+
                 "        \"state\": \""+state+"\"\n"+
                 "    }";
     }

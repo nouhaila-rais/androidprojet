@@ -32,11 +32,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Mohsine Bahhou"
+                android:text="Nouhaila Rais"
                 android:textSize="18sp" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageView_ratingstar_comment"
                 android:layout_width="3dp"
                 android:layout_height="31dp"
                 android:layout_weight="1"
