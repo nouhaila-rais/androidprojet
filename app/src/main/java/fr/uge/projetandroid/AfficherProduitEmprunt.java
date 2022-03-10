@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -39,7 +38,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Vector;
 
 import fr.uge.projetandroid.adapters.AdapterComment;
 import fr.uge.projetandroid.entities.Borrow;
@@ -49,6 +47,7 @@ import fr.uge.projetandroid.entities.RequestBorrow;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.fragments.DatePickerFragment;
 import fr.uge.projetandroid.fragments.TimePickerFragment;
+import fr.uge.projetandroid.handlers.HttpHandler;
 
 public class AfficherProduitEmprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 

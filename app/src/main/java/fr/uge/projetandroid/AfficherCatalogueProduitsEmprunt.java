@@ -20,8 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,9 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.uge.projetandroid.adapters.AdapterCatalogueProduitsEmprunt;
-import fr.uge.projetandroid.entities.Comment;
 import fr.uge.projetandroid.entities.Product;
-import fr.uge.projetandroid.entities.User;
+import fr.uge.projetandroid.handlers.HttpHandler;
 
 public class AfficherCatalogueProduitsEmprunt extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

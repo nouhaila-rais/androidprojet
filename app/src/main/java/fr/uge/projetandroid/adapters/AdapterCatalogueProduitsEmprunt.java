@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.entities.Product;
 
 public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<AdapterCatalogueProduitsEmprunt.ViewHolder> {
@@ -75,7 +76,7 @@ public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<Adapt
 
             imageView_image_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                     myIntent.putExtra("idProduct",entity.getId()+"");
                     v.getContext().startActivity(myIntent);
                 }
@@ -83,7 +84,7 @@ public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<Adapt
 
             textView_nomProduit_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                     myIntent.putExtra("idProduct",entity.getId()+"");
                     v.getContext().startActivity(myIntent);
                 }

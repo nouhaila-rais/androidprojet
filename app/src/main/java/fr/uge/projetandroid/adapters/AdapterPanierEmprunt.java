@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Product;
 
@@ -81,34 +82,34 @@ public class AdapterPanierEmprunt extends RecyclerView.Adapter<AdapterPanierEmpr
 
 
                 Picasso.get().load(entity.getPath())
-                        .resize(150, 150)
-                        .centerCrop()
-                        .error(R.drawable.erreurpicture)
-                        .into(imageView_imageProduit_panier_emprunt);
+                    .resize(150, 150)
+                    .centerCrop()
+                    .error(R.drawable.erreurpicture)
+                    .into(imageView_imageProduit_panier_emprunt);
 
                 imageView_imageProduit_panier_emprunt.setOnClickListener(new View.OnClickListener(){
-                    public void onClick(View v){
-                        Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
-                        myIntent.putExtra("idProduct",entity.getId()+"");
-                        v.getContext().startActivity(myIntent);
-                    }
-                });
+                public void onClick(View v){
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    v.getContext().startActivity(myIntent);
+                }
+            });
 
                 textView_nomProduit_panier_emprunt.setOnClickListener(new View.OnClickListener(){
-                    public void onClick(View v){
-                        Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
-                        myIntent.putExtra("idProduct",entity.getId()+"");
-                        v.getContext().startActivity(myIntent);
-                    }
-                });
+                public void onClick(View v){
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    v.getContext().startActivity(myIntent);
+                }
+            });
 
                 button_retouner_panier_emprunt.setOnClickListener(new View.OnClickListener(){
-                    public void onClick(View v){
-                        Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
-                        myIntent.putExtra("idProduct",entity.getId()+"");
-                        v.getContext().startActivity(myIntent);
-                    }
-                });
+                public void onClick(View v){
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    v.getContext().startActivity(myIntent);
+                }
+            });
             }
 
 

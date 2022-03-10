@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -17,7 +18,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -216,7 +216,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
                 product.setName(editTextNom.getText().toString());
                 product.setPrice(Double.parseDouble(editTextPrix.getText().toString()));
                 product.setDescription(editTextDescrition.getText().toString());
-                new AjouterProduit.AddProductTask().execute();
+                new AddProductTask().execute();
             }
         });
 

@@ -3,12 +3,12 @@ package fr.uge.projetandroid.borrow;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.uge.projetandroid.HttpHandler;
+import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.adapters.AdapterProduitsRechercheEmprunt;
@@ -62,7 +62,7 @@ public class AfficherProduitsRechercheEmprunt extends AppCompatActivity implemen
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        new ShowProductsTask().execute();
+        new AfficherProduitsRechercheEmprunt.ShowProductsTask().execute();
     }
 
 

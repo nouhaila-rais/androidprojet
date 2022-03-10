@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.uge.projetandroid.HttpHandler;
+import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.adapters.AdapterProduitAjouteEmprunt;

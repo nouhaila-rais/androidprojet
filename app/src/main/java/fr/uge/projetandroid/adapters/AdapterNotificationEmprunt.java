@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.entities.Notification;
 
 public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNotificationEmprunt.ViewHolder> {
@@ -65,41 +66,41 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
         public void update(final Notification entity){
 
 
-            textView_message_notifications_emprunt.setText(entity.getMessage());
-            textView_date_notifications_emprunt.setText(entity.getCreatedAt());
+                textView_message_notifications_emprunt.setText(entity.getMessage());
+                textView_date_notifications_emprunt.setText(entity.getCreatedAt());
 
 
 
-            Picasso.get().load(entity.getImage())
-                    .resize(150, 150)
-                    .centerCrop()
-                    .error(R.drawable.erreurpicture)
-                    .into(imageView_imageProduit_notifications_emprunt);
+                Picasso.get().load(entity.getImage())
+                        .resize(150, 150)
+                        .centerCrop()
+                        .error(R.drawable.erreurpicture)
+                        .into(imageView_imageProduit_notifications_emprunt);
 
-            imageView_imageProduit_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
-                    myIntent.putExtra("idProduct",entity.getProduct()+"");
-                    v.getContext().startActivity(myIntent);
-                }
-            });
+                imageView_imageProduit_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View v){
+                        Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                        myIntent.putExtra("idProduct",entity.getProduct()+"");
+                        v.getContext().startActivity(myIntent);
+                    }
+                });
 
-            textView_message_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
-                    myIntent.putExtra("idProduct",entity.getProduct()+"");
-                    v.getContext().startActivity(myIntent);
-                }
-            });
+                textView_message_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View v){
+                        Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                        myIntent.putExtra("idProduct",entity.getProduct()+"");
+                        v.getContext().startActivity(myIntent);
+                    }
+                });
 
-            button_emprunter_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
-                    myIntent.putExtra("idProduct",entity.getProduct()+"");
-                    v.getContext().startActivity(myIntent);
-                }
-            });
-        }
+                button_emprunter_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View v){
+                        Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                        myIntent.putExtra("idProduct",entity.getProduct()+"");
+                        v.getContext().startActivity(myIntent);
+                    }
+                });
+            }
 
 
 

@@ -1,22 +1,17 @@
 package fr.uge.projetandroid.adapters;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Comment;
@@ -60,26 +55,26 @@ public class AdapterComment  extends RecyclerView.Adapter<AdapterComment.ViewHol
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView_nom_utilisateur_commentaire = itemView.findViewById(R.id.textView_nom_utilisateur_commentaire);
-            textView_commentaire = itemView.findViewById(R.id.textView_commentaire);
-            textView_date_commentaire = itemView.findViewById(R.id.textView_date_commentaire);
-            imageView_ratingstar_comment = itemView.findViewById(R.id.imageView_ratingstar_comment);
+             textView_nom_utilisateur_commentaire = itemView.findViewById(R.id.textView_nom_utilisateur_commentaire);
+             textView_commentaire = itemView.findViewById(R.id.textView_commentaire);
+             textView_date_commentaire = itemView.findViewById(R.id.textView_date_commentaire);
+             imageView_ratingstar_comment = itemView.findViewById(R.id.imageView_ratingstar_comment);
         }
 
         public void update(Comment entity){
 
 
-            String utilisateur = entity.getFirstName() + " " + entity.getLastName();
+                    String utilisateur = entity.getFirstName() + " " + entity.getLastName();
 
-            //String utilisateur = entity.getUser().getFirstName() + " " + entity.getUser().getLastName();
+                    //String utilisateur = entity.getUser().getFirstName() + " " + entity.getUser().getLastName();
 
-            textView_nom_utilisateur_commentaire.setText(utilisateur);
-            textView_commentaire.setText(entity.getContent());
-            textView_date_commentaire.setText(entity.getCreatedAt());
-            setImageRatingStar(imageView_ratingstar_comment, entity.getRate());
-            Comment c = entity;
-            Log.e("mohsine", "Rate :" + c.getRate() + " / " + " user : " + utilisateur + " content : " + c.getContent());
-            //oldResult.put(entity.getCreatedAt() ,entity);
+                    textView_nom_utilisateur_commentaire.setText(utilisateur);
+                    textView_commentaire.setText(entity.getContent());
+                    textView_date_commentaire.setText(entity.getCreatedAt());
+                    setImageRatingStar(imageView_ratingstar_comment, entity.getRate());
+                    Comment c = entity;
+                    Log.e("mohsine", "Rate :" + c.getRate() + " / " + " user : " + utilisateur + " content : " + c.getContent());
+                    //oldResult.put(entity.getCreatedAt() ,entity);
 
 
 

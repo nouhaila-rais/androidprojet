@@ -17,7 +17,7 @@ import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.entities.Product;
 
-public class AdapterProduitsRechercheEmprunt extends RecyclerView.Adapter<AdapterProduitsRechercheEmprunt.ViewHolder> {
+public class AdapterProduitsRechercheEmprunt  extends RecyclerView.Adapter<AdapterProduitsRechercheEmprunt.ViewHolder> {
 
     private List<Product> results;
 

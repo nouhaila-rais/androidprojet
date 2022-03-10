@@ -39,16 +39,15 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import fr.uge.projetandroid.Fragments.DatePickerFragment;
-import fr.uge.projetandroid.Fragments.TimePickerFragment;
-import fr.uge.projetandroid.HttpHandler;
+import fr.uge.projetandroid.fragments.DatePickerFragment;
+import fr.uge.projetandroid.fragments.TimePickerFragment;
+import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.adapters.AdapterComment;
 import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Comment;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.RequestBorrow;
-import fr.uge.projetandroid.entities.User;
 
 public class AfficherProduitEmprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 

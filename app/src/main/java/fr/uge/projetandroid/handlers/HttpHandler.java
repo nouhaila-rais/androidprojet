@@ -1,4 +1,4 @@
-package fr.uge.projetandroid;
+package fr.uge.projetandroid.handlers;
 
 
 import android.util.Log;
