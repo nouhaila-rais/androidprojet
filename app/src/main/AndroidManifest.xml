@@ -19,7 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AfficherCatalogueProduitsEmprunt">
+        <activity android:name=".AfficherCatalogueProduitsEmprunt"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,11 +30,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".AfficherProduitEmprunt">
+
         </activity>
         <activity
             android:name=".AjouterProduit"
-            android:usesCleartextTraffic="true">
-        </activity>
+            android:usesCleartextTraffic="true"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

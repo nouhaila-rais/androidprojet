@@ -952,13 +952,10 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
-/*
-            AdapterComment adapterComment = new AdapterComment(product.getComments());
-            listView_listAvis.setAdapter(adapterComment);
-            */
 
             Toast.makeText(AfficherProduitEmprunt.this, "Commentaire bien ajouté", Toast.LENGTH_SHORT).show();
-            Toast.makeText(AfficherProduitEmprunt.this, "Commentaire bienlkjh", Toast.LENGTH_SHORT).show();
+            editText_commentaire.setText("");
+
 
             updateComments();
         }
