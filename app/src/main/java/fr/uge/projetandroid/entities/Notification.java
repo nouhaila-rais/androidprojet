@@ -1,11 +1,5 @@
 package fr.uge.projetandroid.entities;
 
-import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 
 public class Notification {
 
@@ -15,6 +9,7 @@ public class Notification {
     private long user;
     private long product;
     private String image;
+    private boolean readNotification;
 
 
     public Notification() {
@@ -77,6 +72,14 @@ public class Notification {
         this.image = image;
     }
 
+    public boolean isRead() {
+        return readNotification;
+    }
+
+    public void setRead(boolean read) {
+        this.readNotification = read;
+    }
+
     @Override
     public String toString() {
         return "Notification{" +
@@ -86,6 +89,7 @@ public class Notification {
                 ", user=" + user +
                 ", product=" + product +
                 ", image='" + image + '\'' +
+                ", readNotification=" + readNotification +
                 '}';
     }
 }

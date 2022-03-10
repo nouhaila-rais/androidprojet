@@ -1,6 +1,7 @@
 package fr.uge.projetandroid.handlers;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,18 +9,21 @@ import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.CancellationSignal;
 import android.support.v4.app.ActivityCompat;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by whit3hawks on 11/16/16.
- */
+import fr.uge.projetandroid.MainActivity;
+import fr.uge.projetandroid.R;
+
+
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
     private Context context;
+    private ImageView imageView;
 
-    // Constructor
     public FingerprintHandler(Context mContext) {
         context = mContext;
+        imageView = (ImageView) ((Activity)context).findViewById(R.id.imageView_fingerprint);
     }
 
     public void startAuth(FingerprintManager manager, FingerprintManager.CryptoObject cryptoObject) {
@@ -32,28 +36,30 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     @Override
     public void onAuthenticationError(int errMsgId, CharSequence errString) {
-        this.update("Fingerprint Authentication error\n" + errString);
+        this.update("Erreur d'authentification par empreinte digitale\n" + errString);
     }
 
     @Override
     public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
-        this.update("Fingerprint Authentication help\n" + helpString);
+        this.update("Aide sur l'authentification par empreinte digitale\n" + helpString);
     }
 
     @Override
     public void onAuthenticationFailed() {
-        this.update("Fingerprint Authentication failed.");
+        this.update("L'authentification par empreinte digitale a échoué");
     }
 
     @Override
     public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
+        imageView.setImageResource(R.drawable.ic_action_fingerprint_vert);
         ((Activity) context).finish();
-        Intent intent = new Intent(context, HomeActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
 
     private void update(String e){
-        TextView textView = (TextView) ((Activity)context).findViewById(R.id.errorText);
+        imageView.setImageResource(R.drawable.ic_action_fingerprint_rouge);
+        TextView textView = (TextView) ((Activity)context).findViewById(R.id.textView_erreur_fingerprint);
         textView.setText(e);
     }
 

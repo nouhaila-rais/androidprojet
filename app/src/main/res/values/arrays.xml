@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="etat_produit_array">
+        <item>Neuf</item>
+        <item>Bon état</item>
+        <item>Ancien</item>
+    </string-array>
+</resources>

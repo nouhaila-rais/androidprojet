@@ -37,8 +37,11 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheEmprunt;
 import fr.uge.projetandroid.fragments.DatePickerFragment;
 import fr.uge.projetandroid.fragments.TimePickerFragment;
 import fr.uge.projetandroid.handlers.HttpHandler;
@@ -106,6 +109,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
 
     private int note=0;
     private int avgRate=0;
+    private long idNotification;
 
     private Product product;
     private String date;
@@ -142,6 +146,11 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
 
         Intent myIntent = getIntent();
         String idProduct = myIntent.getStringExtra("idProduct");
+        idNotification = myIntent.getLongExtra("idNotification",0);
+        Boolean read  = myIntent.getBooleanExtra("readNotification",true);
+
+        if(read==false) new AfficherProduitEmprunt.updateNotification().execute();
+
 
         product = new Product();
         url = "http://uge-webservice.herokuapp.com/api/product/"+idProduct;
@@ -961,5 +970,30 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         new AfficherProduitEmprunt.ShowProductTask().execute();
     }
 
+    private class updateNotification extends AsyncTask<Void, Void, Void> {
 
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+
+            String url = "http://uge-webservice.herokuapp.com/api/updateNotification/"+idNotification;
+            HttpHandler sh = new HttpHandler();
+            sh.makeServiceCall(url);
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+        }
+
+    }
 }
