@@ -14,16 +14,15 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 
-public class AdapaterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapaterProduitAjouteEmprunt.ViewHolder> {
+public class AdapterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapterProduitAjouteEmprunt.ViewHolder> {
 
     private List<Product> results;
 
 
-    public AdapaterProduitAjouteEmprunt(List<Product> results) {
+    public AdapterProduitAjouteEmprunt(List<Product> results) {
         this.results = results;
     }
 
@@ -86,7 +85,7 @@ public class AdapaterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapaterP
 
             imageView_imageProduit_mesProduits_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
                     myIntent.putExtra("idProduct",entity.getId()+"");
                     v.getContext().startActivity(myIntent);
                 }
@@ -94,7 +93,7 @@ public class AdapaterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapaterP
 
             textView_nomProduit_mesProduits_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
                     myIntent.putExtra("idProduct",entity.getId()+"");
                     v.getContext().startActivity(myIntent);
                 }
@@ -102,7 +101,7 @@ public class AdapaterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapaterP
 
             button_afficher_mesProduits_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
                     myIntent.putExtra("idProduct",entity.getId()+"");
                     v.getContext().startActivity(myIntent);
                 }

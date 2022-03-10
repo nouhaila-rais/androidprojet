@@ -10,20 +10,28 @@ public class Comment {
 
     private String createdAt;
 
-    private User user;
+    private long user;
 
     private long product;
+
+    private String lastName;
+
+    private String firstName;
+
+
 
     public Comment() {
     }
 
-    public Comment(long id, String content, int rate, String createdAt, User user, long product) {
+    public Comment(long id, String content, int rate, String createdAt, long user, long product, String lastName, String firstName) {
         this.id = id;
         this.content = content;
         this.rate = rate;
         this.createdAt = createdAt;
         this.user = user;
         this.product = product;
+        this.lastName = lastName;
+        this.firstName = firstName;
     }
 
     public long getId() {
@@ -58,12 +66,28 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
-    public User getUser() {
+    public long getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(long user) {
         this.user = user;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public long getProduct() {
@@ -83,6 +107,8 @@ public class Comment {
                 ", createdAt='" + createdAt + '\'' +
                 ", user=" + user +
                 ", product=" + product +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
                 '}';
     }
 

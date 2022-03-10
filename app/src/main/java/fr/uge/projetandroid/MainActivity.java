@@ -14,10 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import fr.uge.projetandroid.borrow.AfficherCatalogueProduitsEmprunt;
 import fr.uge.projetandroid.borrow.AfficherNotificationsEmprunt;
 import fr.uge.projetandroid.borrow.AfficherProduitAjoute;
-import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
+import fr.uge.projetandroid.borrow.AfficherMesProduitsEmprunte;
+import fr.uge.projetandroid.borrow.AjouterProduit;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_emprunter) {
-            Intent myIntent = new Intent(this, AfficherProduitEmprunt.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
@@ -104,7 +104,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_deconnexion) {
-
+            Intent myIntent = new Intent(this, AjouterProduit.class);
+            startActivity(myIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

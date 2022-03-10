@@ -3,6 +3,7 @@ package fr.uge.projetandroid.borrow;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -10,7 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -30,12 +30,8 @@ import java.util.List;
 import fr.uge.projetandroid.HttpHandler;
 import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.AdapterCatalogueProduitsEmprunt;
 import fr.uge.projetandroid.adapters.AdapterNotificationEmprunt;
-import fr.uge.projetandroid.adapters.AdapterPanierEmprunt;
-import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Notification;
-import fr.uge.projetandroid.entities.Product;
 
 public class AfficherNotificationsEmprunt extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -70,7 +66,7 @@ public class AfficherNotificationsEmprunt extends AppCompatActivity implements N
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initUi();
-        new AfficherNotificationsEmprunt.ShowNotificationsTask().execute();
+        new ShowNotificationsTask().execute();
     }
 
 

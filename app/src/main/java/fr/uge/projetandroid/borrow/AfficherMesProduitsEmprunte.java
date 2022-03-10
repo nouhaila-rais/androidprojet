@@ -34,12 +34,12 @@ import fr.uge.projetandroid.adapters.AdapterPanierEmprunt;
 import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Product;
 
-public class AfficherProduitsEmprunte extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class AfficherMesProduitsEmprunte extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private RecyclerView RecyclerView_ProduitEmprunte;
     private ProgressDialog pDialog;
-    private String TAG = AfficherProduitEmprunt.class.getSimpleName();
+    private String TAG = "AfficherMesProduitsEmprunte";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,7 +154,7 @@ public class AfficherProduitsEmprunte extends AppCompatActivity implements Navig
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(AfficherProduitsEmprunte.this);
+            pDialog = new ProgressDialog(AfficherMesProduitsEmprunte.this);
             pDialog.setMessage("Chargement des produits...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -177,34 +177,40 @@ public class AfficherProduitsEmprunte extends AppCompatActivity implements Navig
                     JSONObject json = new JSONObject(jsonStr);
                     JSONArray arrayResult = json.getJSONArray("borrows");
                     for (int i = 0; i < arrayResult.length(); i++) {
-                        Product product = new Product();
-                        JSONObject jsonObj = arrayResult.getJSONObject(i);
-                        product.setId(jsonObj.getInt("id"));
-                        product.setName(jsonObj.getString("name"));
-                        product.setCategory(jsonObj.getString("category"));
-                        product.setType(jsonObj.getString("type"));
-                        product.setDescription((jsonObj.getString("description")));
-                        product.setPrice(jsonObj.getDouble("price"));
-                        product.setState(jsonObj.getString("state"));
-                        product.setAvailable(jsonObj.getBoolean("available"));
-                        product.setCreatedAt(jsonObj.getString("createdAt"));
-                        product.setPath(jsonObj.getString("path"));
-                        product.setRate(jsonObj.getInt("avgRate"));
-                        produitsEmprunte.add(product);
 
-                        String url3 = "http://uge-webservice.herokuapp.com/api/borrow/borrowByProduct/"+product.getId();
+
+
+                        Borrow borrow = new Borrow();
+                        JSONObject jsonObj = arrayResult.getJSONObject(i);
+                        borrow.setProduct(jsonObj.getInt("product"));
+                        borrow.setEndAt(jsonObj.getString("endAt"));
+                        borrow.setStartAt(jsonObj.getString("startAt"));
+                        borrows.add(borrow);
+
+
+
+
+                        String url3 = "http://uge-webservice.herokuapp.com/api/product/"+borrow.getProduct();
                         HttpHandler shh = new HttpHandler();
                         jsonStr = shh.makeServiceCall(url3);
                         Log.e(TAG, "Response from url: " + jsonStr);
 
                         if (jsonStr != null) {
                             try {
-                                Borrow borrow = new Borrow();
+                                Product product = new Product();
                                 JSONObject jsonObj2 = new JSONObject(jsonStr);
-                                borrow.setProduct(jsonObj2.getInt("product"));
-                                borrow.setEndAt(jsonObj2.getString("endAt"));
-                                borrow.setStartAt(jsonObj2.getString("startAt"));
-                                borrows.add(borrow);
+                                product.setId(jsonObj2.getInt("id"));
+                                product.setName(jsonObj2.getString("name"));
+                                product.setCategory(jsonObj2.getString("category"));
+                                product.setType(jsonObj2.getString("type"));
+                                product.setDescription((jsonObj2.getString("description")));
+                                product.setPrice(jsonObj2.getDouble("price"));
+                                product.setState(jsonObj2.getString("state"));
+                                product.setAvailable(jsonObj2.getBoolean("available"));
+                                product.setCreatedAt(jsonObj2.getString("createdAt"));
+                                product.setPath(jsonObj2.getString("path"));
+                                product.setRate(jsonObj2.getInt("avgRate"));
+                                produitsEmprunte.add(product);
 
                             } catch (final JSONException e) {
                                 Log.e(TAG, "Erreur" + e.getMessage());
@@ -212,7 +218,7 @@ public class AfficherProduitsEmprunte extends AppCompatActivity implements Navig
                                     @Override
                                     public void run() {
                                         Toast.makeText(getApplicationContext(),
-                                                "mohsine" + e.getMessage(),
+                                                "Erreur" + e.getMessage(),
                                                 Toast.LENGTH_LONG)
                                                 .show();
                                     }
@@ -273,9 +279,12 @@ public class AfficherProduitsEmprunte extends AppCompatActivity implements Navig
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
+            Log.e("ListProduit",produitsEmprunte.toString());
+            Log.e("borrows",borrows.toString());
+
             AdapterPanierEmprunt adapterPanierEmprunt = new AdapterPanierEmprunt(produitsEmprunte,borrows);
 
-            RecyclerView_ProduitEmprunte.setLayoutManager(new LinearLayoutManager(AfficherProduitsEmprunte.this));
+            RecyclerView_ProduitEmprunte.setLayoutManager(new LinearLayoutManager(AfficherMesProduitsEmprunte.this));
 
             RecyclerView_ProduitEmprunte.setAdapter(adapterPanierEmprunt);
 

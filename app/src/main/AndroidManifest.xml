@@ -19,23 +19,49 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".borrow.AfficherProduitAjoute"></activity>
-        <activity android:name=".borrow.AfficherNotificationsEmprunt" />
-        <activity android:name=".borrow.AfficherProduitsEmprunte" />
-        <activity
-            android:name=".borrow.AfficherCatalogueProduitsEmprunt"
+        <activity android:name=".borrow.AfficherProduitAjoute"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+
+        <activity android:name=".borrow.AfficherNotificationsEmprunt"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+
+
+        </activity>
+
+
+        <activity android:name=".borrow.AfficherMesProduitsEmprunte"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" >
+
+
+
+        </activity>
+
+
+        <activity
+            android:name=".borrow.AfficherCatalogueProduitsEmprunt"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity android:name=".borrow.AfficherProduitEmprunt" />
         <activity
             android:name=".borrow.AjouterProduit"
-            android:usesCleartextTraffic="true" />
+            android:usesCleartextTraffic="true"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

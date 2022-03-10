@@ -48,7 +48,6 @@ import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Comment;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.RequestBorrow;
-import fr.uge.projetandroid.entities.User;
 
 public class AfficherProduitEmprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -589,14 +588,11 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                         c.setContent(a.getString("content"));
                         c.setRate(a.getInt("rate"));
                         c.setCreatedAt(a.getString("createdAt"));
-                        JSONObject JsonUser = a.getJSONObject("user");
-                        User u = new User();
-                        u.setFirstName(JsonUser.getString("firstName"));
-                        u.setLastName(JsonUser.getString("lastName"));
-                        c.setUser(u);
+                        c.setFirstName(a.getString("firstName"));
+                        c.setLastName(a.getString("lastName"));
+
 
                         Log.e("Commentaire json" , c.toJson());
-                        Log.e("Commentaire json user" , u.getFirstName() +" "+ u.getLastName()+"Comment : "+c.getContent());
                         product.addComment(c);
 
                     }
@@ -899,7 +895,6 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             comment.setRate(note);
             comment.setContent(editText_commentaire.getText().toString());
             comment.setProduct(product.getId());
-            comment.setUser(product.getUser());
             product.addComment(comment);
             String data = comment.toJson();
             String result = null;

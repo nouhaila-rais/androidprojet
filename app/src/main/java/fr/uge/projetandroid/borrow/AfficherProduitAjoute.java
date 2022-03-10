@@ -30,7 +30,7 @@ import java.util.List;
 import fr.uge.projetandroid.HttpHandler;
 import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.AdapaterProduitAjouteEmprunt;
+import fr.uge.projetandroid.adapters.AdapterProduitAjouteEmprunt;
 import fr.uge.projetandroid.entities.Product;
 
 public class AfficherProduitAjoute extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,7 +38,7 @@ public class AfficherProduitAjoute extends AppCompatActivity implements Navigati
 
     private RecyclerView RecyclerView_ProduitAjoute;
     private ProgressDialog pDialog;
-    private String TAG = AfficherProduitEmprunt.class.getSimpleName();
+    private String TAG = AfficherProduitAjoute.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,7 +172,7 @@ public class AfficherProduitAjoute extends AppCompatActivity implements Navigati
                 try {
 
                     JSONObject json = new JSONObject(jsonStr);
-                    JSONArray arrayResult = json.getJSONArray("borrows");
+                    JSONArray arrayResult = json.getJSONArray("products");
                     for (int i = 0; i < arrayResult.length(); i++) {
                         Product product = new Product();
                         JSONObject jsonObj = arrayResult.getJSONObject(i);
@@ -229,11 +229,11 @@ public class AfficherProduitAjoute extends AppCompatActivity implements Navigati
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            AdapaterProduitAjouteEmprunt adapaterProduitAjouteEmprunt = new AdapaterProduitAjouteEmprunt(produitsAjoute);
+            AdapterProduitAjouteEmprunt adapterProduitAjouteEmprunt = new AdapterProduitAjouteEmprunt(produitsAjoute);
 
             RecyclerView_ProduitAjoute.setLayoutManager(new LinearLayoutManager(AfficherProduitAjoute.this));
 
-            RecyclerView_ProduitAjoute.setAdapter(adapaterProduitAjouteEmprunt);
+            RecyclerView_ProduitAjoute.setAdapter(adapterProduitAjouteEmprunt);
 
         }
 

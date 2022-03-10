@@ -14,11 +14,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.Notification;
-import fr.uge.projetandroid.entities.Product;
 
 public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNotificationEmprunt.ViewHolder> {
 
@@ -32,7 +29,7 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_ajouter_emprunt, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_notification_emprunt, viewGroup, false));
     }
 
     @Override
@@ -81,7 +78,7 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
 
             imageView_imageProduit_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
                     myIntent.putExtra("idProduct",entity.getProduct()+"");
                     v.getContext().startActivity(myIntent);
                 }
@@ -89,7 +86,7 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
 
             textView_message_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
                     myIntent.putExtra("idProduct",entity.getProduct()+"");
                     v.getContext().startActivity(myIntent);
                 }
@@ -97,7 +94,7 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
 
             button_emprunter_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherMesProduitsEmprunte.class);
                     myIntent.putExtra("idProduct",entity.getProduct()+"");
                     v.getContext().startActivity(myIntent);
                 }
