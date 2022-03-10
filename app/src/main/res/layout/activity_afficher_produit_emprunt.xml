@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorRatingStarBackground"
-    tools:context=".AfficherProduitEmprunt">
+    tools:context=".borrow.AfficherProduitEmprunt">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -41,7 +41,7 @@
                 app:layout_constraintHorizontal_bias="0.509"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/erreurpicture" /> />
+                app:srcCompat="@drawable/erreurpicture" />
 
             <LinearLayout
                 android:id="@+id/linearLayout8"
@@ -264,6 +264,16 @@
                     android:text="le produit sera disponible dans :"
                     android:textAlignment="center" />
             </LinearLayout>
+
+
+
+
+
+
+
+
+
+
 
             <LinearLayout
                 android:id="@+id/layout_saisirDate_Demande_emprunt"

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,20 +17,22 @@ import java.util.List;
 import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
+import fr.uge.projetandroid.entities.Notification;
+import fr.uge.projetandroid.entities.Product;
 
-public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<AdapterCatalogueProduitsEmprunt.ViewHolder> {
+public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNotificationEmprunt.ViewHolder> {
 
-    private List<Product> results;
+    private List<Notification> results;
 
 
-    public AdapterCatalogueProduitsEmprunt(List<Product> results) {
+    public AdapterNotificationEmprunt(List<Notification> results) {
         this.results = results;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_produits_emprunt, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_ajouter_emprunt, viewGroup, false));
     }
 
     @Override
@@ -42,55 +45,67 @@ public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<Adapt
         return results.size();
     }
 
-    public void setResults(List<Product> results) {
+    public void setResults(List<Notification> results) {
         this.results = results;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView textView_nomProduit_catalogue_emprunt;
-        private TextView textView_etatProduit_catalogue_emprunt;
-        private ImageView imageView_ratingStar_catalogue_emprunt;
-        private ImageView imageView_image_catalogue_emprunt;
+        private TextView textView_message_notifications_emprunt;
+        private TextView textView_date_notifications_emprunt;
+        private ImageView imageView_imageProduit_notifications_emprunt;
+        private Button button_emprunter_notifications_emprunt ;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView_nomProduit_catalogue_emprunt = itemView.findViewById(R.id.textView_nomProduit_catalogue_emprunt);
-            textView_etatProduit_catalogue_emprunt = itemView.findViewById(R.id.textView_etatProduit_catalogue_emprunt);
-            imageView_ratingStar_catalogue_emprunt = itemView.findViewById(R.id.imageView_ratingStar_catalogue_emprunt);
-            imageView_image_catalogue_emprunt = itemView.findViewById(R.id.imageView_image_catalogue_emprunt);
+            textView_message_notifications_emprunt = itemView.findViewById(R.id.textView_message_notifications_emprunt);
+            textView_date_notifications_emprunt = itemView.findViewById(R.id.textView_date_notifications_emprunt);
+            imageView_imageProduit_notifications_emprunt = itemView.findViewById(R.id.imageView_imageProduit_notifications_emprunt);
+            button_emprunter_notifications_emprunt = itemView.findViewById(R.id.button_emprunter_notifications_emprunt);
         }
 
-        public void update(final Product entity){
+        public void update(final Notification entity){
 
-            textView_nomProduit_catalogue_emprunt.setText(entity.getName());
-            textView_etatProduit_catalogue_emprunt.setText(entity.getState());
 
-            setImageRatingStar(imageView_ratingStar_catalogue_emprunt, entity.getRate());
+            textView_message_notifications_emprunt.setText(entity.getMessage());
+            textView_date_notifications_emprunt.setText(entity.getCreatedAt());
 
-            Picasso.get().load(entity.getPath())
-                    .resize(600, 600)
+
+
+            Picasso.get().load(entity.getImage())
+                    .resize(150, 150)
                     .centerCrop()
                     .error(R.drawable.erreurpicture)
-                    .into(imageView_image_catalogue_emprunt);
+                    .into(imageView_imageProduit_notifications_emprunt);
 
-            imageView_image_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
+            imageView_imageProduit_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    myIntent.putExtra("idProduct",entity.getProduct()+"");
                     v.getContext().startActivity(myIntent);
                 }
             });
 
-            textView_nomProduit_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
+            textView_message_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    myIntent.putExtra("idProduct",entity.getProduct()+"");
                     v.getContext().startActivity(myIntent);
                 }
             });
 
+            button_emprunter_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    myIntent.putExtra("idProduct",entity.getProduct()+"");
+                    v.getContext().startActivity(myIntent);
+                }
+            });
         }
+
+
+
     }
 
     public void setImageRatingStar(ImageView imageView,  int rate){
@@ -132,6 +147,8 @@ public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<Adapt
                 imageView.setImageResource(R.drawable.s0);
         }
     }
+
+
 
 
 

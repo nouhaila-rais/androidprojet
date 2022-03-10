@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,19 +18,19 @@ import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 
-public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<AdapterCatalogueProduitsEmprunt.ViewHolder> {
+public class AdapaterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapaterProduitAjouteEmprunt.ViewHolder> {
 
     private List<Product> results;
 
 
-    public AdapterCatalogueProduitsEmprunt(List<Product> results) {
+    public AdapaterProduitAjouteEmprunt(List<Product> results) {
         this.results = results;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_produits_emprunt, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_ajouter_emprunt, viewGroup, false));
     }
 
     @Override
@@ -48,33 +49,42 @@ public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<Adapt
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView textView_nomProduit_catalogue_emprunt;
-        private TextView textView_etatProduit_catalogue_emprunt;
-        private ImageView imageView_ratingStar_catalogue_emprunt;
-        private ImageView imageView_image_catalogue_emprunt;
+        private TextView textView_nomProduit_mesProduits_emprunt;
+        private TextView textView_typeCategorie_mesProduits_emprunt;
+        private TextView textView_etat_mesProduits_emprunt;
+        private TextView textView_dateAjout_mesProduits_emprunt;
+        private ImageView imageView_imageProduit_mesProduits_emprunt;
+        private ImageView imageView_ratingStar__mesProduits_emprunt;
+        private Button button_afficher_mesProduits_emprunt ;
+        private Button button_supprimer_mesProduits_emprunt;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView_nomProduit_catalogue_emprunt = itemView.findViewById(R.id.textView_nomProduit_catalogue_emprunt);
-            textView_etatProduit_catalogue_emprunt = itemView.findViewById(R.id.textView_etatProduit_catalogue_emprunt);
-            imageView_ratingStar_catalogue_emprunt = itemView.findViewById(R.id.imageView_ratingStar_catalogue_emprunt);
-            imageView_image_catalogue_emprunt = itemView.findViewById(R.id.imageView_image_catalogue_emprunt);
+            textView_nomProduit_mesProduits_emprunt = itemView.findViewById(R.id.textView_nomProduit_mesProduits_emprunt);
+            textView_typeCategorie_mesProduits_emprunt = itemView.findViewById(R.id.textView_typeCategorie_mesProduits_emprunt);
+            textView_etat_mesProduits_emprunt = itemView.findViewById(R.id.textView_etat_mesProduits_emprunt);
+            textView_dateAjout_mesProduits_emprunt = itemView.findViewById(R.id.textView_dateAjout_mesProduits_emprunt);
+            imageView_imageProduit_mesProduits_emprunt = itemView.findViewById(R.id.imageView_imageProduit_mesProduits_emprunt);
+            imageView_ratingStar__mesProduits_emprunt = itemView.findViewById(R.id.imageView_ratingStar__mesProduits_emprunt);
+            button_afficher_mesProduits_emprunt = itemView.findViewById(R.id.button_afficher_mesProduits_emprunt);
+            button_supprimer_mesProduits_emprunt = itemView.findViewById(R.id.button_supprimer_mesProduits_emprunt);
         }
 
         public void update(final Product entity){
 
-            textView_nomProduit_catalogue_emprunt.setText(entity.getName());
-            textView_etatProduit_catalogue_emprunt.setText(entity.getState());
+            textView_nomProduit_mesProduits_emprunt.setText(entity.getName());
+            textView_typeCategorie_mesProduits_emprunt.setText(entity.getCategory()+" > "+entity.getType());
+            textView_etat_mesProduits_emprunt.setText(entity.getState());
 
-            setImageRatingStar(imageView_ratingStar_catalogue_emprunt, entity.getRate());
+            setImageRatingStar(imageView_ratingStar__mesProduits_emprunt, entity.getRate());
 
             Picasso.get().load(entity.getPath())
-                    .resize(600, 600)
+                    .resize(150, 150)
                     .centerCrop()
                     .error(R.drawable.erreurpicture)
-                    .into(imageView_image_catalogue_emprunt);
+                    .into(imageView_imageProduit_mesProduits_emprunt);
 
-            imageView_image_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
+            imageView_imageProduit_mesProduits_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                     myIntent.putExtra("idProduct",entity.getId()+"");
@@ -82,7 +92,15 @@ public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<Adapt
                 }
             });
 
-            textView_nomProduit_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
+            textView_nomProduit_mesProduits_emprunt.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    v.getContext().startActivity(myIntent);
+                }
+            });
+
+            button_afficher_mesProduits_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                     myIntent.putExtra("idProduct",entity.getId()+"");

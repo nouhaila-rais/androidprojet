@@ -14,6 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import fr.uge.projetandroid.borrow.AfficherCatalogueProduitsEmprunt;
+import fr.uge.projetandroid.borrow.AfficherNotificationsEmprunt;
+import fr.uge.projetandroid.borrow.AfficherProduitAjoute;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -87,11 +92,15 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
+            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
+            startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_emprunter) {
+            Intent myIntent = new Intent(this, AfficherProduitEmprunt.class);
+            startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
-            Intent myIntent = new Intent(this, AfficherCatalogueProduitsEmprunt.class);
+            Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_deconnexion) {
