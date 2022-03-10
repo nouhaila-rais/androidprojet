@@ -3,12 +3,12 @@ package fr.uge.projetandroid.borrow;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,21 +27,27 @@ import java.util.List;
 import fr.uge.projetandroid.HttpHandler;
 import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.AdapterPanierEmprunt;
-import fr.uge.projetandroid.entities.Borrow;
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheEmprunt;
 import fr.uge.projetandroid.entities.Product;
 
-public class AfficherMesProduitsEmprunte extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class AfficherProduitsRechercheEmprunt extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private RecyclerView RecyclerView_ProduitEmprunte;
+    private RecyclerView RecyclerView_produit_recherche_Emprunt;
+    private String keyword;
+
     private ProgressDialog pDialog;
-    private String TAG = "AfficherMesProduitsEmprunte";
+    private String TAG = AfficherProduitsRechercheEmprunt.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_afficher_produits_emprunte);
+        setContentView(R.layout.activity_afficher_produits_recherche_emprunt);
 
+
+        Intent myIntent = getIntent();
+        keyword = myIntent.getStringExtra("Keyword");
+
+        RecyclerView_produit_recherche_Emprunt = (RecyclerView)findViewById(R.id.RecyclerView_produit_recherche_Emprunt);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,8 +61,8 @@ public class AfficherMesProduitsEmprunte extends AppCompatActivity implements Na
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        initUi();
-        new AfficherMesProduitsEmprunte.ShowProductsTask().execute();
+
+        new ShowProductsTask().execute();
     }
 
 
@@ -124,26 +130,19 @@ public class AfficherMesProduitsEmprunte extends AppCompatActivity implements Na
         return true;
     }
 
-    private void initUi(){
-        RecyclerView_ProduitEmprunte = (RecyclerView)findViewById(R.id.RecyclerView_ProduitEmprunte);
-    }
-
     private class ShowProductsTask extends AsyncTask<Void, Void, Void> {
 
-        List<Product> produitsEmprunte;
-        List<Borrow> borrows;
+        List<Product> products;
 
 
         public ShowProductsTask() {
-            produitsEmprunte = new ArrayList<>();
-            borrows = new ArrayList<>();
-
+            products = new ArrayList<>();
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(AfficherMesProduitsEmprunte.this);
+            pDialog = new ProgressDialog(AfficherProduitsRechercheEmprunt.this);
             pDialog.setMessage("Chargement des produits...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -152,7 +151,9 @@ public class AfficherMesProduitsEmprunte extends AppCompatActivity implements Na
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            String url = "http://uge-webservice.herokuapp.com/api/user/12";
+
+
+            String url = "http://uge-webservice.herokuapp.com/api/product/key/"+keyword;
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
@@ -162,71 +163,22 @@ public class AfficherMesProduitsEmprunte extends AppCompatActivity implements Na
 
             if (jsonStr != null) {
                 try {
-
-                    JSONObject json = new JSONObject(jsonStr);
-                    JSONArray arrayResult = json.getJSONArray("borrows");
+                    JSONArray arrayResult = new JSONArray(jsonStr);
                     for (int i = 0; i < arrayResult.length(); i++) {
-
-
-
-                        Borrow borrow = new Borrow();
+                        Product product = new Product();
                         JSONObject jsonObj = arrayResult.getJSONObject(i);
-                        borrow.setProduct(jsonObj.getInt("product"));
-                        borrow.setEndAt(jsonObj.getString("endAt"));
-                        borrow.setStartAt(jsonObj.getString("startAt"));
-                        borrows.add(borrow);
-
-
-
-
-                        String url3 = "http://uge-webservice.herokuapp.com/api/product/"+borrow.getProduct();
-                        HttpHandler shh = new HttpHandler();
-                        jsonStr = shh.makeServiceCall(url3);
-                        Log.e(TAG, "Response from url: " + jsonStr);
-
-                        if (jsonStr != null) {
-                            try {
-                                Product product = new Product();
-                                JSONObject jsonObj2 = new JSONObject(jsonStr);
-                                product.setId(jsonObj2.getInt("id"));
-                                product.setName(jsonObj2.getString("name"));
-                                product.setCategory(jsonObj2.getString("category"));
-                                product.setType(jsonObj2.getString("type"));
-                                product.setDescription((jsonObj2.getString("description")));
-                                product.setPrice(jsonObj2.getDouble("price"));
-                                product.setState(jsonObj2.getString("state"));
-                                product.setAvailable(jsonObj2.getBoolean("available"));
-                                product.setCreatedAt(jsonObj2.getString("createdAt"));
-                                product.setPath(jsonObj2.getString("path"));
-                                product.setRate(jsonObj2.getInt("avgRate"));
-                                produitsEmprunte.add(product);
-
-                            } catch (final JSONException e) {
-                                Log.e(TAG, "Erreur" + e.getMessage());
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(getApplicationContext(),
-                                                "Erreur" + e.getMessage(),
-                                                Toast.LENGTH_LONG)
-                                                .show();
-                                    }
-                                });
-
-                            }
-                        } else {
-                            Log.e(TAG, "Couldn't get json from server.");
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Couldn't get json from server. Check LogCat for possible errors!",
-                                            Toast.LENGTH_LONG)
-                                            .show();
-                                }
-                            });
-
-                        }
+                        product.setId(jsonObj.getInt("id"));
+                        product.setName(jsonObj.getString("name"));
+                        product.setCategory(jsonObj.getString("category"));
+                        product.setType(jsonObj.getString("type"));
+                        product.setDescription((jsonObj.getString("description")));
+                        product.setPrice(jsonObj.getDouble("price"));
+                        product.setState(jsonObj.getString("state"));
+                        product.setAvailable(jsonObj.getBoolean("available"));
+                        product.setCreatedAt(jsonObj.getString("createdAt"));
+                        product.setPath(jsonObj.getString("path"));
+                        product.setRate(jsonObj.getInt("avgRate"));
+                        products.add(product);
                     }
 
 
@@ -256,9 +208,9 @@ public class AfficherMesProduitsEmprunte extends AppCompatActivity implements Na
                 });
 
             }
+
             return null;
         }
-
 
 
         @Override
@@ -268,14 +220,11 @@ public class AfficherMesProduitsEmprunte extends AppCompatActivity implements Na
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Log.e("ListProduit",produitsEmprunte.toString());
-            Log.e("borrows",borrows.toString());
+            AdapterProduitsRechercheEmprunt adapterProduitsRechercheEmprunt  = new AdapterProduitsRechercheEmprunt(products);
 
-            AdapterPanierEmprunt adapterPanierEmprunt = new AdapterPanierEmprunt(produitsEmprunte,borrows);
+            RecyclerView_produit_recherche_Emprunt.setLayoutManager(new LinearLayoutManager(AfficherProduitsRechercheEmprunt.this));
 
-            RecyclerView_ProduitEmprunte.setLayoutManager(new LinearLayoutManager(AfficherMesProduitsEmprunte.this));
-
-            RecyclerView_ProduitEmprunte.setAdapter(adapterPanierEmprunt);
+            RecyclerView_produit_recherche_Emprunt.setAdapter(adapterProduitsRechercheEmprunt);
 
         }
 

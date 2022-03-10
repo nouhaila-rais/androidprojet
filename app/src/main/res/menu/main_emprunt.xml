@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/item_search_emprunt"
+        android:icon="@drawable/ic_search_black_30dp"
+        android:title="Search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/item_notifiction_emprunt"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Notification"
+        app:actionLayout="@layout/custom_notification_emprunt_item_layout"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/item_nombre_panier_emprunt"
+        android:icon="@drawable/ic_shopping_cart_black_24dp"
+        android:title="Panier"
+        app:actionLayout="@layout/custom_panier_emprunt_item_layout"
+        app:showAsAction="always"/>
+
+
+
+
+</menu>

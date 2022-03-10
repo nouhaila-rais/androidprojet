@@ -5,10 +5,10 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,6 +48,7 @@ import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Comment;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.RequestBorrow;
+import fr.uge.projetandroid.entities.User;
 
 public class AfficherProduitEmprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -140,7 +141,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afficher_produit_emprunt);
 
-        Intent myIntent = getIntent(); // gets the previously created intent
+        Intent myIntent = getIntent();
         String idProduct = myIntent.getStringExtra("idProduct");
 
         product = new Product();
@@ -148,7 +149,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         //product.setAvailable(false);
 
         initUi();
-        new ShowProductTask().execute();
+        new AfficherProduitEmprunt.ShowProductTask().execute();
 
         star1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,7 +319,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             @Override
             public void onClick(View v) {
 
-                new AddBorrowTask().execute();
+                new AfficherProduitEmprunt.AddBorrowTask().execute();
             }
         });
 
@@ -326,7 +327,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             @Override
             public void onClick(View v) {
 
-                new AddRequestBorrowTask().execute();
+                new AfficherProduitEmprunt.AddRequestBorrowTask().execute();
             }
         });
 
@@ -334,7 +335,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             @Override
             public void onClick(View v) {
 
-                new AddCommentTask().execute();
+                new AfficherProduitEmprunt.AddCommentTask().execute();
             }
         });
 
@@ -783,7 +784,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-                Toast.makeText(AfficherProduitEmprunt.this, "Produit bien emprunté", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AfficherProduitEmprunt.this, "Produit bien emprunté", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -958,7 +959,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
     }
 
     void updateComments(){
-        new ShowProductTask().execute();
+        new AfficherProduitEmprunt.ShowProductTask().execute();
     }
 
 
