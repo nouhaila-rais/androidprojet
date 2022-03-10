@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".messages.ProduitEmprunte">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView11assq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginBottom="7dp"
+            android:text='Produit emprunté avec succès'
+            android:textColor="@color/colorPrimary"
+            android:textSize="27sp" />
+
+        <TextView
+            android:id="@+id/textViewNomProduit"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:textColor="@color/colorPrimary"
+            android:text="Nom" />
+
+        <TextView
+            android:id="@+id/textView_datedebut_produitemprunte"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="@color/colorPrimary"
+            android:text="Emprunté du : " />
+
+        <TextView
+            android:id="@+id/textView_datefin_produitemprunte"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="54dp"
+            android:text="Au : " />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="141dp"
+            android:layout_height="138dp"
+            android:src="@drawable/checkedblue" />
+
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
