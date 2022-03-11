@@ -23,7 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".borrow.AccueilEmprunt"></activity>
+        <activity android:name=".borrow.Emprunter"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".borrow.AccueilEmprunt" />
         <activity
             android:name=".messages.ProduitRetourne"
             android:label="@string/app_name"
