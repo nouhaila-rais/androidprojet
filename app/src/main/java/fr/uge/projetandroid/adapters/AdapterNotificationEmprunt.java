@@ -57,7 +57,6 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
         private TextView textView_message_notifications_emprunt;
         private TextView textView_date_notifications_emprunt;
         private ImageView imageView_imageProduit_notifications_emprunt;
-        private Button button_emprunter_notifications_emprunt ;
         private LinearLayout LinearLayout_notification_emprunt;
 
 
@@ -66,7 +65,6 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
             textView_message_notifications_emprunt = itemView.findViewById(R.id.textView_message_notifications_emprunt);
             textView_date_notifications_emprunt = itemView.findViewById(R.id.textView_date_notifications_emprunt);
             imageView_imageProduit_notifications_emprunt = itemView.findViewById(R.id.imageView_imageProduit_notifications_emprunt);
-            button_emprunter_notifications_emprunt = itemView.findViewById(R.id.button_emprunter_notifications_emprunt);
             LinearLayout_notification_emprunt= itemView.findViewById(R.id.LinearLayout_notification_emprunt);
         }
 
@@ -92,7 +90,8 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
                     .error(R.drawable.erreurpicture)
                     .into(imageView_imageProduit_notifications_emprunt);
 
-            imageView_imageProduit_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
+
+            LinearLayout_notification_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                     myIntent.putExtra("idProduct",entity.getProduct());
@@ -102,27 +101,9 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
                 }
             });
 
-            textView_message_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getProduct());
-                    myIntent.putExtra("idNotification",entity.getId());
-                    myIntent.putExtra("readNotification",entity.isRead());
-                    v.getContext().startActivity(myIntent);
-                }
-            });
 
-            button_emprunter_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getProduct());
-                    myIntent.putExtra("idNotification",entity.getId());
-                    myIntent.putExtra("readNotification",entity.isRead());
-                    v.getContext().startActivity(myIntent);
-                }
-            });
+
             Log.e("idProductNotifiation","->>"+entity.getProduct()+"");
-
         }
 
 

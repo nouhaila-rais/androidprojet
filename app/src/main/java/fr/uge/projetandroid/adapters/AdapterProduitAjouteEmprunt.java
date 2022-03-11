@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -55,8 +56,7 @@ public class AdapterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapterPro
         private TextView textView_dateAjout_mesProduits_emprunt;
         private ImageView imageView_imageProduit_mesProduits_emprunt;
         private ImageView imageView_ratingStar__mesProduits_emprunt;
-        private Button button_afficher_mesProduits_emprunt ;
-        private Button button_supprimer_mesProduits_emprunt;
+        private LinearLayout LinearLayout_produit_ajoute_emprunt;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,8 +66,7 @@ public class AdapterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapterPro
             textView_dateAjout_mesProduits_emprunt = itemView.findViewById(R.id.textView_dateAjout_mesProduits_emprunt);
             imageView_imageProduit_mesProduits_emprunt = itemView.findViewById(R.id.imageView_imageProduit_mesProduits_emprunt);
             imageView_ratingStar__mesProduits_emprunt = itemView.findViewById(R.id.imageView_ratingStar__mesProduits_emprunt);
-            button_afficher_mesProduits_emprunt = itemView.findViewById(R.id.button_afficher_mesProduits_emprunt);
-            button_supprimer_mesProduits_emprunt = itemView.findViewById(R.id.button_supprimer_mesProduits_emprunt);
+            LinearLayout_produit_ajoute_emprunt = itemView.findViewById(R.id.LinearLayout_produit_ajoute_emprunt);
         }
 
         public void update(final Product entity){
@@ -75,7 +74,7 @@ public class AdapterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapterPro
             textView_nomProduit_mesProduits_emprunt.setText(entity.getName());
             textView_typeCategorie_mesProduits_emprunt.setText(entity.getCategory()+" > "+entity.getType());
             textView_etat_mesProduits_emprunt.setText(entity.getState());
-
+            textView_dateAjout_mesProduits_emprunt.setText(entity.getCreatedAt());
             setImageRatingStar(imageView_ratingStar__mesProduits_emprunt, entity.getRate());
 
             Picasso.get().load(entity.getPath())
@@ -84,23 +83,9 @@ public class AdapterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapterPro
                     .error(R.drawable.erreurpicture)
                     .into(imageView_imageProduit_mesProduits_emprunt);
 
-            imageView_imageProduit_mesProduits_emprunt.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId());
-                    v.getContext().startActivity(myIntent);
-                }
-            });
 
-            textView_nomProduit_mesProduits_emprunt.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId());
-                    v.getContext().startActivity(myIntent);
-                }
-            });
 
-            button_afficher_mesProduits_emprunt.setOnClickListener(new View.OnClickListener(){
+            LinearLayout_produit_ajoute_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                     myIntent.putExtra("idProduct",entity.getId());

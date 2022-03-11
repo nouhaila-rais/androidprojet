@@ -19,7 +19,7 @@
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_catalogue_produits_emprunt.xml" value="0.22" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_notifications_emprunt.xml" value="0.33" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produit_ajoute.xml" value="0.25" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produit_emprunt.xml" value="0.22" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produit_emprunt.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produits_emprunte.xml" value="0.25" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produits_recherche_emprunt.xml" value="0.33" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_ajouter_produit.xml" value="0.22" />
@@ -34,7 +34,7 @@
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/custom_notification_emprunt_item_layout.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/custom_panier_emprunt_item_layout.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_commentaire.xml" value="0.25" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_notification_emprunt.xml" value="0.33" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_notification_emprunt.xml" value="0.25" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produit_ajouter_emprunt.xml" value="0.33" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produit_recherche_emprunt.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produits_panier_emprunt.xml" value="0.25" />
