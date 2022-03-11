@@ -13,8 +13,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
+import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 
 public class AdapterProduitsRechercheEmprunt  extends RecyclerView.Adapter<AdapterProduitsRechercheEmprunt.ViewHolder> {
@@ -77,7 +77,7 @@ public class AdapterProduitsRechercheEmprunt  extends RecyclerView.Adapter<Adapt
             imageView_image_recherche_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    myIntent.putExtra("idProduct",entity.getId());
                     v.getContext().startActivity(myIntent);
                 }
             });
@@ -85,7 +85,7 @@ public class AdapterProduitsRechercheEmprunt  extends RecyclerView.Adapter<Adapt
             textView_nomProduit_recherche_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    myIntent.putExtra("idProduct",entity.getId());
                     v.getContext().startActivity(myIntent);
                 }
             });

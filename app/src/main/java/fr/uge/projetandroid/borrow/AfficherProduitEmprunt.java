@@ -145,12 +145,12 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         setContentView(R.layout.activity_afficher_produit_emprunt);
 
         Intent myIntent = getIntent();
-        String idProduct = myIntent.getStringExtra("idProduct");
+        long idProduct = myIntent.getLongExtra("idProduct",0);
         idNotification = myIntent.getLongExtra("idNotification",0);
         Boolean read  = myIntent.getBooleanExtra("readNotification",true);
 
         if(read==false) new AfficherProduitEmprunt.updateNotification().execute();
-
+        Log.e("idProductAfficher","->>"+idProduct+"");
 
         product = new Product();
         url = "http://uge-webservice.herokuapp.com/api/product/"+idProduct;
@@ -983,7 +983,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/updateNotification/"+idNotification;
+            String url = "http://uge-webservice.herokuapp.com/api/notification/updateNotification/"+idNotification;
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
             return null;

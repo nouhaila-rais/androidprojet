@@ -77,7 +77,7 @@ public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<Adapt
             imageView_image_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    myIntent.putExtra("idProduct",entity.getId());
                     v.getContext().startActivity(myIntent);
                 }
             });
@@ -85,7 +85,7 @@ public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<Adapt
             textView_nomProduit_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId()+"");
+                    myIntent.putExtra("idProduct",entity.getId());
                     v.getContext().startActivity(myIntent);
                 }
             });

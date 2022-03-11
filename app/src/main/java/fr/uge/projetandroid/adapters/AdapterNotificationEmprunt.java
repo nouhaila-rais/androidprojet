@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,7 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
             imageView_imageProduit_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getProduct()+"");
+                    myIntent.putExtra("idProduct",entity.getProduct());
                     myIntent.putExtra("idNotification",entity.getId());
                     myIntent.putExtra("readNotification",entity.isRead());
                     v.getContext().startActivity(myIntent);
@@ -104,7 +105,7 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
             textView_message_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getProduct()+"");
+                    myIntent.putExtra("idProduct",entity.getProduct());
                     myIntent.putExtra("idNotification",entity.getId());
                     myIntent.putExtra("readNotification",entity.isRead());
                     v.getContext().startActivity(myIntent);
@@ -114,12 +115,14 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
             button_emprunter_notifications_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                    myIntent.putExtra("idProduct",entity.getProduct()+"");
+                    myIntent.putExtra("idProduct",entity.getProduct());
                     myIntent.putExtra("idNotification",entity.getId());
                     myIntent.putExtra("readNotification",entity.isRead());
                     v.getContext().startActivity(myIntent);
                 }
             });
+            Log.e("idProductNotifiation","->>"+entity.getProduct()+"");
+
         }
 
 

@@ -98,7 +98,7 @@ public class AdapterPanierEmprunt extends RecyclerView.Adapter<AdapterPanierEmpr
                 imageView_imageProduit_panier_emprunt.setOnClickListener(new View.OnClickListener(){
                     public void onClick(View v){
                         Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                        myIntent.putExtra("idProduct",entity.getId()+"");
+                        myIntent.putExtra("idProduct",entity.getId());
                         v.getContext().startActivity(myIntent);
                     }
                 });
@@ -106,7 +106,7 @@ public class AdapterPanierEmprunt extends RecyclerView.Adapter<AdapterPanierEmpr
                 textView_nomProduit_panier_emprunt.setOnClickListener(new View.OnClickListener(){
                     public void onClick(View v){
                         Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
-                        myIntent.putExtra("idProduct",entity.getId()+"");
+                        myIntent.putExtra("idProduct",entity.getId());
                         v.getContext().startActivity(myIntent);
                     }
                 });

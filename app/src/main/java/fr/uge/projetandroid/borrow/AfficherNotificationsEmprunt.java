@@ -164,10 +164,12 @@ public class AfficherNotificationsEmprunt extends AppCompatActivity implements N
                     for (int i = 0; i < arrayResult.length(); i++) {
                         Notification notification = new Notification();
                         JSONObject jsonObj = arrayResult.getJSONObject(i);
+                        notification.setId(jsonObj.getLong("id"));
                         notification.setMessage(jsonObj.getString("message"));
                         notification.setProduct(jsonObj.getInt("product"));
                         notification.setImage(jsonObj.getString("image"));
                         notification.setCreatedAt(jsonObj.getString("createdAt"));
+                        notification.setRead(jsonObj.getBoolean("readNotification"));
                         listNotifications.add(notification);
                     }
 
