@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.security.keystore.KeyGenParameterSpec;
@@ -53,6 +54,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
+import fr.uge.projetandroid.borrow.AccueilEmprunt;
 import fr.uge.projetandroid.handlers.FingerprintHandler;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -422,6 +424,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+
+            Intent intent = new Intent(LoginActivity.this, AccueilEmprunt.class);
+            LoginActivity.this.startActivity(intent);
         }
 
         @Override

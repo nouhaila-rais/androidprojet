@@ -5,4 +5,5 @@
     <color name="colorAccent">#2C2C80</color>
     <color name="colorRatingStarBackground">#F7F7F7</color>
     <color name="colorGris">#E2E2E2</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

@@ -158,7 +158,7 @@ public class AfficherProduitsRechercheEmprunt extends AppCompatActivity implemen
             String jsonStr = sh.makeServiceCall(url);
 
 
-
+            Log.e(TAG, "url: " + url);
             Log.e(TAG, "Response from url: " + jsonStr);
 
             if (jsonStr != null) {
