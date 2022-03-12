@@ -55,6 +55,7 @@ import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.User;
+import fr.uge.projetandroid.messages.ProduitAjoute;
 
 public class AjouterProduit extends AppCompatActivity implements AdapterView.OnItemSelectedListener ,NavigationView.OnNavigationItemSelectedListener {
 
@@ -74,12 +75,14 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
     private String imageFilePath = "";
     int serverResponseCode = 0;
     String upLoadServerUri = "http://makcenter.ma/uge/projetAndroid/uploadimage.php";
-    String uploadFilePath ;
-    String uploadFileName ;
-    int ResponseCodePhpServer=0;
+    String uploadFilePath;
+    String uploadFileName;
+    int ResponseCodePhpServer = 0;
 
     private TextView textView_nombre_notifications_emprunt;
     private TextView textView_nombre_panier_emprunt;
+    private TextView Textview_nom_prenom_utilisateur_emprunt;
+    private TextView Textview_email_utilisateur_emprunt;
     private User user;
 
 
@@ -89,18 +92,18 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_ajouter_produit);
 
 
-        user = (User)getIntent().getSerializableExtra("user");
+        user = (User) getIntent().getSerializableExtra("user");
 
         product = new Product();
 
         spinnerEtat = (Spinner) findViewById(R.id.spinner_ajouterProduit_etat);
         spinnerCategorie = (Spinner) findViewById(R.id.spinner_ajouterProduit_categorie);
-        spinnerType  = (Spinner) findViewById(R.id.spinner_ajouterProduit_type);
-        editTextNom = (EditText)  findViewById(R.id.editText_ajouterProduit_nom);
-        editTextPrix = (EditText)  findViewById(R.id.editText_ajouterProduit_prix);
-        editTextDescrition = (EditText)  findViewById(R.id.editText_ajouterProduit_description);
-        buttonUploadImage = (ImageButton)  findViewById(R.id.button_ajouterProduit_photo);
-        buttonAjouter = (Button)  findViewById(R.id.button_ajouterproduit_ajouter);
+        spinnerType = (Spinner) findViewById(R.id.spinner_ajouterProduit_type);
+        editTextNom = (EditText) findViewById(R.id.editText_ajouterProduit_nom);
+        editTextPrix = (EditText) findViewById(R.id.editText_ajouterProduit_prix);
+        editTextDescrition = (EditText) findViewById(R.id.editText_ajouterProduit_description);
+        buttonUploadImage = (ImageButton) findViewById(R.id.button_ajouterProduit_photo);
+        buttonAjouter = (Button) findViewById(R.id.button_ajouterproduit_ajouter);
         imageView = findViewById(R.id.image);
 
 
@@ -109,7 +112,6 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         adapterEtat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerEtat.setAdapter(adapterEtat);
         spinnerEtat.setOnItemSelectedListener(this);
-
 
 
         ArrayAdapter<CharSequence> adapterCategorie = ArrayAdapter.createFromResource(this,
@@ -130,7 +132,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
-                Log.e("etat",charSequence.toString());
+                Log.e("etat", charSequence.toString());
                 product.setState(charSequence.toString());
             }
 
@@ -145,7 +147,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
-                Log.e("type",charSequence.toString());
+                Log.e("type", charSequence.toString());
                 product.setType(charSequence.toString());
             }
 
@@ -165,46 +167,41 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
                 product.setCategory(categrorie);
 
                 System.out.println("Item : " + charSequence.toString());
-                Log.e("categorie",charSequence.toString());
+                Log.e("categorie", charSequence.toString());
 
 
-                if(categrorie.equals("Bibliotheque")){
+                if (categrorie.equals("Bibliotheque")) {
                     ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(AjouterProduit.this,
                             R.array.type_bibliotheque_array, android.R.layout.simple_spinner_item);
                     adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerType.setAdapter(adapterType);
 
-                }
-                else if(categrorie.equals("Electronique")){
+                } else if (categrorie.equals("Electronique")) {
                     ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(AjouterProduit.this,
                             R.array.type_electronique_array, android.R.layout.simple_spinner_item);
                     adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerType.setAdapter(adapterType);
 
 
-                }
-                else if(categrorie.equals("Mode et vetements")){
+                } else if (categrorie.equals("Mode et vetements")) {
                     ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(AjouterProduit.this,
                             R.array.type_modevetement_array, android.R.layout.simple_spinner_item);
                     adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerType.setAdapter(adapterType);
 
-                }
-                else if(categrorie.equals("Musique")){
+                } else if (categrorie.equals("Musique")) {
                     ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(AjouterProduit.this,
                             R.array.type_music_array, android.R.layout.simple_spinner_item);
                     adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerType.setAdapter(adapterType);
 
-                }
-                else if(categrorie.equals("Accessoires")){
+                } else if (categrorie.equals("Accessoires")) {
                     ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(AjouterProduit.this,
                             R.array.type_accessoire_array, android.R.layout.simple_spinner_item);
                     adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerType.setAdapter(adapterType);
 
-                }
-                else if(categrorie.equals("Autre")){
+                } else if (categrorie.equals("Autre")) {
                     ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(AjouterProduit.this,
                             R.array.type_autre_array, android.R.layout.simple_spinner_item);
                     adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -230,10 +227,9 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         });
 
 
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                 PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_PERMISSION);
         }
 
@@ -243,10 +239,6 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
                 openCameraIntent();
             }
         });
-
-
-
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -273,12 +265,11 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 return;
             }
-            Uri photoUri = FileProvider.getUriForFile(this, getPackageName() +".provider", photoFile);
+            Uri photoUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", photoFile);
             pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
             startActivityForResult(pictureIntent, REQUEST_IMAGE);
         }
@@ -302,35 +293,34 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         if (requestCode == REQUEST_IMAGE) {
             if (resultCode == RESULT_OK) {
                 imageView.setImageURI(Uri.parse(imageFilePath));
-            }
-            else if (resultCode == RESULT_CANCELED) {
+            } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "You cancelled the operation", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private File createImageFile() throws IOException{
+    private File createImageFile() throws IOException {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         imageFilePath = image.getAbsolutePath();
-        uploadFileName=image.getName();
-        uploadFilePath=imageFilePath;
+        uploadFileName = image.getName();
+        uploadFilePath = imageFilePath;
 
         return image;
     }
 
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { }
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
 
     private void setupBadge() {
@@ -341,7 +331,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
                     textView_nombre_notifications_emprunt.setVisibility(View.GONE);
                 }
             } else {
-                textView_nombre_notifications_emprunt.setText(String.valueOf(Math.min(user.getTotalNotification() , 99)));
+                textView_nombre_notifications_emprunt.setText(String.valueOf(Math.min(user.getTotalNotification(), 99)));
                 if (textView_nombre_notifications_emprunt.getVisibility() != View.VISIBLE) {
                     textView_nombre_notifications_emprunt.setVisibility(View.VISIBLE);
                 }
@@ -354,7 +344,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
                     textView_nombre_panier_emprunt.setVisibility(View.GONE);
                 }
             } else {
-                textView_nombre_panier_emprunt.setText(String.valueOf(Math.min(user.getTotalProduitEmprunte() , 99)));
+                textView_nombre_panier_emprunt.setText(String.valueOf(Math.min(user.getTotalProduitEmprunte(), 99)));
                 if (textView_nombre_panier_emprunt.getVisibility() != View.VISIBLE) {
                     textView_nombre_panier_emprunt.setVisibility(View.VISIBLE);
                 }
@@ -374,7 +364,10 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        Textview_nom_prenom_utilisateur_emprunt = (TextView) findViewById(R.id.Textview_nom_prenom_utilisateur_emprunt);
+        Textview_email_utilisateur_emprunt = (TextView) findViewById(R.id.Textview_email_utilisateur_emprunt);
+        Textview_nom_prenom_utilisateur_emprunt.setText(user.getFirstName() + " " + user.getLastName());
+        Textview_email_utilisateur_emprunt.setText(user.getEmail());
         getMenuInflater().inflate(R.menu.main_emprunt, menu);
 
 
@@ -384,7 +377,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
 
         final MenuItem menuItemNotification = menu.findItem(R.id.item_notifiction_emprunt);
         View actionViewNotification = menuItemNotification.getActionView();
-        textView_nombre_notifications_emprunt = (TextView)actionViewNotification.findViewById(R.id.textView_nombre_notifications_emprunt);
+        textView_nombre_notifications_emprunt = (TextView) actionViewNotification.findViewById(R.id.textView_nombre_notifications_emprunt);
 
 
         MenuItem mSearch = menu.findItem(R.id.item_search_emprunt);
@@ -393,15 +386,16 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(query!=null){
+                if (query != null) {
                     Intent myIntent = new Intent(AjouterProduit.this, AfficherProduitsRechercheEmprunt.class);
-                    myIntent.putExtra("user",user);
-                    myIntent.putExtra("Keyword",query);
+                    myIntent.putExtra("user", user);
+                    myIntent.putExtra("Keyword", query);
                     startActivity(myIntent);
                 }
 
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 return true;
@@ -433,17 +427,15 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         int id = item.getItemId();
         if (id == R.id.item_notifiction_emprunt) {
             Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
-            myIntent.putExtra("user",user);
+            myIntent.putExtra("user", user);
             startActivity(myIntent);
             return true;
-        }
-        else if (id == R.id.item_nombre_panier_emprunt) {
+        } else if (id == R.id.item_nombre_panier_emprunt) {
             Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
-            myIntent.putExtra("user",user);
+            myIntent.putExtra("user", user);
             startActivity(myIntent);
             return true;
-        }
-        else if (id == R.id.item_search_emprunt) {
+        } else if (id == R.id.item_search_emprunt) {
             return true;
         }
 
@@ -460,17 +452,17 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         if (id == R.id.nav_emprunt_accueil) {
 
             Intent myIntent = new Intent(this, AccueilEmprunt.class);
-            myIntent.putExtra("user",user);
+            myIntent.putExtra("user", user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
             Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
-            myIntent.putExtra("user",user);
+            myIntent.putExtra("user", user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_emprunter) {
             Intent myIntent = new Intent(this, Emprunter.class);
-            myIntent.putExtra("user",user);
+            myIntent.putExtra("user", user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
@@ -478,15 +470,11 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
             Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
             myIntent.putExtra("user", user);
             startActivity(myIntent);
-        }
-
-        else if (id == R.id.nav__emprunt_ajouterproduit) {
+        } else if (id == R.id.nav__emprunt_ajouterproduit) {
             Intent myIntent = new Intent(this, AjouterProduit.class);
-            myIntent.putExtra("user",user);
+            myIntent.putExtra("user", user);
             startActivity(myIntent);
-        }
-
-        else if (id == R.id.nav__emprunt_deconnexion) {
+        } else if (id == R.id.nav__emprunt_deconnexion) {
             Intent myIntent = new Intent(this, LoginActivity.class);
             startActivity(myIntent);
 
@@ -513,7 +501,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         protected Void doInBackground(Void... arg0) {
 
             String fileName = uploadFilePath;
-            String path = "http://makcenter.ma/uge/projetAndroid/"+uploadFileName;
+            String path = "http://makcenter.ma/uge/projetAndroid/" + uploadFileName;
             product.setPath(path);
             HttpURLConnection conn = null;
             DataOutputStream dos = null;
@@ -527,10 +515,9 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
 
             if (!sourceFile.isFile()) {
                 Log.e("uploadFile", "Source File not exist :"
-                        +uploadFilePath + "" + uploadFileName);
+                        + uploadFilePath + "" + uploadFileName);
 
-            }
-            else {
+            } else {
                 Log.e("path", uploadFilePath);
                 try {
 
@@ -581,7 +568,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
 
                     // Responses from the server (code and message)
                     serverResponseCode = conn.getResponseCode();
-                    ResponseCodePhpServer=serverResponseCode;
+                    ResponseCodePhpServer = serverResponseCode;
                     String serverResponseMessage = conn.getResponseMessage();
 
                     Log.e("uploadFile", "HTTP Response is : "
@@ -659,8 +646,6 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         }
 
 
-
-
         @Override
         protected void onPostExecute(Void result) {
 
@@ -670,16 +655,15 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
                 pDialog.dismiss();
 
             if(ResponseCodePhpServer==200){
-                Toast.makeText(AjouterProduit.this, "Produit ajouté avec succes", Toast.LENGTH_SHORT).show();
+                Intent myIntent = new Intent(AjouterProduit.this, ProduitAjoute.class);
+                myIntent.putExtra("idProduct",product.getId());
+                myIntent.putExtra("user",user);
+                startActivity(myIntent);
             }
             else {
                 Toast.makeText(AjouterProduit.this, "Erreur de connexion veuillez reessayer", Toast.LENGTH_SHORT).show();
             }
 
-            Log.e("produit2",product.toJson());
-
-
         }
-
     }
 }

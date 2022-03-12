@@ -200,6 +200,7 @@ public class AdapterPanierEmprunt extends RecyclerView.Adapter<AdapterPanierEmpr
                         Intent myIntent = new Intent(context, ProduitRetourne.class);
                         myIntent.putExtra("idProduct",idProduct);
                         myIntent.putExtra("etat",etats[itemSelected]);
+                        myIntent.putExtra("user",user);
                         context.startActivity(myIntent);
                     }
                 })

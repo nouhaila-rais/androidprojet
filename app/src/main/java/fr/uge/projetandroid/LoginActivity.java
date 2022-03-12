@@ -445,7 +445,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
 
-                Thread.sleep(4000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return null;
             }
@@ -597,12 +597,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private Context context;
         private ImageView imageView;
-
-
+        private TextView textView;
 
         public FingerprintHandler(Context mContext) {
             context = mContext;
             imageView = (ImageView) ((Activity) context).findViewById(R.id.imageView_fingerprint);
+            textView = (TextView) ((Activity) context).findViewById(R.id.textView_erreur_fingerprint);
         }
 
         public Boolean startAuth(FingerprintManager manager, FingerprintManager.CryptoObject cryptoObject) {
@@ -639,6 +639,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 imageView.setImageResource(R.drawable.ic_action_fingerprint_vert);
                 authentifiedFingerPrint = true;
                 idUser=userFingerPrints.get(0).getUser();
+                textView.setText("");
                 attemptLogin();
             }
 
@@ -647,7 +648,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private void update(String e) {
             imageView.setImageResource(R.drawable.ic_action_fingerprint_rouge);
-            TextView textView = (TextView) ((Activity) context).findViewById(R.id.textView_erreur_fingerprint);
+            textView = (TextView) ((Activity) context).findViewById(R.id.textView_erreur_fingerprint);
             textView.setText(e);
         }
 

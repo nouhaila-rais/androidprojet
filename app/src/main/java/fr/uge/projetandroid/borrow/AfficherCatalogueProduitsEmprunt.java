@@ -45,6 +45,8 @@ public class AfficherCatalogueProduitsEmprunt extends AppCompatActivity implemen
 
     private TextView textView_nombre_notifications_emprunt;
     private TextView textView_nombre_panier_emprunt;
+    private TextView Textview_nom_prenom_utilisateur_emprunt;
+    private TextView Textview_email_utilisateur_emprunt;
     private User user;
     private String categorie;
     @Override
@@ -113,7 +115,10 @@ public class AfficherCatalogueProduitsEmprunt extends AppCompatActivity implemen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        Textview_nom_prenom_utilisateur_emprunt = (TextView)findViewById(R.id.Textview_nom_prenom_utilisateur_emprunt);
+        Textview_email_utilisateur_emprunt = (TextView)findViewById(R.id.Textview_email_utilisateur_emprunt);
+        Textview_nom_prenom_utilisateur_emprunt.setText(user.getFirstName()+" "+user.getLastName());
+        Textview_email_utilisateur_emprunt.setText(user.getEmail());
         getMenuInflater().inflate(R.menu.main_emprunt, menu);
 
 
