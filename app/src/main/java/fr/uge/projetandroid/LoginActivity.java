@@ -71,7 +71,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 import fr.uge.projetandroid.borrow.AccueilEmprunt;
-import fr.uge.projetandroid.borrow.AccueilEmprunt;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.fingerPrintDatabase.DatabaseFingerPrint;
 import fr.uge.projetandroid.fingerPrintDatabase.UserFingerPrint;
@@ -103,6 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private TextView textView_erreur_fingerprint;
     private boolean authentifiedFingerPrint=false;
     private int idUser =-1;
+    private User user;
 
     private FingerprintHandler helper;
 
@@ -157,11 +157,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }else{
                 // Check whether at least one fingerprint is registered
                 if (!fingerprintManager.hasEnrolledFingerprints()) {
-                    textView_erreur_fingerprint.setText("Veuillez enregistrer au moins une empreinte digitale dans les réglages");
+                    textView_erreur_fingerprint.setText("Enregistrer au moins une empreinte digitale dans les paramètres");
                 }else{
                     // Checks whether lock screen security is enabled or not
                     if (!keyguardManager.isKeyguardSecure()) {
-                        textView_erreur_fingerprint.setText("La sécurité de l'écran de verrouillage n'est pas activée dans les réglages");
+                        textView_erreur_fingerprint.setText("La sécurité de l'écran de verrouillage n'est pas activée dans les paramètres");
                     }else{
                         generateKey();
 
@@ -234,6 +234,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+
+
+
+
+
+
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -274,10 +281,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+
     public void attemptLogin() {
+
+
         if (mAuthTask != null) {
             return;
         }
+
+
 
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -413,18 +425,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, User> {
 
         private final String mEmail;
         private final String mPassword;
-        private String firstName;
-        private String lastname;
-        private int totalNotification;
-        private int totalProduitEmprunte;
-        private int totalPanier;
-        private int totalWishlist;
         private String devise;
         private String role;
+
+
+
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -432,19 +441,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected User doInBackground(Void... params) {
 
             try {
 
-                Thread.sleep(2000);
+                Thread.sleep(4000);
             } catch (InterruptedException e) {
-                return false;
+                return null;
             }
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
-                    if(!pieces[1].equals(mPassword)) return false;
+                    if(!pieces[1].equals(mPassword)) return null;
                 }
             }
 
@@ -453,7 +462,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String url2 = "http://uge-webservice.herokuapp.com/api/login";
             String data = user.EmailPasswordToJson();
             String result = null;
-            Log.e("mouna",data);
             try {
                 if(!authentifiedFingerPrint){
                     urlConnection = (HttpURLConnection) ((new URL(url2).openConnection()));
@@ -463,7 +471,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     urlConnection.setRequestMethod("POST");
                     urlConnection.connect();
 
-                    Log.e("nouhaila",data);
                     OutputStream outputStream = urlConnection.getOutputStream();
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                     writer.write(data);
@@ -490,30 +497,39 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     long id = db.insertUser(idUser);
                     if(id==-1){
-                        Log.e("FingerPrint", "Response from url: " + "erreur");
+                        Log.e("FingerPrint",  "erreur");
                     }
                     else {
-                        Log.e("FingerPrint", "Response from url: " + "Bien ajouté");
+                        Log.e("FingerPrint", "Bien ajouté");
                     }
 
                     String url = "http://uge-webservice.herokuapp.com/api/user/"+idUser;
                     HttpHandler sh = new HttpHandler();
                     String jsonStr = sh.makeServiceCall(url);
 
+
+
                     Log.e("Login", "Response from url: " + jsonStr);
 
                     if (jsonStr != null) {
                         try {
+
+                            user = new User();
                             JSONObject jsonObj = new JSONObject(jsonStr);
-                            firstName=jsonObj.getString("firstName");
-                            lastname =jsonObj.getString("lastName");
-                            totalNotification =jsonObj.getInt("totalNotification");
-                            totalProduitEmprunte =jsonObj.getInt("totalBorrow");
-                            totalPanier =jsonObj.getInt("totalCart");
-                            //totalWishlist =jsonObj.getInt("totalWishlist");
-                            totalWishlist =0;
+                            user.setId(jsonObj.getLong("id"));
+                            user.setEmail(jsonObj.getString("email"));
+                            user.setFirstName(jsonObj.getString("firstName"));
+                            user.setLastName(jsonObj.getString("lastName"));
+                            user.setTotalNotification(jsonObj.getInt("totalNotification"));
+                            user.setTotalPanier(jsonObj.getInt("totalCart"));
+                            user.setTotalProduitEmprunte(jsonObj.getInt("totalBorrow"));
+                            //user.setTotalWishlist(jsonObj.getInt("totalWishlist"));
+                            user.setTotalWishlist(7);
                             role=jsonObj.getString("role");
+                            user.setRole(role);
                             devise="EUR";
+
+                            Log.e("User",user.toString());
 
                         } catch (final JSONException e) {
                             Log.e("Login", "Json parsing error: " + e.getMessage());
@@ -524,39 +540,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     }
                 }
+
+
             } catch (Exception e) {
                 Log.e("Login Erreur", e.getMessage());
             }
-            if(idUser >=0) return true;
-            return false;
+
+            if(idUser >=0) return user;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(User user) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (user!=null) {
                 if(role.equals("Customer")){
                     Intent intent = new Intent(LoginActivity.this, AccueilAchat.class);
-                    intent.putExtra("idUser",idUser);
-                    intent.putExtra("email",mEmail);
-                    intent.putExtra("firstname",firstName);
-                    intent.putExtra("lastname",lastname);
-                    intent.putExtra("totalNotification",totalNotification);
-                    intent.putExtra("totalPanier",totalPanier);
-                    intent.putExtra("totalWishlist",totalWishlist);
+                    intent.putExtra("devise",devise);
+                    intent.putExtra("user",user);
                     LoginActivity.this.startActivity(intent);
+                    Log.e("UserEmprunt",user.toString());
                 }
                 else {
                     Intent intent = new Intent(LoginActivity.this, AccueilEmprunt.class);
-                    intent.putExtra("idUser",idUser);
-                    intent.putExtra("email",mEmail);
-                    intent.putExtra("firstname",firstName);
-                    intent.putExtra("lastname",lastname);
-                    intent.putExtra("totalNotification",totalNotification);
-                    intent.putExtra("totalProduitEmprunte",totalProduitEmprunte);
+                    intent.putExtra("user",user);
                     LoginActivity.this.startActivity(intent);
+                    Log.e("UserEmprunt",user.toString());
                 }
                 finish();
             } else {
@@ -621,7 +632,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
             if(userFingerPrints.size()==0){
-                this.update("Bienvenue, C’est votre première connexion, vous devez vous authentifier avec votre email et votre mot de passe");
+                this.update("C’est votre première connexion, vous devez vous authentifier avec votre email et votre mot de passe");
 
             }
             else {
@@ -630,6 +641,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 idUser=userFingerPrints.get(0).getUser();
                 attemptLogin();
             }
+
+
         }
 
         private void update(String e) {
@@ -637,6 +650,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             TextView textView = (TextView) ((Activity) context).findViewById(R.id.textView_erreur_fingerprint);
             textView.setText(e);
         }
+
+
     }
 }
 

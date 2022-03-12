@@ -22,8 +22,8 @@
             android:title="Mes produits" />
         <item
             android:id="@+id/nav__emprunt_ajouterproduit"
-            android:icon="@drawable/ic_shopping_basket_black_24dp"
-            android:title="Mes produits" />
+            android:icon="@drawable/ic_add_circle_outline_black_24dp"
+            android:title="Ajouter un produit" />
         <item
             android:id="@+id/nav__emprunt_deconnexion"
             android:icon="@drawable/ic_perm_identity_black_24dp"

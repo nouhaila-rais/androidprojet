@@ -6,12 +6,20 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -41,7 +49,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fr.uge.projetandroid.LoginActivity;
+import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.adapters.AdapterProduitsRechercheEmprunt;
+import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.fragments.DatePickerFragment;
 import fr.uge.projetandroid.fragments.TimePickerFragment;
 import fr.uge.projetandroid.handlers.HttpHandler;
@@ -52,7 +63,7 @@ import fr.uge.projetandroid.entities.Comment;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.RequestBorrow;
 
-public class AfficherProduitEmprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class AfficherProduitEmprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,NavigationView.OnNavigationItemSelectedListener  {
 
     private ImageView Imageproduit_emprunt;
     private ImageView imageView_ratingstar_emprunt;
@@ -100,7 +111,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
     public LinearLayout layout_demande_emprunt_countdown;
 
 
-    private String DATE_COUNTDOWN = "2020-04-31 05:02:00";
+    private String DATE_COUNTDOWN = "2020-05-01 05:02:00";
     private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private LinearLayout linear_layout_jour, linear_layout_heure;
     private Handler handler = new Handler();
@@ -138,6 +149,10 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
     private static final int DIALOG_FRAGMENT_DATE_FIN_DEMANDE_EMPRUNT = 6;
     private static final int DIALOG_FRAGMENT_TIME_DEBUT_DEMANDE_EMPRUNT = 7;
     private static final int DIALOG_FRAGMENT_TIME_FIN_DEMANDE_EMPRUNT = 8;
+
+    private TextView textView_nombre_notifications_emprunt;
+    private TextView textView_nombre_panier_emprunt;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -348,6 +363,21 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
         });
 
 
+        user = (User)getIntent().getSerializableExtra("user");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     private void initUi(){
@@ -411,6 +441,171 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
     }
 
 
+
+
+    private void setupBadge() {
+
+        if (textView_nombre_notifications_emprunt != null) {
+            if (user.getTotalNotification() == 0) {
+                if (textView_nombre_notifications_emprunt.getVisibility() != View.GONE) {
+                    textView_nombre_notifications_emprunt.setVisibility(View.GONE);
+                }
+            } else {
+                textView_nombre_notifications_emprunt.setText(String.valueOf(Math.min(user.getTotalNotification() , 99)));
+                if (textView_nombre_notifications_emprunt.getVisibility() != View.VISIBLE) {
+                    textView_nombre_notifications_emprunt.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
+        if (textView_nombre_panier_emprunt != null) {
+            if (user.getTotalProduitEmprunte() == 0) {
+                if (textView_nombre_panier_emprunt.getVisibility() != View.GONE) {
+                    textView_nombre_panier_emprunt.setVisibility(View.GONE);
+                }
+            } else {
+                textView_nombre_panier_emprunt.setText(String.valueOf(Math.min(user.getTotalProduitEmprunte() , 99)));
+                if (textView_nombre_panier_emprunt.getVisibility() != View.VISIBLE) {
+                    textView_nombre_panier_emprunt.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_emprunt, menu);
+
+
+        final MenuItem menuItemPanier = menu.findItem(R.id.item_nombre_panier_emprunt);
+        View actionViewPanier = menuItemPanier.getActionView();
+        textView_nombre_panier_emprunt = (TextView) actionViewPanier.findViewById(R.id.textView_nombre_panier_emprunt);
+
+        final MenuItem menuItemNotification = menu.findItem(R.id.item_notifiction_emprunt);
+        View actionViewNotification = menuItemNotification.getActionView();
+        textView_nombre_notifications_emprunt = (TextView)actionViewNotification.findViewById(R.id.textView_nombre_notifications_emprunt);
+
+
+        MenuItem mSearch = menu.findItem(R.id.item_search_emprunt);
+        SearchView mSearchView = (SearchView) mSearch.getActionView();
+        mSearchView.setQueryHint("Search");
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(query!=null){
+                    Intent myIntent = new Intent(AfficherProduitEmprunt.this, AfficherProduitsRechercheEmprunt.class);
+                    myIntent.putExtra("user",user);
+                    myIntent.putExtra("Keyword",query);
+                    startActivity(myIntent);
+                }
+
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
+
+        setupBadge();
+
+        actionViewNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItemNotification);
+            }
+        });
+
+        actionViewPanier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItemPanier);
+            }
+        });
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.item_notifiction_emprunt) {
+            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
+            myIntent.putExtra("user",user);
+            startActivity(myIntent);
+            return true;
+        }
+        else if (id == R.id.item_nombre_panier_emprunt) {
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
+            myIntent.putExtra("user",user);
+            startActivity(myIntent);
+            return true;
+        }
+        else if (id == R.id.item_search_emprunt) {
+            return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.nav_emprunt_accueil) {
+
+            Intent myIntent = new Intent(this, AccueilEmprunt.class);
+            myIntent.putExtra("user",user);
+            startActivity(myIntent);
+
+        } else if (id == R.id.nav__emprunt_retourner) {
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
+            myIntent.putExtra("user",user);
+            startActivity(myIntent);
+
+        } else if (id == R.id.nav__emprunt_emprunter) {
+            Intent myIntent = new Intent(this, Emprunter.class);
+            myIntent.putExtra("user",user);
+            startActivity(myIntent);
+
+        } else if (id == R.id.nav__emprunt_mesproduits) {
+
+            Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
+            myIntent.putExtra("user", user);
+            startActivity(myIntent);
+        }
+
+        else if (id == R.id.nav__emprunt_ajouterproduit) {
+            Intent myIntent = new Intent(this, AjouterProduit.class);
+            myIntent.putExtra("user",user);
+            startActivity(myIntent);
+        }
+
+        else if (id == R.id.nav__emprunt_deconnexion) {
+            Intent myIntent = new Intent(this, LoginActivity.class);
+            startActivity(myIntent);
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     private void countDownStart() {
         runnable = new Runnable() {
@@ -625,7 +820,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                                 DATE_COUNTDOWN = jsonObj2.getString("endAt");
 
                             } catch (final JSONException e) {
-                                Log.e(TAG, "Nouhaila" + e.getMessage());
+                                Log.e(TAG, "Mohsine" + e.getMessage());
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -985,7 +1180,8 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
 
             String url = "http://uge-webservice.herokuapp.com/api/notification/updateNotification/"+idNotification;
             HttpHandler sh = new HttpHandler();
-            sh.makeServiceCall(url);
+            String total = sh.makeServiceCall(url);
+            user.setTotalNotification(Integer.parseInt(total));
             return null;
         }
 

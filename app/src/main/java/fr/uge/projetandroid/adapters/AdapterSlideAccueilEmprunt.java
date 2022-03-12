@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +13,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.borrow.AfficherProduitsRechercheEmprunt;
+import fr.uge.projetandroid.entities.User;
 
 public class AdapterSlideAccueilEmprunt extends PagerAdapter {
 
     private Context context;
     private LayoutInflater inflater;
     private int current;
+    private User user;
 
-    public AdapterSlideAccueilEmprunt(Context context) {
+    public AdapterSlideAccueilEmprunt(Context context, User user) {
         this.context = context;
+        this.user = user;
     }
+
+
+
 
     //Array
     public int[] list_images = {
@@ -95,6 +103,7 @@ public class AdapterSlideAccueilEmprunt extends PagerAdapter {
             public void onClick(View v){
                 Intent myIntent = new Intent(v.getContext(), AfficherProduitsRechercheEmprunt.class);
                 myIntent.putExtra("Keyword",list_title[getCurrent()]);
+                myIntent.putExtra("user",user);
                 v.getContext().startActivity(myIntent);
             }
         });

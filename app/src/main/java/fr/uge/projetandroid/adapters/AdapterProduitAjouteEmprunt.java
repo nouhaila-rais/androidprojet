@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,16 +15,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
+import fr.uge.projetandroid.entities.User;
 
 public class AdapterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapterProduitAjouteEmprunt.ViewHolder> {
 
     private List<Product> results;
+    private User user;
 
 
-    public AdapterProduitAjouteEmprunt(List<Product> results) {
+    public AdapterProduitAjouteEmprunt(List<Product> results, User user) {
         this.results = results;
+        this.user = user;
     }
 
     @NonNull
@@ -87,6 +92,7 @@ public class AdapterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapterPro
                 public void onClick(View v){
                     Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                     myIntent.putExtra("idProduct",entity.getId());
+                    myIntent.putExtra("user",user);
                     v.getContext().startActivity(myIntent);
                 }
             });

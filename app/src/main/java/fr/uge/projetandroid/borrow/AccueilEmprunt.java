@@ -1,27 +1,31 @@
 package fr.uge.projetandroid.borrow;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import fr.uge.projetandroid.LoginActivity;
 import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.adapters.AdapterSlideAccueilEmprunt;
+import fr.uge.projetandroid.entities.User;
 
 public class AccueilEmprunt extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,12 +40,9 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
     private int mCureentPage;
 
 
-
-    private int nombreNotifications=2;
-    private int nombreProduitsPanier=0;
-
     private TextView textView_nombre_notifications_emprunt;
     private TextView textView_nombre_panier_emprunt;
+    private User user;
 
 
     @Override
@@ -62,6 +63,8 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        user = (User)getIntent().getSerializableExtra("user");
+        Log.e("UserAccueilEmprunt",user.toString());
 
 
         viewpager_home_emprunt =(ViewPager)findViewById(R.id.viewpager_home_emprunt);
@@ -70,7 +73,7 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
         ImageButton_home_next_emprunt =(ImageButton)findViewById(R.id.ImageButton_home_next_emprunt);
         ImageButton_home_back_emprunt =(ImageButton)findViewById(R.id.ImageButton_home_back_emprunt);
 
-        adapterSlideAccueilEmprunt =new AdapterSlideAccueilEmprunt(this);
+        adapterSlideAccueilEmprunt =new AdapterSlideAccueilEmprunt(this,user);
         viewpager_home_emprunt.setAdapter(adapterSlideAccueilEmprunt);
         adddots(0);
 
@@ -223,14 +226,15 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
 
 
     private void setupBadge() {
+        user = (User)getIntent().getSerializableExtra("user");
 
         if (textView_nombre_notifications_emprunt != null) {
-            if (nombreNotifications == 0) {
+            if (user.getTotalNotification() == 0) {
                 if (textView_nombre_notifications_emprunt.getVisibility() != View.GONE) {
                     textView_nombre_notifications_emprunt.setVisibility(View.GONE);
                 }
             } else {
-                textView_nombre_notifications_emprunt.setText(String.valueOf(Math.min(nombreNotifications, 99)));
+                textView_nombre_notifications_emprunt.setText(String.valueOf(Math.min(user.getTotalNotification() , 99)));
                 if (textView_nombre_notifications_emprunt.getVisibility() != View.VISIBLE) {
                     textView_nombre_notifications_emprunt.setVisibility(View.VISIBLE);
                 }
@@ -238,12 +242,12 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
         }
 
         if (textView_nombre_panier_emprunt != null) {
-            if (nombreProduitsPanier == 0) {
+            if (user.getTotalProduitEmprunte() == 0) {
                 if (textView_nombre_panier_emprunt.getVisibility() != View.GONE) {
                     textView_nombre_panier_emprunt.setVisibility(View.GONE);
                 }
             } else {
-                textView_nombre_panier_emprunt.setText(String.valueOf(Math.min(nombreProduitsPanier, 99)));
+                textView_nombre_panier_emprunt.setText(String.valueOf(Math.min(user.getTotalProduitEmprunte() , 99)));
                 if (textView_nombre_panier_emprunt.getVisibility() != View.VISIBLE) {
                     textView_nombre_panier_emprunt.setVisibility(View.VISIBLE);
                 }
@@ -265,7 +269,7 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_emprunt, menu);
-
+        user = (User)getIntent().getSerializableExtra("user");
 
         final MenuItem menuItemPanier = menu.findItem(R.id.item_nombre_panier_emprunt);
         View actionViewPanier = menuItemPanier.getActionView();
@@ -273,7 +277,7 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
 
         final MenuItem menuItemNotification = menu.findItem(R.id.item_notifiction_emprunt);
         View actionViewNotification = menuItemNotification.getActionView();
-        textView_nombre_notifications_emprunt = (TextView) actionViewNotification.findViewById(R.id.textView_nombre_notifications_emprunt);
+        textView_nombre_notifications_emprunt = (TextView)actionViewNotification.findViewById(R.id.textView_nombre_notifications_emprunt);
 
 
         MenuItem mSearch = menu.findItem(R.id.item_search_emprunt);
@@ -282,15 +286,15 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (query != null) {
+                if(query!=null){
                     Intent myIntent = new Intent(AccueilEmprunt.this, AfficherProduitsRechercheEmprunt.class);
-                    myIntent.putExtra("Keyword", query);
+                    myIntent.putExtra("user",user);
+                    myIntent.putExtra("Keyword",query);
                     startActivity(myIntent);
                 }
 
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return true;
@@ -322,13 +326,17 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
         if (id == R.id.item_notifiction_emprunt) {
             Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
+            myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
-        } else if (id == R.id.item_nombre_panier_emprunt) {
+        }
+        else if (id == R.id.item_nombre_panier_emprunt) {
             Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
+            myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
-        } else if (id == R.id.item_search_emprunt) {
+        }
+        else if (id == R.id.item_search_emprunt) {
             return true;
         }
 
@@ -343,31 +351,42 @@ public class AccueilEmprunt extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_emprunt_accueil) {
-            Intent myIntent = new Intent(this, MainActivity.class);
+
+            Intent myIntent = new Intent(this, AccueilEmprunt.class);
+            myIntent.putExtra("user",user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
-            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
+            myIntent.putExtra("user",user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_emprunter) {
             Intent myIntent = new Intent(this, Emprunter.class);
+            myIntent.putExtra("user",user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
 
-
-            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
+            Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
+            myIntent.putExtra("user", user);
             startActivity(myIntent);
+        }
 
-        } else if (id == R.id.nav__emprunt_deconnexion) {
+        else if (id == R.id.nav__emprunt_ajouterproduit) {
             Intent myIntent = new Intent(this, AjouterProduit.class);
+            myIntent.putExtra("user",user);
             startActivity(myIntent);
+        }
+
+        else if (id == R.id.nav__emprunt_deconnexion) {
+            Intent myIntent = new Intent(this, LoginActivity.class);
+            startActivity(myIntent);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

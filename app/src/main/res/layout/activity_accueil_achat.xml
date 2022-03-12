@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".shopping.AcceuilAchat">
+    tools:context=".shopping.AccueilAchat">
 
     <TextView
-        android:id="@+id/dfdfdsfsd"
+        android:id="@+id/Tmouna"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

@@ -1,12 +1,14 @@
 package fr.uge.projetandroid.adapters;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,16 +17,22 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.Notification;
+import fr.uge.projetandroid.entities.Product;
+import fr.uge.projetandroid.entities.User;
 
 public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNotificationEmprunt.ViewHolder> {
 
     private List<Notification> results;
+    private User user;
 
 
-    public AdapterNotificationEmprunt(List<Notification> results) {
+    public AdapterNotificationEmprunt(List<Notification> results, User user) {
         this.results = results;
+        this.user = user;
     }
 
     @NonNull
@@ -92,6 +100,7 @@ public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNoti
                     myIntent.putExtra("idProduct",entity.getProduct());
                     myIntent.putExtra("idNotification",entity.getId());
                     myIntent.putExtra("readNotification",entity.isRead());
+                    myIntent.putExtra("user",user);
                     v.getContext().startActivity(myIntent);
                 }
             });
