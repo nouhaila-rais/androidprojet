@@ -33,7 +33,6 @@ public class User {
 
     private Collection<Comment> comments;
 
-
     private Collection<Notification> notifications;
 
     private Collection<Borrow> borrows;
@@ -44,6 +43,10 @@ public class User {
     public User() {
     }
 
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public User(long id, String login, String lastName, String firstName, String email, String password, String phone, String address, String role, String updatedAt, String updatedBy, Collection<Product> products, Collection<Comment> comments,Collection<Notification> notifications, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows) {
         this.id = id;
@@ -168,7 +171,6 @@ public class User {
         this.comments = comments;
     }
 
-
     public Collection<Notification> getNotifications() {
         return notifications;
     }
@@ -213,5 +215,12 @@ public class User {
                 ", borrows=" + borrows +
                 ", requestBorrows=" + requestBorrows +
                 '}';
+    }
+
+    public String EmailPasswordToJson() {
+        return "    {\n" +
+                "        \"email\": \"" + email + "\",\n" +
+                "        \"password\": \"" + password + "\"\n" +
+                "    }";
     }
 }

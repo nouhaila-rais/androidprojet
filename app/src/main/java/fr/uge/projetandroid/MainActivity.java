@@ -177,6 +177,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_emprunt_accueil) {
+
+
             Intent myIntent = new Intent(this, MainActivity.class);
             startActivity(myIntent);
 

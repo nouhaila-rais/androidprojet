@@ -1,14 +1,12 @@
 package fr.uge.projetandroid.adapters;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,11 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.Notification;
-import fr.uge.projetandroid.entities.Product;
 
 public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNotificationEmprunt.ViewHolder> {
 

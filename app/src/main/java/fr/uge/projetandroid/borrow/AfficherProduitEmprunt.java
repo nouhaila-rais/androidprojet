@@ -625,12 +625,12 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                                 DATE_COUNTDOWN = jsonObj2.getString("endAt");
 
                             } catch (final JSONException e) {
-                                Log.e(TAG, "Mohsine" + e.getMessage());
+                                Log.e(TAG, "Nouhaila" + e.getMessage());
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         Toast.makeText(getApplicationContext(),
-                                                "mohsine" + e.getMessage(),
+                                                "Erreur" + e.getMessage(),
                                                 Toast.LENGTH_LONG)
                                                 .show();
                                     }
@@ -660,7 +660,7 @@ public class AfficherProduitEmprunt extends AppCompatActivity implements DatePic
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),
-                                    "mamadou" + e.getMessage(),
+                                    "Erreur" + e.getMessage(),
                                     Toast.LENGTH_LONG)
                                     .show();
                         }

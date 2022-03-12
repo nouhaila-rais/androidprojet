@@ -533,7 +533,6 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
 
 
                         } catch (Exception e) {
-                            System.out.println(e.getMessage());
                             Log.e("Erreur", e.getMessage());
                         }
                         //return result;

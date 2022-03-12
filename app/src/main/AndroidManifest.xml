@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".messages.ErreurProduitAchete"></activity>
+        <activity android:name=".InscriptionActivity"></activity>
+        <activity android:name=".shopping.AccueilAchat" />
+        <activity android:name=".messages.ErreurProduitAchete" />
         <activity android:name=".messages.ProduitAchete" />
         <activity
             android:name=".borrow.Emprunter"

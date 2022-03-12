@@ -26,7 +26,6 @@ import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.borrow.AfficherNotificationsEmprunt;
 import fr.uge.projetandroid.borrow.AfficherProduitAjoute;
-import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.entities.ReturnProduct;
 
 public class ProduitRetourne extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

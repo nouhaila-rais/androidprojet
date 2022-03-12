@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 
