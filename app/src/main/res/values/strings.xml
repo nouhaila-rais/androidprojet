@@ -71,6 +71,20 @@
     </string-array>
 
 
+
+    <string-array name="devise">
+        <item>EUR</item>
+        <item>USD</item>
+        <item>MAD</item>
+        <item>CHF</item>
+        <item>CNY</item>
+        <item>DZD</item>
+        <item>AED</item>
+        <item>TND</item>
+    </string-array>
+
+
+
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Connexion ou Inscription</string>
@@ -81,6 +95,7 @@
     <string name="error_field_required">Ce champ est obligatoire</string>
     <string name="permission_rationale">Les autorisations de contacts sont nécessaires pour fournir des e-mails completes
     </string>
+    <string name="title_activity_main2">Main2Activity</string>
 
 
 </resources>
