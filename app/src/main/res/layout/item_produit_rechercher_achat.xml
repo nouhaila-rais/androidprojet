@@ -7,7 +7,7 @@
 
 
     <LinearLayout
-        android:id="@+id/LinearLayout_rechercher_produit_emprunt"
+        android:id="@+id/LinearLayout_rechercher_produit_achat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
@@ -27,7 +27,7 @@
         android:transitionGroup="false">
 
         <ImageView
-            android:id="@+id/imageView_image_recherche_emprunt"
+            android:id="@+id/imageView_image_recherche_achat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -41,7 +41,7 @@
             android:background="?android:attr/listDivider" />
 
         <TextView
-            android:id="@+id/textView_nomProduit_recherche_emprunt"
+            android:id="@+id/textView_nomProduit_recherche_achat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -51,19 +51,29 @@
             android:textSize="18sp" />
 
         <ImageView
-            android:id="@+id/imageView_ratingStar_recherche_emprunt"
+            android:id="@+id/imageView_ratingStar_recherche_achat"
             android:layout_width="144dp"
             android:layout_height="28dp"
             android:layout_marginBottom="5dp"
             app:srcCompat="@drawable/s40" />
 
         <TextView
-            android:id="@+id/textView_etatProduit_recherche_emprunt"
+            android:id="@+id/textView_etatProduit_recherche_achat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:text="Bonne etat"
             android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView_prix_recherche_achat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="250.00 EUR"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

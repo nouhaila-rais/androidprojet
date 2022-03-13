@@ -25,7 +25,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".shopping.AfficherProduitAchat"></activity>
         <activity android:name=".shopping.Acheter" />
-        <activity android:name=".shopping.AfficherProduitRechercheAchat" />
+        <activity android:name=".shopping.AfficherProduitsRechercheAchat" />
         <activity android:name=".shopping.AfficherSoldeAchat" />
         <activity android:name=".shopping.AfficherWishlistAchat" />
         <activity android:name=".shopping.AfficherPanierAchat" />

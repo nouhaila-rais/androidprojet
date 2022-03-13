@@ -12,28 +12,33 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
-import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.User;
+import fr.uge.projetandroid.shopping.AfficherProduitAchat;
 
-public class AdapterProduitsRechercheEmprunt  extends RecyclerView.Adapter<AdapterProduitsRechercheEmprunt.ViewHolder> {
+public class AdapterProduitsRechercheAchat extends RecyclerView.Adapter<AdapterProduitsRechercheAchat.ViewHolder> {
 
     private List<Product> results;
     private User user;
+    private String devise;
+    private Double rate;
 
 
-    public AdapterProduitsRechercheEmprunt(List<Product> results, User user) {
+    public AdapterProduitsRechercheAchat(List<Product> results, User user, String devise, Double rate) {
         this.results = results;
         this.user = user;
+        this.devise = devise;
+        this.rate = rate;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_recherche_emprunt, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_rechercher_achat, viewGroup, false));
     }
 
     @Override
@@ -52,46 +57,48 @@ public class AdapterProduitsRechercheEmprunt  extends RecyclerView.Adapter<Adapt
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView textView_nomProduit_recherche_emprunt;
-        private TextView textView_etatProduit_recherche_emprunt;
-        private ImageView imageView_ratingStar_recherche_emprunt;
-        private ImageView imageView_image_recherche_emprunt;
-        private LinearLayout LinearLayout_rechercher_produit_emprunt;
-
+        private TextView textView_nomProduit_recherche_achat;
+        private TextView textView_etatProduit_recherche_achat;
+        private TextView textView_prix_recherche_achat;
+        private ImageView imageView_ratingStar_recherche_achat;
+        private ImageView imageView_image_recherche_achat;
+        private LinearLayout LinearLayout_rechercher_produit_achat;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView_nomProduit_recherche_emprunt = itemView.findViewById(R.id.textView_nomProduit_recherche_emprunt);
-            textView_etatProduit_recherche_emprunt = itemView.findViewById(R.id.textView_etatProduit_recherche_emprunt);
-            imageView_ratingStar_recherche_emprunt = itemView.findViewById(R.id.imageView_ratingStar_recherche_emprunt);
-            imageView_image_recherche_emprunt = itemView.findViewById(R.id.imageView_image_recherche_emprunt);
-            LinearLayout_rechercher_produit_emprunt= itemView.findViewById(R.id.LinearLayout_rechercher_produit_emprunt);
+            textView_nomProduit_recherche_achat = itemView.findViewById(R.id.textView_nomProduit_recherche_achat);
+            textView_etatProduit_recherche_achat = itemView.findViewById(R.id.textView_etatProduit_recherche_achat);
+            textView_prix_recherche_achat= itemView.findViewById(R.id.textView_prix_recherche_achat);
+            imageView_ratingStar_recherche_achat = itemView.findViewById(R.id.imageView_ratingStar_recherche_achat);
+            imageView_image_recherche_achat = itemView.findViewById(R.id.imageView_image_recherche_achat);
+            LinearLayout_rechercher_produit_achat= itemView.findViewById(R.id.LinearLayout_rechercher_produit_achat);
         }
 
         public void update(final Product entity){
 
-            textView_nomProduit_recherche_emprunt.setText(entity.getName());
-            textView_etatProduit_recherche_emprunt.setText(entity.getState());
-
-            setImageRatingStar(imageView_ratingStar_recherche_emprunt, entity.getRate());
+            textView_nomProduit_recherche_achat.setText(entity.getName());
+            textView_etatProduit_recherche_achat.setText(entity.getState());
+            textView_prix_recherche_achat.setText(getPriceProduct(entity.getPrice()));
+            setImageRatingStar(imageView_ratingStar_recherche_achat, entity.getRate());
 
             Picasso.get().load(entity.getPath())
                     .resize(600, 600)
                     .centerCrop()
                     .error(R.drawable.erreurpicture)
-                    .into(imageView_image_recherche_emprunt);
+                    .into(imageView_image_recherche_achat);
 
-            LinearLayout_rechercher_produit_emprunt.setOnClickListener(new View.OnClickListener(){
+
+
+            LinearLayout_rechercher_produit_achat.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitAchat.class);
                     myIntent.putExtra("idProduct",entity.getId());
                     myIntent.putExtra("user",user);
+                    myIntent.putExtra("devise",devise);
+                    myIntent.putExtra("rate",rate);
                     v.getContext().startActivity(myIntent);
                 }
             });
-
-
-
 
         }
     }
@@ -137,5 +144,11 @@ public class AdapterProduitsRechercheEmprunt  extends RecyclerView.Adapter<Adapt
     }
 
 
+    public String getPriceProduct(Double price){
+        Double prix = price*rate;
+        DecimalFormat df = new DecimalFormat("0.00");
+        String result  = df.format(prix)+" " +devise;
+        return result ;
+    }
 
 }
