@@ -12,19 +12,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.borrow.AfficherProduitsRechercheEmprunt;
 import fr.uge.projetandroid.entities.User;
+import fr.uge.projetandroid.shopping.AfficherProduitsRechercheAchat;
 
-public class AdapterSlideAccueilEmprunt extends PagerAdapter {
+public class AdapterSlideAccueilAchat extends PagerAdapter {
 
     private Context context;
     private LayoutInflater inflater;
     private int current;
     private User user;
+    private String devise;
+    private Double rate;
 
-    public AdapterSlideAccueilEmprunt(Context context, User user) {
+    public AdapterSlideAccueilAchat(Context context, User user, String devise, Double rate) {
         this.context = context;
         this.user = user;
+        this.devise = devise;
+        this.rate = rate;
     }
 
 
@@ -84,24 +88,26 @@ public class AdapterSlideAccueilEmprunt extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.slide_emprunt, container, false);
+        View view = inflater.inflate(R.layout.slide_achat, container, false);
 
-        LinearLayout linearlayout_slide_emprunt = (LinearLayout) view.findViewById(R.id.linearlayout_slide_emprunt);
-        ImageView imageView_slide_emprunt = (ImageView) view.findViewById(R.id.imageView_slide_emprunt);
-        TextView textView_slidetitle_emprunt = (TextView) view.findViewById(R.id.textView_slidetitle_emprunt);
-        TextView textView_slidedescription_emprunt = (TextView) view.findViewById(R.id.textView_slidedescription_emprunt);
+        LinearLayout linearlayout_slide_achat = (LinearLayout) view.findViewById(R.id.linearlayout_slide_achat);
+        ImageView imageView_slide_achat = (ImageView) view.findViewById(R.id.imageView_slide_achat);
+        TextView textView_slidetitle_achat = (TextView) view.findViewById(R.id.textView_slidetitle_achat);
+        TextView textView_slidedescription_achat = (TextView) view.findViewById(R.id.textView_slidedescription_achat);
 
 
-        imageView_slide_emprunt.setImageResource(list_images[position]);
-        textView_slidetitle_emprunt.setText(list_title[position]);
-        textView_slidedescription_emprunt.setText(list_description[position]);
-        linearlayout_slide_emprunt.setBackgroundColor(list_color[position]);
+        imageView_slide_achat.setImageResource(list_images[position]);
+        textView_slidetitle_achat.setText(list_title[position]);
+        textView_slidedescription_achat.setText(list_description[position]);
+        linearlayout_slide_achat.setBackgroundColor(list_color[position]);
 
-        linearlayout_slide_emprunt.setOnClickListener(new View.OnClickListener(){
+        linearlayout_slide_achat.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent myIntent = new Intent(v.getContext(), AfficherProduitsRechercheEmprunt.class);
+                Intent myIntent = new Intent(v.getContext(), AfficherProduitsRechercheAchat.class);
                 myIntent.putExtra("Keyword",list_title[getCurrent()]);
                 myIntent.putExtra("user",user);
+                myIntent.putExtra("devise",devise);
+                myIntent.putExtra("rate",rate);
                 v.getContext().startActivity(myIntent);
             }
         });
