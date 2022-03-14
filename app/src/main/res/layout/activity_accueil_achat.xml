@@ -45,7 +45,7 @@
                 android:layout_weight="0.20"
                 android:text="BACK"
                 android:background="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+                app:srcCompat="@drawable/arrow_back_black_24dp"
                 />
 
             <LinearLayout
@@ -65,7 +65,7 @@
                 android:layout_weight="0.20"
                 android:text="NEXT"
                 android:background="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_arrow_forward_black_24dp"/>
+                app:srcCompat="@drawable/arrow_forward_black_24dp"/>
 
 
 
@@ -74,7 +74,7 @@
 
 
     <include
-        layout="@layout/app_bar_main"
+        layout="@layout/activity_bar_main_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -84,8 +84,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:headerLayout="@layout/nav_header_main2"
+        app:menu="@menu/activity_main_2_drawer" />
 
 
 </android.support.v4.widget.DrawerLayout>

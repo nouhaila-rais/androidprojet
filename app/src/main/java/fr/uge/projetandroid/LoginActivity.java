@@ -41,7 +41,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,7 +69,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
-import fr.uge.projetandroid.borrow.AccueilEmprunt;
+import fr.uge.projetandroid.borrow.Accueil_Emprunt;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.fingerPrintDatabase.DatabaseFingerPrint;
 import fr.uge.projetandroid.fingerPrintDatabase.UserFingerPrint;
@@ -564,7 +563,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     Log.e("UserEmprunt",user.toString());
                 }
                 else {
-                    Intent intent = new Intent(LoginActivity.this, AccueilEmprunt.class);
+                    Intent intent = new Intent(LoginActivity.this, Accueil_Emprunt.class);
                     intent.putExtra("user",user);
                     LoginActivity.this.startActivity(intent);
                     Log.e("UserEmprunt",user.toString());

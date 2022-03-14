@@ -32,7 +32,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import fr.uge.projetandroid.LoginActivity;
-import fr.uge.projetandroid.adapters.AdapterPanierAchat;
+import fr.uge.projetandroid.adapters.Adapter_Panier_Achat;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.R;
@@ -150,7 +150,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         Textview_email_utilisateur_achat = (TextView)findViewById(R.id.Textview_email_utilisateur_achat);
         Textview_nom_prenom_utilisateur_achat.setText(user.getFirstName()+" "+user.getLastName());
         Textview_email_utilisateur_achat.setText(user.getEmail());
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main_2, menu);
 
         final MenuItem menuItemNombreWishlist = menu.findItem(R.id.item_wishlist_achat);
         View actionViewWishlist = menuItemNombreWishlist.getActionView();
@@ -380,7 +380,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            AdapterPanierAchat adapterPanierAchat = new AdapterPanierAchat(products,user,devise,rate);
+            Adapter_Panier_Achat adapterPanierAchat = new Adapter_Panier_Achat(products,user,devise,rate);
 
             RecyclerView_panier_achat.setLayoutManager(new LinearLayoutManager(AfficherPanierAchat.this));
 
@@ -410,7 +410,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            AdapterPanierAchat adapterPanierAchat = new AdapterPanierAchat(products,user,devise,rate);
+            Adapter_Panier_Achat adapterPanierAchat = new Adapter_Panier_Achat(products,user,devise,rate);
 
             RecyclerView_panier_achat.setLayoutManager(new LinearLayoutManager(AfficherPanierAchat.this));
 
@@ -449,7 +449,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            AdapterPanierAchat adapterPanierAchat = new AdapterPanierAchat(products,user,devise,rate);
+            Adapter_Panier_Achat adapterPanierAchat = new Adapter_Panier_Achat(products,user,devise,rate);
 
             RecyclerView_panier_achat.setLayoutManager(new LinearLayoutManager(AfficherPanierAchat.this));
 
@@ -480,7 +480,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            AdapterPanierAchat adapterPanierAchat = new AdapterPanierAchat(products,user,devise,rate);
+            Adapter_Panier_Achat adapterPanierAchat = new Adapter_Panier_Achat(products,user,devise,rate);
 
             RecyclerView_panier_achat.setLayoutManager(new LinearLayoutManager(AfficherPanierAchat.this));
 

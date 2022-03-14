@@ -8,19 +8,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.widget.SearchView;
 import android.widget.TextView;
 
-import fr.uge.projetandroid.borrow.AfficherNotificationsEmprunt;
-import fr.uge.projetandroid.borrow.AfficherProduitAjoute;
-import fr.uge.projetandroid.borrow.AfficherMesProduitsEmprunte;
-import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
-import fr.uge.projetandroid.borrow.AfficherProduitsRechercheEmprunt;
-import fr.uge.projetandroid.borrow.AjouterProduit;
+import fr.uge.projetandroid.borrow.Afficher_Notifications_Emprunt;
+import fr.uge.projetandroid.borrow.Afficher_MesProduits_Emprunte;
+import fr.uge.projetandroid.borrow.Afficher_ProduitsRecherche_Emprunt;
+import fr.uge.projetandroid.borrow.Ajouter_Produit;
 import fr.uge.projetandroid.borrow.Emprunter;
 
 public class MainActivity extends AppCompatActivity
@@ -116,7 +113,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query!=null){
-                    Intent myIntent = new Intent(MainActivity.this, AfficherProduitsRechercheEmprunt.class);
+                    Intent myIntent = new Intent(MainActivity.this, Afficher_ProduitsRecherche_Emprunt.class);
                     myIntent.putExtra("Keyword",query);
                     startActivity(myIntent);
                 }
@@ -153,12 +150,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.item_notifiction_emprunt) {
-            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
+            Intent myIntent = new Intent(this, Afficher_Notifications_Emprunt.class);
             startActivity(myIntent);
             return true;
         }
         else if (id == R.id.item_nombre_panier_emprunt) {
-            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
+            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
             startActivity(myIntent);
             return true;
         }
@@ -183,7 +180,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
-            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
+            Intent myIntent = new Intent(this, Afficher_Notifications_Emprunt.class);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_emprunter) {
@@ -193,11 +190,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav__emprunt_mesproduits) {
 
 
-            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
+            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_deconnexion) {
-            Intent myIntent = new Intent(this, AjouterProduit.class);
+            Intent myIntent = new Intent(this, Ajouter_Produit.class);
             startActivity(myIntent);
         }
 

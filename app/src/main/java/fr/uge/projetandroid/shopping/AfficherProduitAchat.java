@@ -207,7 +207,7 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         Textview_email_utilisateur_achat = (TextView)findViewById(R.id.Textview_email_utilisateur_achat);
         Textview_nom_prenom_utilisateur_achat.setText(user.getFirstName()+" "+user.getLastName());
         Textview_email_utilisateur_achat.setText(user.getEmail());
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main_2, menu);
 
 
         final MenuItem menuItemNombreWishlist = menu.findItem(R.id.item_wishlist_achat);
@@ -378,40 +378,40 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
     public void setImageRatingStar(ImageView imageView,  int rate){
         switch(rate) {
             case 0:
-                imageView.setImageResource(R.drawable.s0);
+                imageView.setImageResource(R.drawable.star_0);
                 break;
             case 5:
-                imageView.setImageResource(R.drawable.s5);
+                imageView.setImageResource(R.drawable.star_5);
                 break;
             case 10:
-                imageView.setImageResource(R.drawable.s10);
+                imageView.setImageResource(R.drawable.star_10);
                 break;
             case 15:
-                imageView.setImageResource(R.drawable.s15);
+                imageView.setImageResource(R.drawable.star_15);
                 break;
             case 20:
-                imageView.setImageResource(R.drawable.s20);
+                imageView.setImageResource(R.drawable.star_20);
                 break;
             case 25:
-                imageView.setImageResource(R.drawable.s25);
+                imageView.setImageResource(R.drawable.star_25);
                 break;
             case 30:
-                imageView.setImageResource(R.drawable.s30);
+                imageView.setImageResource(R.drawable.star_30);
                 break;
             case 35:
-                imageView.setImageResource(R.drawable.s35);
+                imageView.setImageResource(R.drawable.star_35);
                 break;
             case 40:
-                imageView.setImageResource(R.drawable.s40);
+                imageView.setImageResource(R.drawable.star_40);
                 break;
             case 45:
-                imageView.setImageResource(R.drawable.s45);
+                imageView.setImageResource(R.drawable.star_45);
                 break;
             case 50:
-                imageView.setImageResource(R.drawable.s50);
+                imageView.setImageResource(R.drawable.star_50);
                 break;
             default:
-                imageView.setImageResource(R.drawable.s0);
+                imageView.setImageResource(R.drawable.star_0);
         }
     }
 
@@ -549,8 +549,8 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
 
             String url = "http://uge-webservice.herokuapp.com/api/cart/add/"+product.getId();
             HttpHandler sh = new HttpHandler();
-            String total = sh.makeServiceCall(url);
-            user.setTotalPanier(Integer.parseInt(total));
+            sh.makeServiceCall(url);
+            user.setTotalPanier(user.getTotalPanier()+1);
             setupBadge();
             return null;
         }
@@ -580,8 +580,8 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
 
             String url = "http://uge-webservice.herokuapp.com/api/wishlist/add/"+product.getId();
             HttpHandler sh = new HttpHandler();
-            String total = sh.makeServiceCall(url);
-            user.setTotalWishlist(Integer.parseInt(total));
+            sh.makeServiceCall(url);
+            user.setTotalPanier(user.getTotalPanier()+1);
             setupBadge();
             return null;
         }

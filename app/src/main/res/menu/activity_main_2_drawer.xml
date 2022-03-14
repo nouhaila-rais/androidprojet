@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_achat_accueil"
+            android:icon="@drawable/home_black_24dp"
+            android:title="Accueil" />
+        <item
+            android:id="@+id/nav_achat_panier"
+            android:icon="@drawable/shopping_pic"
+            android:title="Panier" />
+        <item
+            android:id="@+id/nav_achat_whislist"
+            android:icon="@drawable/favorite_black_24dp"
+            android:title="Wishlist" />
+        <item
+            android:id="@+id/nav_achat_acheter"
+            android:icon="@drawable/add_shopping_cart_black_24dp"
+            android:title="Acheter" />
+
+        <item
+            android:id="@+id/nav_achat_solde"
+            android:icon="@drawable/attach_money_black_24dp"
+            android:title="Solde" />
+        <item
+            android:id="@+id/nav_achat_deconnexion"
+            android:icon="@drawable/perm_identity_black_24dp"
+            android:title="Déconnexion" />
+    </group>
+
+</menu>

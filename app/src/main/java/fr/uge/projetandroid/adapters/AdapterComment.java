@@ -86,40 +86,40 @@ public class AdapterComment  extends RecyclerView.Adapter<AdapterComment.ViewHol
         int rate = ConvertRate(note);
         switch(rate) {
             case 0:
-                imageView.setImageResource(R.drawable.s0);
+                imageView.setImageResource(R.drawable.star_0);
                 break;
             case 5:
-                imageView.setImageResource(R.drawable.s5);
+                imageView.setImageResource(R.drawable.star_5);
                 break;
             case 10:
-                imageView.setImageResource(R.drawable.s10);
+                imageView.setImageResource(R.drawable.star_10);
                 break;
             case 15:
-                imageView.setImageResource(R.drawable.s15);
+                imageView.setImageResource(R.drawable.star_15);
                 break;
             case 20:
-                imageView.setImageResource(R.drawable.s20);
+                imageView.setImageResource(R.drawable.star_20);
                 break;
             case 25:
-                imageView.setImageResource(R.drawable.s25);
+                imageView.setImageResource(R.drawable.star_25);
                 break;
             case 30:
-                imageView.setImageResource(R.drawable.s30);
+                imageView.setImageResource(R.drawable.star_30);
                 break;
             case 35:
-                imageView.setImageResource(R.drawable.s35);
+                imageView.setImageResource(R.drawable.star_35);
                 break;
             case 40:
-                imageView.setImageResource(R.drawable.s40);
+                imageView.setImageResource(R.drawable.star_40);
                 break;
             case 45:
-                imageView.setImageResource(R.drawable.s45);
+                imageView.setImageResource(R.drawable.star_45);
                 break;
             case 50:
-                imageView.setImageResource(R.drawable.s50);
+                imageView.setImageResource(R.drawable.star_50);
                 break;
             default:
-                imageView.setImageResource(R.drawable.s0);
+                imageView.setImageResource(R.drawable.star_0);
         }
     }
 

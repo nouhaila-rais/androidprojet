@@ -34,7 +34,7 @@ import fr.uge.projetandroid.LoginActivity;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.AdapterProduitsRechercheEmprunt;
+import fr.uge.projetandroid.adapters.Adapter_ProduitsRecherche_Emprunt;
 import fr.uge.projetandroid.entities.Product;
 
 public class Emprunter extends AppCompatActivity implements AdapterView.OnItemSelectedListener,NavigationView.OnNavigationItemSelectedListener {
@@ -245,7 +245,7 @@ public class Emprunter extends AppCompatActivity implements AdapterView.OnItemSe
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query!=null){
-                    Intent myIntent = new Intent(Emprunter.this, AfficherProduitsRechercheEmprunt.class);
+                    Intent myIntent = new Intent(Emprunter.this, Afficher_ProduitsRecherche_Emprunt.class);
                     myIntent.putExtra("user",user);
                     myIntent.putExtra("Keyword",query);
                     startActivity(myIntent);
@@ -283,13 +283,13 @@ public class Emprunter extends AppCompatActivity implements AdapterView.OnItemSe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.item_notifiction_emprunt) {
-            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
+            Intent myIntent = new Intent(this, Afficher_Notifications_Emprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
         }
         else if (id == R.id.item_nombre_panier_emprunt) {
-            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
+            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
@@ -310,12 +310,12 @@ public class Emprunter extends AppCompatActivity implements AdapterView.OnItemSe
 
         if (id == R.id.nav_emprunt_accueil) {
 
-            Intent myIntent = new Intent(this, AccueilEmprunt.class);
+            Intent myIntent = new Intent(this, Accueil_Emprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
-            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
+            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
@@ -326,13 +326,13 @@ public class Emprunter extends AppCompatActivity implements AdapterView.OnItemSe
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
 
-            Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
+            Intent myIntent = new Intent(this, Afficher_Produit_Ajoute.class);
             myIntent.putExtra("user", user);
             startActivity(myIntent);
         }
 
         else if (id == R.id.nav__emprunt_ajouterproduit) {
-            Intent myIntent = new Intent(this, AjouterProduit.class);
+            Intent myIntent = new Intent(this, Ajouter_Produit.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
         }
@@ -451,7 +451,7 @@ public class Emprunter extends AppCompatActivity implements AdapterView.OnItemSe
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            AdapterProduitsRechercheEmprunt adapterProduitsRechercheEmprunt  = new AdapterProduitsRechercheEmprunt(products,user);
+            Adapter_ProduitsRecherche_Emprunt adapterProduitsRechercheEmprunt  = new Adapter_ProduitsRecherche_Emprunt(products,user);
 
             RecyclerView_layout_emprunter.setLayoutManager(new LinearLayoutManager(Emprunter.this));
 

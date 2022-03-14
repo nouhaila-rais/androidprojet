@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:openDrawer="start"
-        tools:context=".messages.ProduitRetourne">
+        tools:context=".messages.Produit_Retourne">
 
     <LinearLayout
         android:layout_width="395dp"
@@ -40,7 +40,7 @@
     </LinearLayout>
 
     <include
-        layout="@layout/app_bar_main"
+        layout="@layout/activity_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

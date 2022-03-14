@@ -45,7 +45,7 @@
                 android:layout_height="31dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="false"
-                app:srcCompat="@drawable/s25" />
+                app:srcCompat="@drawable/star_25" />
         </LinearLayout>
 
         <LinearLayout
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="Bonne Etat" />
+                android:text="En Bon État" />
         </LinearLayout>
 
         <TextView

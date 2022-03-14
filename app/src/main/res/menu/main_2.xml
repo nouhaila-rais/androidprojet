@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_search_achat"
+        android:icon="@drawable/search_pic"
+        android:title="Search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always"/>
+
+
+    <item
+        android:id="@+id/item_devise_achat"
+        android:icon="@drawable/attach_money_black_24dp"
+        android:title="Devise"
+        app:actionViewClass="android.widget.Spinner"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/item_wishlist_achat"
+        android:icon="@drawable/favorite_white_24dp"
+        android:title="Wishlist"
+        app:actionLayout="@layout/custom_wishlist_achat_item_layout"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/item_nombre_panier_achat"
+        android:icon="@drawable/shopping_pic"
+        android:title="Panier"
+        app:actionLayout="@layout/custom_panier_achat_item_layout"
+        app:showAsAction="always"/>
+</menu>

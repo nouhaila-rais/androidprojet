@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".borrow.AjouterProduit">
+    tools:context=".borrow.Ajouter_Produit">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -296,8 +296,8 @@
                     android:layout_height="39dp"
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_camera_alt_black_24dp"
-                    tools:srcCompat="@drawable/ic_camera_alt_black_24dp" />
+                    app:srcCompat="@drawable/camera_alt_black_24dp"
+                    tools:srcCompat="@drawable/camera_alt_black_24dp" />
 
             </LinearLayout>
 
@@ -332,7 +332,7 @@
 
     </ScrollView>
     <include
-        layout="@layout/app_bar_main"
+        layout="@layout/activity_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

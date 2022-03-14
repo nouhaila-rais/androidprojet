@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".borrow.AccueilEmprunt">
+    tools:context=".borrow.Accueil_Emprunt">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 android:layout_weight="0.20"
                 android:text="BACK"
                 android:background="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+                app:srcCompat="@drawable/arrow_back_black_24dp"
                 />
 
             <LinearLayout
@@ -65,14 +65,14 @@
                 android:layout_weight="0.20"
                 android:text="NEXT"
                 android:background="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_arrow_forward_black_24dp"/>
+                app:srcCompat="@drawable/arrow_forward_black_24dp"/>
 
 
 
         </LinearLayout>
     </LinearLayout>
     <include
-        layout="@layout/app_bar_main"
+        layout="@layout/activity_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

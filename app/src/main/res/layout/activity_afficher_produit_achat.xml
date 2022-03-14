@@ -72,7 +72,7 @@
                     android:id="@+id/imageView_ratingstar_achat"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    app:srcCompat="@drawable/s45" />
+                    app:srcCompat="@drawable/star_45" />
 
                 <TextView
                     android:id="@+id/textView_etat_produit_achat"
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:text="33.22 EUR"
+                    android:text="250.00 EUR"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp" />
@@ -129,7 +129,7 @@
                     android:layout_height="35dp"
                     android:layout_margin="4dp"
                     android:background="@color/colorPrimary"
-                    android:drawableLeft="@drawable/ic_add_shopping_cart_white_24dp"
+                    android:drawableLeft="@drawable/add_shopping_cart_white_24dp"
                     android:text="Ajouter au panier"
                     android:textColor="@color/colorRatingStarBackground" />
 
@@ -140,7 +140,7 @@
                     android:layout_height="35dp"
                     android:layout_margin="4dp"
                     android:background="@color/colorPrimary"
-                    android:drawableLeft="@drawable/ic_favorite_white_24dp"
+                    android:drawableLeft="@drawable/favorite_white_24dp"
                     android:text="Ajouter au wishlist"
                     android:textColor="@color/colorRatingStarBackground" />
             </LinearLayout>
@@ -206,7 +206,7 @@
         </LinearLayout>
     </ScrollView>
     <include
-        layout="@layout/app_bar_main"
+        layout="@layout/activity_bar_main_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -216,6 +216,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:headerLayout="@layout/nav_header_main2"
+        app:menu="@menu/activity_main_2_drawer" />
 </android.support.v4.widget.DrawerLayout>

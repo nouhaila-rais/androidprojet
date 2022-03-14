@@ -33,7 +33,7 @@ import java.util.List;
 
 import fr.uge.projetandroid.LoginActivity;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.AdapterProduitsRechercheAchat;
+import fr.uge.projetandroid.adapters.Adapter_ProduitsRecherche_Achat;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
@@ -131,7 +131,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
         Textview_email_utilisateur_achat = (TextView)findViewById(R.id.Textview_email_utilisateur_achat);
         Textview_nom_prenom_utilisateur_achat.setText(user.getFirstName()+" "+user.getLastName());
         Textview_email_utilisateur_achat.setText(user.getEmail());
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main_2, menu);
 
 
         final MenuItem menuItemNombreWishlist = menu.findItem(R.id.item_wishlist_achat);
@@ -390,7 +390,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            AdapterProduitsRechercheAchat adapterProduitsRechercheAchat  = new AdapterProduitsRechercheAchat(products,user,devise,rate);
+            Adapter_ProduitsRecherche_Achat adapterProduitsRechercheAchat  = new Adapter_ProduitsRecherche_Achat(products,user,devise,rate);
 
             RecyclerView_produit_recherche_achat.setLayoutManager(new LinearLayoutManager(AfficherProduitsRechercheAchat.this));
 
@@ -424,7 +424,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            AdapterProduitsRechercheAchat adapterProduitsRechercheAchat  = new AdapterProduitsRechercheAchat(products,user,devise,rate);
+            Adapter_ProduitsRecherche_Achat adapterProduitsRechercheAchat  = new Adapter_ProduitsRecherche_Achat(products,user,devise,rate);
 
             RecyclerView_produit_recherche_achat.setLayoutManager(new LinearLayoutManager(AfficherProduitsRechercheAchat.this));
 

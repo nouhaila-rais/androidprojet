@@ -110,7 +110,7 @@
             <Button
                 android:id="@+id/button_retouner_panier_emprunt"
                 android:layout_width="70dp"
-                android:layout_height="30dp"
+                android:layout_height="48dp"
                 android:layout_margin="4dp"
                 android:background="@color/colorPrimary"
                 android:text="Retourner"

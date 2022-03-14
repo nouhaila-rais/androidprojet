@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".borrow.AfficherProduitEmprunt">
+    tools:context=".borrow.Afficher_Produit_Emprunt">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -81,7 +81,7 @@
                     android:id="@+id/imageView_ratingstar_emprunt"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    app:srcCompat="@drawable/s45" />
+                    app:srcCompat="@drawable/star_45" />
 
                 <TextView
                     android:id="@+id/textView_etat_produit_emprunt"
@@ -125,16 +125,6 @@
                 android:layout_marginBottom="8dp"
                 android:background="@color/colorGris"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView11assq"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginBottom="7dp"
-                    android:text='Veuillez cliquer sur "Date" et "Heure"'
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp" />
 
 
                 <LinearLayout

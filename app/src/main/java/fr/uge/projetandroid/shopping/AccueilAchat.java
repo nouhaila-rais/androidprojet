@@ -9,28 +9,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import fr.uge.projetandroid.LoginActivity;
-import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.AdapterProduitsRechercheAchat;
-import fr.uge.projetandroid.adapters.AdapterSlideAccueilAchat;
+import fr.uge.projetandroid.adapters.Adapter_SlideAccueil_Achat;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
 
@@ -38,7 +33,7 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
 
     private ViewPager viewpager_home_achat;
     private LinearLayout LinearLayout_home_dots_achat;
-    private AdapterSlideAccueilAchat adapterSlideAccueilAchat;
+    private Adapter_SlideAccueil_Achat adapterSlideAccueilAchat;
 
     private TextView[] mdots;
     private ImageButton ImageButton_home_next_achat;
@@ -74,7 +69,6 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        user = (User)getIntent().getSerializableExtra("user");
         devise = getIntent().getStringExtra("devise");
         rate = getIntent().getDoubleExtra("rate",1);
         user = (User)getIntent().getSerializableExtra("user");
@@ -87,7 +81,7 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
         ImageButton_home_next_achat =(ImageButton)findViewById(R.id.ImageButton_home_next_achat);
         ImageButton_home_back_achat =(ImageButton)findViewById(R.id.ImageButton_home_back_achat);
 
-        adapterSlideAccueilAchat =new AdapterSlideAccueilAchat(this,user,devise,rate);
+        adapterSlideAccueilAchat =new Adapter_SlideAccueil_Achat(this,user,devise,rate);
         viewpager_home_achat.setAdapter(adapterSlideAccueilAchat);
         adddots(0);
 
@@ -284,7 +278,7 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
         Textview_email_utilisateur_achat = (TextView)findViewById(R.id.Textview_email_utilisateur_achat);
         Textview_nom_prenom_utilisateur_achat.setText(user.getFirstName()+" "+user.getLastName());
         Textview_email_utilisateur_achat.setText(user.getEmail());
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main_2, menu);
 
 
         final MenuItem menuItemNombreWishlist = menu.findItem(R.id.item_wishlist_achat);

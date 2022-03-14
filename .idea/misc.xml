@@ -9,9 +9,12 @@
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable-v24/ic_favorite_white_24dp.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable-v24/spinner_bg.xml" value="0.1" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/add_shopping_cart_white_24dp.xml" value="0.135" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/badge_background.xml" value="0.1215" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/camera_alt_black_24dp.xml" value="0.106" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/costum_background_notification_new.xml" value="0.1365" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/costum_background_notification_old.xml" value="0.1" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/favorite_white_24dp.xml" value="0.135" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/ic_add_circle_outline_black_24dp.xml" value="0.12" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/ic_add_shopping_cart_black_24dp.xml" value="0.1815" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/ic_add_shopping_cart_white_24dp.xml" value="0.1" />
@@ -38,56 +41,71 @@
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/ic_shopping_basket_black_24dp.xml" value="0.1815" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/ic_shopping_cart_black_24dp.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/imageviewbackround.xml" value="0.1" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/menu_send.xml" value="0.106" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/my_custom_background.xml" value="0.1" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/perm_identity_black_24dp.xml" value="0.106" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/shopping_basket_b.xml" value="0.1245" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/shopping_pic.xml" value="0.15" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/side_nav_bar.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/drawable/spinner_bg.xml" value="0.1" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_AccueilEmprunt.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_acceuil_emprunt.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_accueil_achat.xml" value="0.22" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_accueil_emprunt.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_acheter.xml" value="0.16" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_catalogue_produits_emprunt.xml" value="0.22" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_notifications_emprunt.xml" value="0.33" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_panier_achat.xml" value="0.2" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_notifications_emprunt.xml" value="0.2" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_panier_achat.xml" value="0.22" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produit_achat.xml" value="0.14" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produit_ajoute.xml" value="0.25" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produit_emprunt.xml" value="0.1" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produit_recherche_achat.xml" value="0.25" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produit_emprunt.xml" value="0.25" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produit_recherche_achat.xml" value="0.33" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produits_emprunte.xml" value="0.25" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_produits_recherche_emprunt.xml" value="0.33" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_wishlist_achat.xml" value="0.1" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_ajouter_produit.xml" value="0.1" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_solde_achat.xml" value="0.22" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_afficher_wishlist_achat.xml" value="0.22" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_ajouter_produit.xml" value="0.22" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_bar_main.xml" value="0.22" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_bar_main_2.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_emprunter.xml" value="0.33" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_erreur_produit_achete.xml" value="0.18" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_inscription.xml" value="0.1" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_login.xml" value="0.1" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_produit_achete.xml" value="0.22" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_produit_ajoute.xml" value="0.1" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_erreur_produit_achete.xml" value="0.25" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_inscription.xml" value="0.12" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_login.xml" value="0.16" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_main2.xml" value="0.1375" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_main_2.xml" value="0.12291666666666666" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_produit_achete.xml" value="0.2" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_produit_ajoute.xml" value="0.22" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_produit_emprunte.xml" value="0.25" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/activity_produit_retourne.xml" value="0.25" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/app_bar_main.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/app_bar_main2.xml" value="0.1" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/app_bar_main_2.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/content_main.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/content_main2.xml" value="0.1359375" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/custom_notification_emprunt_item_layout.xml" value="0.1" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/custom_panier_emprunt_item_layout.xml" value="0.17864583333333334" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_commentaire.xml" value="0.25" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/custom_panier_achat_item_layout.xml" value="0.1375" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/custom_panier_emprunt_item_layout.xml" value="0.13" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/custom_wishlist_achat_item_layout.xml" value="0.33" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_commentaire.xml" value="0.2" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_notification_emprunt.xml" value="0.25" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produit_ajouter_emprunt.xml" value="0.33" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produit_panier_achat.xml" value="0.33" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produit_recherche_emprunt.xml" value="0.22" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produit_rechercher_achat.xml" value="0.22" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produit_wishlist_achat.xml" value="0.33" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produits_panier_emprunt.xml" value="0.25" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/items_produits_emprunt.xml" value="0.14" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/nav_header_main.xml" value="0.33" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/slide_achat.xml" value="0.67" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/slide_emprunt.xml" value="0.19736842105263158" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/item_produits_panier_emprunt.xml" value="0.2" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/items_produits_emprunt.xml" value="0.18" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/nav_header_main.xml" value="0.25" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/nav_header_main2.xml" value="0.22" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/slide_achat.xml" value="0.14" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/slide_emprunt.xml" value="0.25" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/layout/spinner_item.xml" value="0.17135416666666667" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/menu/activity_main2_drawer.xml" value="0.11770833333333333" />
-        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/menu/activity_main_drawer.xml" value="0.5" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/menu/activity_main2_drawer.xml" value="0.33" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/menu/activity_main_drawer.xml" value="0.33" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/menu/main.xml" value="0.15989583333333332" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/menu/main2.xml" value="0.16" />
+        <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/menu/main_2.xml" value="0.25" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/menu/main_emprunt.xml" value="0.18" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/nouha/Desktop/GitRepo/androidprojet/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />

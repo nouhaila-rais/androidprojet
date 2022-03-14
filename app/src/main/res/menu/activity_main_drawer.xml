@@ -6,27 +6,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_emprunt_accueil"
-            android:icon="@drawable/ic_home_black_24dp"
+            android:icon="@drawable/home_black_24dp"
             android:title="Accueil" />
         <item
+            android:id="@+id/nav__emprunt_ajouterproduit"
+            android:icon="@drawable/add_circle_outline_black_24dp"
+            android:title="Ajouter un produit" />
+        <item
             android:id="@+id/nav__emprunt_emprunter"
-            android:icon="@drawable/ic_add_shopping_cart_black_24dp"
+            android:icon="@drawable/add_shopping_cart_black_24dp"
             android:title="Emprunter" />
         <item
             android:id="@+id/nav__emprunt_retourner"
-            android:icon="@drawable/ic_remove_shopping_cart_black_24dp"
+            android:icon="@drawable/remove_shopping_cart_black_24dp"
             android:title="Retourner" />
         <item
             android:id="@+id/nav__emprunt_mesproduits"
-            android:icon="@drawable/ic_shopping_basket_black_24dp"
+            android:icon="@drawable/shopping_panier_b"
             android:title="Mes produits" />
         <item
-            android:id="@+id/nav__emprunt_ajouterproduit"
-            android:icon="@drawable/ic_add_circle_outline_black_24dp"
-            android:title="Ajouter un produit" />
-        <item
             android:id="@+id/nav__emprunt_deconnexion"
-            android:icon="@drawable/ic_perm_identity_black_24dp"
+            android:icon="@drawable/perm_identity_black_24dp"
             android:title="Déconnexion" />
     </group>
 

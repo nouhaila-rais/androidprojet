@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/spinner_bg" />
+                android:background="@drawable/spinner" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/spinner_bg" />
+                android:background="@drawable/spinner" />
         </LinearLayout>
 
 
@@ -80,7 +80,7 @@
             android:layout_marginRight="6dp" />
     </LinearLayout>
     <include
-        layout="@layout/app_bar_main"
+        layout="@layout/activity_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

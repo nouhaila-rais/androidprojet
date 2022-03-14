@@ -25,14 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Mohsine Bahhou"
+        android:text="Nouhaila Rais"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/Textview_email_utilisateur_achat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="mohsinebahhou@gmail.com"
+        android:text="nouhailarais14@gmail.com"
         />
 
 </LinearLayout>
