@@ -134,7 +134,7 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         Textview_email_utilisateur_achat = (TextView)findViewById(R.id.Textview_email_utilisateur_achat);
         Textview_nom_prenom_utilisateur_achat.setText(user.getFirstName()+" "+user.getLastName());
         Textview_email_utilisateur_achat.setText(user.getEmail());
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main_2, menu);
 
 
         final MenuItem menuItemNombreWishlist = menu.findItem(R.id.item_wishlist_achat);
