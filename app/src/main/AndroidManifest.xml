@@ -23,33 +23,49 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".shopping.AfficherProduitAchat"
+        <activity android:name=".messages.Inscription_Succes"></activity>
+        <activity android:name=".InscriptionActivity" />
+        <activity android:name=".messages.Demande_Emprunt"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".shopping.Acheter"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity
+            android:name=".shopping.AfficherProduitAchat"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".shopping.AfficherProduitsRechercheAchat"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".shopping.Acheter"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".shopping.AfficherSoldeAchat"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".shopping.AfficherProduitsRechercheAchat"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".shopping.AfficherWishlistAchat"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".shopping.AfficherSoldeAchat"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".shopping.AfficherPanierAchat"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".shopping.AfficherWishlistAchat"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".shopping.AfficherPanierAchat"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".shopping.Main_Activity_2"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".InscriptionActivity" />
-        <activity android:name=".shopping.AccueilAchat"
+
+        <activity
+            android:name=".shopping.AccueilAchat"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".messages.Erreur_Produit_Achete" />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".messages.Erreur_Produit_Achete"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".messages.Produit_Achete"
             android:label="@string/app_name"

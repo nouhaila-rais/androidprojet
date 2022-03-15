@@ -7,31 +7,32 @@
     tools:context=".messages.Produit_Achete">
 
     <LinearLayout
-        android:layout_width="216dp"
-        android:layout_height="210dp"
-        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView1ProduitAjoute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginBottom="7dp"
-        android:text='Produit acheté'
-        android:textColor="@color/colorPrimary"
-        android:textSize="25sp" />
-
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="44dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="30sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
             android:src="@drawable/check" />
+
+        <TextView
+            android:id="@+id/textView1ProduitAjoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:text='Produits acheté avec succès'
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp" />
+
+
 
     </LinearLayout>
 

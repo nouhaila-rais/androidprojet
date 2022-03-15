@@ -322,7 +322,7 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "https://uge-webservice.herokuapp.com/api/account/credit/"+user.getId();
+            String url2 = "https://uge-webservice.herokuapp.com/api/account/credit/";
             String Credit = editText_crediter_achat.getText().toString();
             String data = "{\n" +
                     "        \"user\": "+user.getId()+",\n"+

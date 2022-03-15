@@ -5,27 +5,21 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import fr.uge.projetandroid.entities.User;
+import fr.uge.projetandroid.messages.Inscription_Succes;
 
 public class InscriptionActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
@@ -42,6 +36,7 @@ public class InscriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
+        String email = getIntent().getStringExtra("email");
 
         editText_nom_inscription=(EditText)findViewById(R.id.editText_nom_inscription);
         editText_prenom_inscription=(EditText)findViewById(R.id.editText_prenom_inscription);
@@ -51,18 +46,18 @@ public class InscriptionActivity extends AppCompatActivity {
         editText_adresse_inscription=(EditText)findViewById(R.id.editText_adresse_inscription);
         button_inscription=(Button)findViewById(R.id.button_inscription);
 
+        if(email!=null) editText_email_inscription.setText(email);
         user = new User();
-        user.setLastName(editText_nom_inscription.getText().toString());
-        user.setFirstName(editText_prenom_inscription.getText().toString());
-        user.setEmail(editText_email_inscription.getText().toString());
-        user.setPassword(editText_motdepasse_inscription.getText().toString());
-        user.setPhone(editText_telephone_inscription.getText().toString());
-        user.setAddress(editText_adresse_inscription.getText().toString());
-        user.setRole("Customer");
-
         button_inscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                user.setLastName(editText_nom_inscription.getText().toString());
+                user.setFirstName(editText_prenom_inscription.getText().toString());
+                user.setEmail(editText_email_inscription.getText().toString());
+                user.setPassword(editText_motdepasse_inscription.getText().toString());
+                user.setPhone(editText_telephone_inscription.getText().toString());
+                user.setAddress(editText_adresse_inscription.getText().toString());
+                user.setRole("Customer");
                 new InscriptionActivity.InscriptionTask().execute();
             }
         });
@@ -138,11 +133,11 @@ public class InscriptionActivity extends AppCompatActivity {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Toast.makeText(InscriptionActivity.this, "l'inscription est effectuée avec succès", Toast.LENGTH_SHORT).show();
 
-            Log.e("inscription","l'inscription est effectuée avec succès");
+            Log.e("inscription","votre compte a bien été créé");
 
-            Intent intent = new Intent(InscriptionActivity.this, LoginActivity.class);
+            Intent intent = new Intent(InscriptionActivity.this, Inscription_Succes.class);
+            intent.putExtra("email",user.getEmail());
             startActivity(intent);
 
         }
