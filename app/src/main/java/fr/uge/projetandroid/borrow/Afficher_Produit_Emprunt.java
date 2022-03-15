@@ -162,7 +162,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         long idProduct = myIntent.getLongExtra("idProduct",0);
         idNotification = myIntent.getLongExtra("idNotification",0);
         Boolean read  = myIntent.getBooleanExtra("readNotification",true);
-
+        user = (User)getIntent().getSerializableExtra("user");
         if(read==false) new Afficher_Produit_Emprunt.updateNotification().execute();
         Log.e("idProductAfficher","->>"+idProduct+"");
 
