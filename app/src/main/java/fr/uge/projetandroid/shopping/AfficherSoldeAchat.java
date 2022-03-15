@@ -65,6 +65,9 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         textView_solde_achat = (TextView)findViewById(R.id.textView_solde_achat);
         button_crediter_achat=(Button)findViewById(R.id.button_crediter_achat);
 
+        Log.e("Solde","rate : "+rate);
+        Log.e("Solde","devise : "+devise);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

@@ -287,4 +287,17 @@ public class User implements Serializable{
                 "        \"password\": \"" + password + "\"\n" +
                 "    }";
     }
+
+    public String userRegisterToJson() {
+        return "    {\n" +
+                "        \"firstName\": \"" + firstName + "\",\n" +
+                "        \"lastName\": \"" + lastName + "\",\n" +
+                "        \"email\": \"" + email + "\",\n" +
+                "        \"password\": \"" + password + "\",\n" +
+                "        \"phone\": \"" + phone + "\",\n" +
+                "        \"role\": \"" + role + "\",\n" +
+                "        \"address\": \"" + address + "\"\n" +
+                "    }";
+    }
+
 }

@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,11 +73,11 @@ public class Ajouter_Produit extends AppCompatActivity implements AdapterView.On
     public static final int REQUEST_IMAGE = 100;
     public static final int REQUEST_PERMISSION = 200;
     private String imageFilePath = "";
-    int serverResponseCode = 0;
-    String upLoadServerUri = "http://makcenter.ma/uge/projetAndroid/uploadimage.php";
-    String uploadFilePath;
-    String uploadFileName;
-    int ResponseCodePhpServer = 0;
+    private int serverResponseCode = 0;
+    private String upLoadServerUri = "http://makcenter.ma/uge/projetAndroid/uploadimage.php";
+    private String uploadFilePath;
+    private String uploadFileName;
+    private int ResponseCodePhpServer = 0;
 
     private TextView textView_nombre_notifications_emprunt;
     private TextView textView_nombre_panier_emprunt;
@@ -524,12 +525,20 @@ public class Ajouter_Produit extends AppCompatActivity implements AdapterView.On
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
                     URL url = new URL(upLoadServerUri);
 
+                    String userCredentials = user.getEmail()+":"+user.getPassword();
+                    String basicAuth = "Basic " + new String(Base64.encode(userCredentials.getBytes(),Base64.DEFAULT));
+
+
                     // Open a HTTP  connection to  the URL
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setDoInput(true); // Allow Inputs
                     conn.setDoOutput(true); // Allow Outputs
                     conn.setUseCaches(false); // Don't use a Cached Copy
                     conn.setRequestMethod("POST");
+
+                    conn.setRequestProperty ("Authorization", basicAuth);
+
+
                     conn.setRequestProperty("Connection", "Keep-Alive");
                     conn.setRequestProperty("ENCTYPE", "multipart/form-data");
                     conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);

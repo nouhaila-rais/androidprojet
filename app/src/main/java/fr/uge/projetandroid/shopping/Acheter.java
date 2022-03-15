@@ -370,6 +370,8 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);
+            Log.e("Acheter","rate : "+rate);
+            Log.e("Acheter","devise : "+devise);
             startActivity(myIntent);
         }
 

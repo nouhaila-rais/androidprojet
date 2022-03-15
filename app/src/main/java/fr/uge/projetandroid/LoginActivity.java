@@ -515,13 +515,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                             user = new User();
                             JSONObject jsonObj = new JSONObject(jsonStr);
-                            user.setId(jsonObj.getLong("id"));
-                            user.setEmail(jsonObj.getString("email"));
-                            user.setFirstName(jsonObj.getString("firstName"));
-                            user.setLastName(jsonObj.getString("lastName"));
-                            user.setTotalNotification(jsonObj.getInt("totalNotification"));
-                            user.setTotalPanier(jsonObj.getInt("totalCart"));
-                            user.setTotalProduitEmprunte(jsonObj.getInt("totalBorrow"));
+                            user.setId(jsonObj.getLong("Id"));
+                            user.setEmail(jsonObj.getString("Email"));
+                            user.setPassword(jsonObj.getString("Password"));
+                            user.setFirstName(jsonObj.getString("FirstName"));
+                            user.setLastName(jsonObj.getString("LastName"));
+                            user.setTotalNotification(jsonObj.getInt("TotalNotification"));
+                            user.setTotalPanier(jsonObj.getInt("TotalCart"));
+                            user.setTotalProduitEmprunte(jsonObj.getInt("TotalBorrow"));
                             //user.setTotalWishlist(jsonObj.getInt("totalWishlist"));
                             user.setTotalWishlist(7);
                             role=jsonObj.getString("role");
@@ -635,7 +636,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             }
             else {
-                imageView.setImageResource(R.drawable.ic_action_fingerprint_vert);
+                imageView.setImageResource(R.drawable.fingerprint_vert);
                 authentifiedFingerPrint = true;
                 idUser=userFingerPrints.get(0).getUser();
                 textView.setText("");
@@ -646,7 +647,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         private void update(String e) {
-            imageView.setImageResource(R.drawable.ic_action_fingerprint_rouge);
+            imageView.setImageResource(R.drawable.fingerprint_rouge);
             textView = (TextView) ((Activity) context).findViewById(R.id.textView_erreur_fingerprint);
             textView.setText(e);
         }
