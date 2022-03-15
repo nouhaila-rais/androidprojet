@@ -318,7 +318,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            String url = "http://uge-webservice.herokuapp.com/api/cart/productInCart/";
+            String url = "http://uge-webservice.herokuapp.com/api/cart/productInCart/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
@@ -437,7 +437,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String url = "http://uge-webservice.herokuapp.com/api/cart/deleteAll/";
+            String url = "http://uge-webservice.herokuapp.com/api/cart/deleteAll/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
             user.setTotalPanier(0);
@@ -468,7 +468,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            String url = "http://uge-webservice.herokuapp.com/api/cart/buy/";
+            String url = "http://uge-webservice.herokuapp.com/api/cart/buy/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
             user.setTotalPanier(0);

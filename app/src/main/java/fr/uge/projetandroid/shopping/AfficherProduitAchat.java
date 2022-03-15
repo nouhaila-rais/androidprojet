@@ -547,7 +547,7 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/cart/add/"+product.getId();
+            String url = "http://uge-webservice.herokuapp.com/api/cart/add/"+product.getId()+"/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
             user.setTotalPanier(user.getTotalPanier()+1);
@@ -578,7 +578,7 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/wishlist/add/"+product.getId();
+            String url = "http://uge-webservice.herokuapp.com/api/wishlist/add/"+product.getId()+"/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
             user.setTotalPanier(user.getTotalPanier()+1);

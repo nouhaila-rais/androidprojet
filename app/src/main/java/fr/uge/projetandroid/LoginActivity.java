@@ -458,9 +458,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             User user = new User(mEmail,mPassword);
             HttpURLConnection urlConnection;
-            String url2 = "http://uge-webservice.herokuapp.com/api/login";
+            String url2 = "http://uge-webservice.herokuapp.com/login";
             String data = user.EmailPasswordToJson();
             String result = null;
+            Log.e("Login Json", data);
             try {
                 if(!authentifiedFingerPrint){
                     urlConnection = (HttpURLConnection) ((new URL(url2).openConnection()));

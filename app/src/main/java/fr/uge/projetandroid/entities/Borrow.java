@@ -12,12 +12,12 @@ public class Borrow {
 
     private long product;
 
-    private User user;
+    private long user;
 
     public Borrow() {
     }
 
-    public Borrow(long id, String startAt, String endAt, boolean returned, long product, User user) {
+    public Borrow(long id, String startAt, String endAt, boolean returned, long product, long user) {
         this.id = id;
         this.startAt = startAt;
         this.endAt = endAt;
@@ -66,11 +66,11 @@ public class Borrow {
         this.product = product;
     }
 
-    public User getUser() {
+    public long getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(long user) {
         this.user = user;
     }
 
@@ -91,6 +91,7 @@ public class Borrow {
         return    "    {\n"+
                 "        \"startAt\": \""+startAt+"\",\n"+
                 "        \"endAt\": \""+endAt+"\",\n"+
+                "        \"user\": "+user+",\n"+
                 "        \"product\": "+product+"\n"+
                 "    }";
     }

@@ -117,6 +117,7 @@ public class Comment {
         return    "    {\n"+
                 "        \"content\": \""+content+"\",\n"+
                 "        \"rate\": \""+rate+"\",\n"+
+                "        \"user\": "+user+",\n"+
                 "        \"product\": \""+product+"\"\n"+
                 "    }";
     }

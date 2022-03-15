@@ -28,7 +28,7 @@ public class Product {
 
     private String path;
 
-    private User user;
+    private long user;
 
     private Vector<Comment> comments;
 
@@ -45,7 +45,7 @@ public class Product {
     }
 
 
-    public Product(long id, String name, String category, String type, String description, double price, String state, boolean available, String createdAt, String path, User user, Vector<Comment> comments, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows, int rate) {
+    public Product(long id, String name, String category, String type, String description, double price, String state, boolean available, String createdAt, String path, long user, Vector<Comment> comments, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows, int rate) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -144,11 +144,11 @@ public class Product {
         this.path = path;
     }
 
-    public User getUser() {
+    public long getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(long user) {
         this.user = user;
     }
 
@@ -217,6 +217,7 @@ public class Product {
                 "        \"type\": \""+type+"\",\n"+
                 "        \"description\": \""+description+"\",\n"+
                 "        \"price\": "+price+",\n"+
+                "        \"user\": "+user+",\n"+
                 "        \"path\": \""+path+"\",\n"+
                 "        \"state\": \""+state+"\"\n"+
                 "    }";

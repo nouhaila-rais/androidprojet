@@ -13,13 +13,13 @@ public class RequestBorrow {
 
     private long product;
 
-    private User user;
+    private long user;
 
     public RequestBorrow() {
 
     }
 
-    public RequestBorrow(long id, String askedAt, boolean status, String startAt, String endAt, long product, User user) {
+    public RequestBorrow(long id, String askedAt, boolean status, String startAt, String endAt, long product, long user) {
         this.id = id;
         this.askedAt = askedAt;
         this.status = status;
@@ -77,11 +77,11 @@ public class RequestBorrow {
         this.product = product;
     }
 
-    public User getUser() {
+    public long getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(long user) {
         this.user = user;
     }
 
@@ -103,6 +103,7 @@ public class RequestBorrow {
         return    "    {\n"+
                 "        \"startAt\": \""+startAt+"\",\n"+
                 "        \"endAt\": \""+endAt+"\",\n"+
+                "        \"user\": "+user+",\n"+
                 "        \"product\": "+product+"\n"+
                 "    }";
     }
