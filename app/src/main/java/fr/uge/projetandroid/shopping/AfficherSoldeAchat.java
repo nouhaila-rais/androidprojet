@@ -51,6 +51,8 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
     private User user;
     private String devise;
     private double rate;
+    private Boolean ChangeCurrency=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,9 +162,12 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
-                Log.e("Devise",charSequence.toString());
-                devise = charSequence.toString();
-                new AfficherSoldeAchat.ChangeCurrencyTask().execute();
+                if(ChangeCurrency){
+                    Log.e("Devise",charSequence.toString());
+                    devise = charSequence.toString();
+                    new AfficherSoldeAchat.ChangeCurrencyTask().execute();
+                }
+                ChangeCurrency=true;
 
             }
 
@@ -408,6 +413,8 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            Log.e("@Devise","Solde-Afficher>"+devise);
+            Log.e("@Rate","Solde-Afficher>"+rate);
             textView_solde_achat.setText(getPriceProduct(solde));
         }
     }
@@ -435,8 +442,8 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
-
+            Log.e("@Devise","Solde-Afficher>"+devise);
+            Log.e("@Rate","Solde-Afficher>"+rate);
             textView_solde_achat.setText(getPriceProduct(solde));
         }
     }

@@ -49,7 +49,7 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
     private User user;
     private String devise;
     private double rate;
-
+    private Boolean ChangeCurrency=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -301,9 +301,11 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
-                Log.e("Devise",charSequence.toString());
-                devise = charSequence.toString();
-                new AccueilAchat.ChangeCurrencyTask().execute();
+                if(ChangeCurrency){
+                    devise = charSequence.toString();
+                    new AccueilAchat.ChangeCurrencyTask().execute();
+                }
+                ChangeCurrency=true;
 
             }
 
@@ -427,6 +429,8 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
 
         else if (id == R.id.nav_achat_solde) {
             Intent myIntent = new Intent(this, AfficherSoldeAchat.class);
+            Log.e("@Devise","AcceuilAchat"+devise);
+            Log.e("@Rate","AcceuilAchat"+rate);
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);

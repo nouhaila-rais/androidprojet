@@ -9,7 +9,6 @@
     tools:openDrawer="start"
     tools:context=".shopping.AfficherProduitAchat">
 
-
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -19,8 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,12 +27,28 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
+            <ImageView
+                android:id="@+id/imageView_imageAfficherProduit_achat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:layout_marginEnd="8dp"
+                android:adjustViewBounds="true"
+                android:cropToPadding="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.509"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/erreurpicture" />
 
             <LinearLayout
                 android:id="@+id/linearLayout8"
@@ -93,31 +107,16 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp" />
 
-                <ImageView
-                    android:id="@+id/imageView_imageAfficherProduit_achat"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="?attr/actionBarSize"
-                    android:layout_marginEnd="8dp"
-                    android:adjustViewBounds="true"
-                    android:cropToPadding="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.509"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/erreurpicture" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_boutton_achat"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:gravity="center_horizontal"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -125,24 +124,30 @@
 
                 <Button
                     android:id="@+id/button_afficher_produit_ajouterPanier_achat"
-                    android:layout_width="180dp"
+                    android:layout_width="150dp"
                     android:layout_height="35dp"
                     android:layout_margin="4dp"
                     android:background="@color/colorPrimary"
-                    android:drawableLeft="@drawable/add_shopping_cart_white_24dp"
+
+                    android:gravity="center_horizontal|center_vertical"
+
                     android:text="Ajouter au panier"
                     android:textColor="@color/colorRatingStarBackground" />
 
 
                 <Button
                     android:id="@+id/button_afficher_produit_ajouterWishlist_achat"
-                    android:layout_width="180dp"
+                    android:layout_width="160dp"
                     android:layout_height="35dp"
                     android:layout_margin="4dp"
                     android:background="@color/colorPrimary"
-                    android:drawableLeft="@drawable/favorite_white_24dp"
+
+                    android:gravity="center_horizontal|center_vertical"
+
                     android:text="Ajouter au wishlist"
                     android:textColor="@color/colorRatingStarBackground" />
+
+
             </LinearLayout>
 
 
@@ -203,6 +208,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
+
         </LinearLayout>
     </ScrollView>
     <include
@@ -218,4 +225,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main2"
         app:menu="@menu/activity_main_2_drawer" />
+
+
 </android.support.v4.widget.DrawerLayout>

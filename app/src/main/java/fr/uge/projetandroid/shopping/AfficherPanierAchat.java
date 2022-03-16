@@ -1,5 +1,6 @@
 package fr.uge.projetandroid.shopping;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -37,8 +38,11 @@ import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
+import fr.uge.projetandroid.messages.Erreur_Produit_Achete;
+import fr.uge.projetandroid.messages.Produit_Achete;
 
 public class AfficherPanierAchat extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
 
     private RecyclerView RecyclerView_panier_achat;
     private List<Product> products;
@@ -58,7 +62,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
     private User user;
     private String devise;
     private double rate;
-
+    private Boolean ChangeCurrency=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +81,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,7 +111,10 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         });
     }
 
+
+
     private void setupBadge() {
+
         if (textView_nombre_panier_achat != null) {
             if (user.getTotalPanier() == 0) {
                 if (textView_nombre_panier_achat.getVisibility() != View.GONE) {
@@ -152,6 +160,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         Textview_email_utilisateur_achat.setText(user.getEmail());
         getMenuInflater().inflate(R.menu.main_2, menu);
 
+
         final MenuItem menuItemNombreWishlist = menu.findItem(R.id.item_wishlist_achat);
         View actionViewWishlist = menuItemNombreWishlist.getActionView();
         textView_nombre_wishlist_achat = (TextView) actionViewWishlist.findViewById(R.id.textView_nombre_wishlist_achat);
@@ -159,6 +168,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         final MenuItem menuItemNombrePanier = menu.findItem(R.id.item_nombre_panier_achat);
         View actionViewPanier = menuItemNombrePanier.getActionView();
         textView_nombre_panier_achat = (TextView)actionViewPanier.findViewById(R.id.textView_nombre_panier_achat);
+
 
         final MenuItem menuItemDevise = menu.findItem(R.id.item_devise_achat);
         Spinner spinner = (Spinner) menuItemDevise.getActionView();
@@ -171,9 +181,11 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
-                Log.e("Devise",charSequence.toString());
-                devise = charSequence.toString();
-                new AfficherPanierAchat.ChangeCurrencyTask().execute();
+                if(ChangeCurrency){
+                    devise = charSequence.toString();
+                    new AfficherPanierAchat.ChangeCurrencyTask().execute();
+                }
+                ChangeCurrency=true;
 
             }
 
@@ -182,6 +194,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
 
             }
         });
+
 
         MenuItem mSearch = menu.findItem(R.id.item_search_achat);
         SearchView mSearchView = (SearchView) mSearch.getActionView();
@@ -221,6 +234,8 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
                 onOptionsItemSelected(menuItemNombreWishlist);
             }
         });
+
+
         return true;
     }
 
@@ -250,40 +265,48 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         else if (id == R.id.item_devise_achat) {
             return true;
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         int id = item.getItemId();
+
         if (id == R.id.nav_achat_accueil) {
+
             Intent myIntent = new Intent(this, AccueilAchat.class);
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);
             startActivity(myIntent);
-        }
-        else if (id == R.id.nav_achat_acheter) {
+
+        } else if (id == R.id.nav_achat_acheter) {
             Intent myIntent = new Intent(this, Acheter.class);
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);
             startActivity(myIntent);
-        }
-        else if (id == R.id.nav_achat_panier) {
+
+        } else if (id == R.id.nav_achat_panier) {
             Intent myIntent = new Intent(this, AfficherPanierAchat.class);
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);
             startActivity(myIntent);
-        }
-        else if (id == R.id.nav_achat_whislist) {
+
+        } else if (id == R.id.nav_achat_whislist) {
+
             Intent myIntent = new Intent(this, AfficherWishlistAchat.class);
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);
             startActivity(myIntent);
         }
+
         else if (id == R.id.nav_achat_solde) {
             Intent myIntent = new Intent(this, AfficherSoldeAchat.class);
             myIntent.putExtra("user",user);
@@ -291,9 +314,11 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             myIntent.putExtra("rate",rate);
             startActivity(myIntent);
         }
+
         else if (id == R.id.nav_achat_deconnexion) {
             Intent myIntent = new Intent(this, LoginActivity.class);
             startActivity(myIntent);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -301,7 +326,13 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         return true;
     }
 
+
+
+
     private class ShowProductsTask extends AsyncTask<Void, Void, Void> {
+
+
+
 
         public ShowProductsTask() {
             products = new ArrayList<>();
@@ -314,13 +345,17 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             pDialog.setMessage("Chargement des produits...");
             pDialog.setCancelable(false);
             pDialog.show();
+
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
+
+
             String url = "http://uge-webservice.herokuapp.com/api/cart/productInCart/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
+
 
             Log.e(TAG, "url: " + url);
             Log.e(TAG, "Response from url: " + jsonStr);
@@ -345,7 +380,9 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
                         products.add(product);
                         total+=product.getPrice();
                     }
-                }catch (final JSONException e) {
+
+
+                } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
@@ -356,6 +393,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
                                     .show();
                         }
                     });
+
                 }
             } else {
                 Log.e(TAG, "Couldn't get json from server.");
@@ -370,8 +408,10 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
                 });
 
             }
+
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void result) {
@@ -389,16 +429,22 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             textView_total_panier_achat.setText(getPriceProduct(total));
 
         }
+
     }
 
+
     private class ChangeCurrencyTask extends AsyncTask<Void, Void, Void> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
+
+
             String url = "http://uge-webservice.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
@@ -406,6 +452,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             setupBadge();
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void result) {
@@ -432,61 +479,89 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pDialog = new ProgressDialog(AfficherPanierAchat.this);
+            pDialog.setMessage("Traitement en cours...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
+
 
             String url = "http://uge-webservice.herokuapp.com/api/cart/deleteAll/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
-            user.setTotalPanier(0);
-            total =0;
-            setupBadge();
+
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            Adapter_Panier_Achat adapterPanierAchat = new Adapter_Panier_Achat(products,user,devise,rate);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
 
-            RecyclerView_panier_achat.setLayoutManager(new LinearLayoutManager(AfficherPanierAchat.this));
-
-            RecyclerView_panier_achat.setAdapter(adapterPanierAchat);
-
+            user.setTotalPanier(0);
+            total =0;
+            setupBadge();
             textView_total_panier_achat.setText(getPriceProduct(total));
+            new AfficherPanierAchat.ShowProductsTask().execute();
         }
     }
 
-    private class ValiderPanierTask extends AsyncTask<Void, Void, Void> {
+    private class ValiderPanierTask extends AsyncTask<Void, Void, Boolean> {
+
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pDialog = new ProgressDialog(AfficherPanierAchat.this);
+            pDialog.setMessage("Traitement en cours...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected Boolean doInBackground(Void... arg0) {
+
+
             String url = "http://uge-webservice.herokuapp.com/api/cart/buy/"+user.getId();
             HttpHandler sh = new HttpHandler();
-            sh.makeServiceCall(url);
-            user.setTotalPanier(0);
-            total =0;
-            setupBadge();
-            return null;
+            String ss=sh.makeServiceCall(url);
+            if(ss.contains("1")) return true;
+            return false;
         }
 
+
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            Adapter_Panier_Achat adapterPanierAchat = new Adapter_Panier_Achat(products,user,devise,rate);
 
-            RecyclerView_panier_achat.setLayoutManager(new LinearLayoutManager(AfficherPanierAchat.this));
+            if (pDialog.isShowing())
+                pDialog.dismiss();
 
-            RecyclerView_panier_achat.setAdapter(adapterPanierAchat);
+            if(result==true){
+                user.setTotalPanier(0);
+                Log.e("ResultPanier true","->"+result);
+                Intent myIntent = new Intent(AfficherPanierAchat.this, Produit_Achete.class);
+                myIntent.putExtra("user",user);
+                myIntent.putExtra("devise",devise);
+                myIntent.putExtra("rate",rate);
+                startActivity(myIntent);
+            }
+            else {
+                Log.e("ResultPanier false","->"+result);
+                Intent myIntent = new Intent(AfficherPanierAchat.this, Erreur_Produit_Achete.class);
+                myIntent.putExtra("user",user);
+                myIntent.putExtra("devise",devise);
+                myIntent.putExtra("rate",rate);
+                startActivity(myIntent);
+            }
 
-            textView_total_panier_achat.setText(getPriceProduct(total));
+
         }
     }
 }

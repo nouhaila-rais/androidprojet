@@ -84,6 +84,8 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
     private User user;
     private String devise;
     private double rate;
+    private Boolean ChangeCurrency=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,9 +232,11 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
-                Log.e("Devise",charSequence.toString());
-                devise = charSequence.toString();
-                new AfficherProduitAchat.ChangeCurrencyTask().execute();
+                if(ChangeCurrency){
+                    devise = charSequence.toString();
+                    new AfficherProduitAchat.ChangeCurrencyTask().execute();
+                }
+                ChangeCurrency=true;
             }
 
             @Override
@@ -541,6 +545,10 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pDialog = new ProgressDialog(AfficherProduitAchat.this);
+            pDialog.setMessage("Ajout en cours...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -559,6 +567,10 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            user.setTotalPanier(user.getTotalPanier()+1);
+            setupBadge();
             Toast.makeText(getApplicationContext(),
                     "Produit ajouté avec succes",
                     Toast.LENGTH_LONG)
@@ -572,6 +584,10 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pDialog = new ProgressDialog(AfficherProduitAchat.this);
+            pDialog.setMessage("Ajout en cours...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -590,6 +606,10 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            user.setTotalWishlist(user.getTotalWishlist()+1);
+            setupBadge();
             Toast.makeText(getApplicationContext(),
                     "Produit ajouté avec succes",
                     Toast.LENGTH_LONG)

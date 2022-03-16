@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +38,7 @@ public class Erreur_Produit_Achete extends AppCompatActivity implements Navigati
     private User user;
     private String devise;
     private double rate;
+    private Boolean ChangeCurrency=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,9 +134,11 @@ public class Erreur_Produit_Achete extends AppCompatActivity implements Navigati
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
-                Log.e("Devise",charSequence.toString());
-                devise = charSequence.toString();
-                new Erreur_Produit_Achete.ChangeCurrencyTask().execute();
+                if(ChangeCurrency){
+                    devise = charSequence.toString();
+                    new Erreur_Produit_Achete.ChangeCurrencyTask().execute();
+                }
+                ChangeCurrency=true;
 
             }
 
