@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+
+        <layer-list>
+
+
+
+            <item android:right="15dp"
+                android:left="10dp"
+                >
+
+                <bitmap android:gravity="center_vertical" android:src="@drawable/euro23"/>
+
+
+            </item>
+
+        </layer-list>
+
+    </item>
+
+</selector>
