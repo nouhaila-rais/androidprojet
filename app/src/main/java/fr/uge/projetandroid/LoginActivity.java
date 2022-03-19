@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private UserLoginTask mAuthTask = null;
     private AutoCompleteTextView mEmailView;
+    private TextView textView_motdepasseoublie;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -124,6 +125,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return true;
                 }
                 return false;
+            }
+        });
+
+        textView_motdepasseoublie = (TextView)findViewById(R.id.textView_motdepasseoublie);
+        textView_motdepasseoublie.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = mEmailView.getText().toString();
+                Intent intent = new Intent(LoginActivity.this, MotDePasseOublie.class);
+                intent.putExtra("email",email);
+                LoginActivity.this.startActivity(intent);
             }
         });
 
