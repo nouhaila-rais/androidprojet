@@ -55,7 +55,7 @@ public class MotDePasseOublie extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/forgetpw/"+email;
+            String url = "https://projetandroiduge.herokuapp.com/api/forgetpw/"+email;
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
 

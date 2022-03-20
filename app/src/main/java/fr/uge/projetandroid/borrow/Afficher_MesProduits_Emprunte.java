@@ -267,7 +267,7 @@ public class Afficher_MesProduits_Emprunte extends AppCompatActivity implements 
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            String url = "http://uge-webservice.herokuapp.com/api/user/"+user.getId();
+            String url = "https://projetandroiduge.herokuapp.com/api/user/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
@@ -294,7 +294,7 @@ public class Afficher_MesProduits_Emprunte extends AppCompatActivity implements 
 
 
 
-                        String url3 = "http://uge-webservice.herokuapp.com/api/product/"+borrow.getProduct();
+                        String url3 = "https://projetandroiduge.herokuapp.com/api/product/"+borrow.getProduct();
                         HttpHandler shh = new HttpHandler();
                         jsonStr = shh.makeServiceCall(url3);
                         Log.e(TAG, "Response from url: " + jsonStr);

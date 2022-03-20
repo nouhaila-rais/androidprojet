@@ -74,7 +74,7 @@ public class Ajouter_Produit extends AppCompatActivity implements AdapterView.On
     public static final int REQUEST_PERMISSION = 200;
     private String imageFilePath = "";
     private int serverResponseCode = 0;
-    private String upLoadServerUri = "http://makcenter.ma/uge/projetAndroid/uploadimage.php";
+    private String upLoadServerUri = "http://marketingconfort.com/projetAndroid/uploadimage.php";
     private String uploadFilePath;
     private String uploadFileName;
     private int ResponseCodePhpServer = 0;
@@ -501,7 +501,7 @@ public class Ajouter_Produit extends AppCompatActivity implements AdapterView.On
         protected Void doInBackground(Void... arg0) {
 
             String fileName = uploadFilePath;
-            String path = "http://makcenter.ma/uge/projetAndroid/" + uploadFileName;
+            String path = "http://marketingconfort.com/projetAndroid/" + uploadFileName;
             product.setPath(path);
             HttpURLConnection conn = null;
             DataOutputStream dos = null;
@@ -525,8 +525,10 @@ public class Ajouter_Produit extends AppCompatActivity implements AdapterView.On
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
                     URL url = new URL(upLoadServerUri);
 
-                    //String userCredentials = user.getEmail()+":"+user.getPassword();
-                    //String basicAuth = "Basic " + new String(Base64.encode(userCredentials.getBytes(),Base64.DEFAULT));
+                    String userCredentials = user.getEmail()+":"+user.getPassword();
+                    //String userCredentials = "username:password";
+                    // String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userCredentials.getBytes()));
+                    // String basicAuth = "Basic " + new String(Base64.encode(userCredentials.getBytes(),Base64.DEFAULT));
 
 
                     // Open a HTTP  connection to  the URL
@@ -591,7 +593,7 @@ public class Ajouter_Produit extends AppCompatActivity implements AdapterView.On
                     if (serverResponseCode == 200) {
 
                         HttpURLConnection urlConnection;
-                        String url2 = "http://uge-webservice.herokuapp.com/api/product/";
+                        String url2 = "https://projetandroiduge.herokuapp.com/api/product/";
                         product.setUser(user.getId());
                         String data = product.toJson();
                         String result = null;

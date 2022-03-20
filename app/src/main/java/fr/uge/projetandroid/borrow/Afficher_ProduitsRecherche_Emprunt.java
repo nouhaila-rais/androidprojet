@@ -268,7 +268,7 @@ public class Afficher_ProduitsRecherche_Emprunt extends AppCompatActivity implem
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/product/key/"+keyword;
+            String url = "https://projetandroiduge.herokuapp.com/api/product/key/"+keyword;
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 

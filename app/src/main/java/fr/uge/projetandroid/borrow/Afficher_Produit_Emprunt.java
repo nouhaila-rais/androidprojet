@@ -58,6 +58,7 @@ import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Comment;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.RequestBorrow;
+import fr.uge.projetandroid.messages.Demande_Emprunt;
 
 public class Afficher_Produit_Emprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,NavigationView.OnNavigationItemSelectedListener  {
 
@@ -166,7 +167,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         if(read==false) new Afficher_Produit_Emprunt.updateNotification().execute();
         Log.e("idProductAfficher","->>"+idProduct+"");
 
-        url = "http://uge-webservice.herokuapp.com/api/product/"+idProduct;
+        url = "https://projetandroiduge.herokuapp.com/api/product/"+idProduct;
         //product.setAvailable(false);
 
         initUi();
@@ -361,7 +362,6 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         });
 
 
-        user = (User)getIntent().getSerializableExtra("user");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -794,7 +794,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
                     }
                     else {
 
-                        String url3 = "http://uge-webservice.herokuapp.com/api/borrow/borrowByProduct/"+product.getId();
+                        String url3 = "https://projetandroiduge.herokuapp.com/api/borrow/borrowByProduct/"+product.getId();
                         HttpHandler shh = new HttpHandler();
                         jsonStr = shh.makeServiceCall(url3);
                         Log.e(TAG, "Response from url: " + jsonStr);
@@ -915,7 +915,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "http://uge-webservice.herokuapp.com/api/borrow/";
+            String url2 = "https://projetandroiduge.herokuapp.com/api/borrow/";
             Borrow borrow = new Borrow();
             String startAt = button_dateDebut_emprunt.getText() + " " +button_heureDebut_emprunt.getText();
             String endAt = button_dateFin_emprunt.getText() + " " +button_heureFin_emprunt.getText();
@@ -999,7 +999,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "http://uge-webservice.herokuapp.com/api/requestBorrow/";
+            String url2 = "https://projetandroiduge.herokuapp.com/api/requestBorrow/";
             RequestBorrow requestBorrow = new RequestBorrow();
 
             String startAt = button_dateDebut_Demande_emprunt.getText() + " " +button_heureDebut_Demande_emprunt.getText();
@@ -1060,8 +1060,9 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Toast.makeText(Afficher_Produit_Emprunt.this, "Demande bien enregistré", Toast.LENGTH_SHORT).show();
-
+            Intent myIntent = new Intent(Afficher_Produit_Emprunt.this, Demande_Emprunt.class);
+            myIntent.putExtra("user",user);
+            startActivity(myIntent);
         }
 
     }
@@ -1083,7 +1084,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "http://uge-webservice.herokuapp.com/api/comment/";
+            String url2 = "https://projetandroiduge.herokuapp.com/api/comment/";
             Comment comment = new Comment();
             comment.setRate(note);
             comment.setContent(editText_commentaire.getText().toString());
@@ -1168,7 +1169,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/notification/updateNotification/"+"/"+user.getId();
+            String url = "https://projetandroiduge.herokuapp.com/api/notification/updateNotification/"+idNotification+"/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String total = sh.makeServiceCall(url);
             user.setTotalNotification(Integer.parseInt(total));

@@ -20,7 +20,7 @@ public class Inscription_Succes extends AppCompatActivity {
         setContentView(R.layout.activity_inscription_succes);
         email = getIntent().getStringExtra("email");
 
-
+        button_Seconnecter=(Button)findViewById(R.id.button_Seconnecter);
         button_Seconnecter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

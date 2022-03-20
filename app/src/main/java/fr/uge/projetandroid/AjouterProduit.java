@@ -63,7 +63,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
     private String imageFilePath = "";
     int serverResponseCode = 0;
     /************* Php script path ****************/
-    String upLoadServerUri = "http://makcenter.ma/uge/projetAndroid/uploadimage.php";
+    String upLoadServerUri = "http://marketingconfort.com/projetAndroid/uploadimage.php";
     /**********  File Path *************/
     String uploadFilePath ;
     String uploadFileName ;
@@ -314,7 +314,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
         protected Void doInBackground(Void... arg0) {
 
             String fileName = uploadFilePath;
-            String path = "http://makcenter.ma/uge/projetAndroid/"+uploadFileName;
+            String path = "http://marketingconfort.com/projetAndroid/"+uploadFileName;
             product.setPath(path);
             HttpURLConnection conn = null;
             DataOutputStream dos = null;
@@ -397,7 +397,7 @@ public class AjouterProduit extends AppCompatActivity implements AdapterView.OnI
                     if (serverResponseCode == 200) {
 
                         HttpURLConnection urlConnection;
-                        String url2 = "http://uge-webservice.herokuapp.com/api/product/";
+                        String url2 = "https://projetandroiduge.herokuapp.com/api/product/";
                         String data = product.toJson();
                         String result = null;
                         try {

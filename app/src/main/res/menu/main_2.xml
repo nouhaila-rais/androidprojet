@@ -8,14 +8,6 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always"/>
 
-
-    <item
-        android:id="@+id/item_devise_achat"
-        android:icon="@drawable/attach_money_black_24dp"
-        android:title="Devise"
-        app:actionViewClass="android.widget.Spinner"
-        app:showAsAction="always" />
-
     <item
         android:id="@+id/item_wishlist_achat"
         android:icon="@drawable/favorite_white_24dp"
@@ -29,4 +21,11 @@
         android:title="Panier"
         app:actionLayout="@layout/custom_panier_achat_item_layout"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/item_devise_achat"
+        android:title="Devise"
+        app:actionViewClass="android.widget.Spinner"
+        style="@style/SpinnerTheme"
+        app:showAsAction="always" />
 </menu>

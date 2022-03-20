@@ -80,8 +80,9 @@ public class InscriptionActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "http://uge-webservice.herokuapp.com/register/";
+            String url2 = "https://projetandroiduge.herokuapp.com/register";
             String data = user.userRegisterToJson();
+            Log.e("user",user.userRegisterToJson());
             String result = null;
             try {
                 //Connect
@@ -122,9 +123,6 @@ public class InscriptionActivity extends AppCompatActivity {
             return null;
         }
 
-
-
-
         @Override
         protected void onPostExecute(Void result) {
 
@@ -133,14 +131,15 @@ public class InscriptionActivity extends AppCompatActivity {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-
             Log.e("inscription","votre compte a bien été créé");
-
-            Intent intent = new Intent(InscriptionActivity.this, Inscription_Succes.class);
-            intent.putExtra("email",user.getEmail());
-            startActivity(intent);
-
+            test();
         }
+    }
 
+    void test(){
+        Intent intent = new Intent(this, Inscription_Succes.class);
+        intent.putExtra("email",user.getEmail());
+        startActivity(intent);
     }
 }
+

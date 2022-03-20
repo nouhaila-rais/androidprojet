@@ -101,7 +101,7 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         Log.e("idProductAfficher","->>"+idProduct+"");
 
         product = new Product();
-        url = "http://uge-webservice.herokuapp.com/api/product/"+idProduct;
+        url = "https://projetandroiduge.herokuapp.com/api/product/"+idProduct;
 
 
         initUi();
@@ -224,10 +224,10 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         final MenuItem menuItemDevise = menu.findItem(R.id.item_devise_achat);
         Spinner spinner = (Spinner) menuItemDevise.getActionView();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.devise, android.R.layout.simple_spinner_item);
+                R.array.devise, R.layout.spinner_item_menu);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
+        spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -555,11 +555,11 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/cart/add/"+product.getId()+"/"+user.getId();
+            String url = "https://projetandroiduge.herokuapp.com/api/cart/add/"+product.getId()+"/"+user.getId();
+            Log.e("url add cart",url);
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
-            user.setTotalPanier(user.getTotalPanier()+1);
-            setupBadge();
+
             return null;
         }
 
@@ -567,6 +567,8 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            user.setTotalPanier(user.getTotalPanier()+1);
+            setupBadge();
             if (pDialog.isShowing())
                 pDialog.dismiss();
             user.setTotalPanier(user.getTotalPanier()+1);
@@ -594,11 +596,9 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/wishlist/add/"+product.getId()+"/"+user.getId();
+            String url = "https://projetandroiduge.herokuapp.com/api/wishlist/add/"+product.getId()+"/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
-            user.setTotalPanier(user.getTotalPanier()+1);
-            setupBadge();
             return null;
         }
 
@@ -628,7 +628,7 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/currency/"+devise;
+            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);

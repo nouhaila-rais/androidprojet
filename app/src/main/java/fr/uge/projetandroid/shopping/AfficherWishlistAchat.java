@@ -174,9 +174,10 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         final MenuItem menuItemDevise = menu.findItem(R.id.item_devise_achat);
         Spinner spinner = (Spinner) menuItemDevise.getActionView();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.devise, android.R.layout.simple_spinner_item);
+                R.array.devise, R.layout.spinner_item_menu);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -344,7 +345,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String url = "http://uge-webservice.herokuapp.com/api/cart/productInWishlist/"+user.getId();
+            String url = "https://projetandroiduge.herokuapp.com/api/cart/productInWishlist/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
@@ -444,7 +445,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/wishlist/product/"+idProduct+"/"+user.getId();
+            String url = "https://projetandroiduge.herokuapp.com/api/wishlist/product/"+idProduct+"/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
 
@@ -478,7 +479,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/currency/"+devise;
+            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);
@@ -522,7 +523,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/wishlist/deleteAll/"+user.getId();
+            String url = "https://projetandroiduge.herokuapp.com/api/wishlist/deleteAll/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
             user.setTotalWishlist(0);
@@ -568,7 +569,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/wishlist/addInCart/"+user.getId();
+            String url = "https://projetandroiduge.herokuapp.com/api/wishlist/addInCart/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
 

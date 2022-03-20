@@ -293,9 +293,10 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
         final MenuItem menuItemDevise = menu.findItem(R.id.item_devise_achat);
         Spinner spinner = (Spinner) menuItemDevise.getActionView();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.devise, android.R.layout.simple_spinner_item);
+                R.array.devise, R.layout.spinner_item_menu);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -429,8 +430,8 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
 
         else if (id == R.id.nav_achat_solde) {
             Intent myIntent = new Intent(this, AfficherSoldeAchat.class);
-            Log.e("@Devise","AcceuilAchat"+devise);
-            Log.e("@Rate","AcceuilAchat"+rate);
+            Log.e("@Devise","AccueilAchat"+devise);
+            Log.e("@Rate","AccueilAchat"+rate);
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);
@@ -459,7 +460,7 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/currency/"+devise;
+            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);

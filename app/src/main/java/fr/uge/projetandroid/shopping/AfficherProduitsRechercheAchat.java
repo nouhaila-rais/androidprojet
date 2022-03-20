@@ -148,7 +148,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
         final MenuItem menuItemDevise = menu.findItem(R.id.item_devise_achat);
         Spinner spinner = (Spinner) menuItemDevise.getActionView();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.devise, android.R.layout.simple_spinner_item);
+                R.array.devise, R.layout.spinner_item_menu);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -327,7 +327,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/product/key/"+keyword;
+            String url = "https://projetandroiduge.herokuapp.com/api/product/key/"+keyword;
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
@@ -416,7 +416,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "http://uge-webservice.herokuapp.com/api/currency/"+devise;
+            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);

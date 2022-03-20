@@ -272,7 +272,7 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
 
         protected List<Product> getProductsBycategory(String category){
             List<Product> resultats= new ArrayList<>();
-            String url = "http://uge-webservice.herokuapp.com/api/product/"+category;
+            String url = "https://projetandroiduge.herokuapp.com/api/product/"+category;
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 

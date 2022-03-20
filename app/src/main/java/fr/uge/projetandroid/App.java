@@ -138,7 +138,7 @@ public class App extends Application {
             int count = dbfp.getUserFingerPrintCount();
             Log.e(TAG, "Response from url: " + count);
             if (count > 0) {
-                String url = "http://uge-webservice.herokuapp.com/api/user/"+dbfp.getAllUsersFingerPrint().get(0).getUser();
+                String url = "https://projetandroiduge.herokuapp.com/api/user/"+dbfp.getAllUsersFingerPrint().get(0).getUser();
                 HttpHandler sh = new HttpHandler();
                 String jsonStr = sh.makeServiceCall(url);
                 Log.e(TAG, "URL: " + url);

@@ -269,7 +269,7 @@ public class Produit_Retourne extends AppCompatActivity implements NavigationVie
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "http://uge-webservice.herokuapp.com/api/return/";
+            String url2 = "https://projetandroiduge.herokuapp.com/api/return/";
 
             ReturnProduct returnProduct = new ReturnProduct(idProduct,etat);
 

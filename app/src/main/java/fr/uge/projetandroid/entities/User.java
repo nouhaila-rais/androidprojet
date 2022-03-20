@@ -283,13 +283,14 @@ public class User implements Serializable{
 
     public String EmailPasswordToJson() {
         return "    {\n" +
-                "        \"login\": \"" + email + "\",\n" +
+                "        \"email\": \"" + email + "\",\n" +
                 "        \"password\": \"" + password + "\"\n" +
                 "    }";
     }
 
     public String userRegisterToJson() {
         return "    {\n" +
+                "        \"login\": \"" + lastName + "\",\n" +
                 "        \"firstName\": \"" + firstName + "\",\n" +
                 "        \"lastName\": \"" + lastName + "\",\n" +
                 "        \"email\": \"" + email + "\",\n" +

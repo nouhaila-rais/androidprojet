@@ -261,7 +261,7 @@ public class Afficher_Notifications_Emprunt extends AppCompatActivity implements
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            String url = "http://uge-webservice.herokuapp.com/api/user/"+user.getId();
+            String url = "https://projetandroiduge.herokuapp.com/api/user/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
