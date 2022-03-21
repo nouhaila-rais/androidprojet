@@ -3,13 +3,16 @@ package fr.uge.projetandroid;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import fr.uge.projetandroid.handlers.HttpHandler;
+import fr.uge.projetandroid.shopping.AfficherPanierAchat;
+import fr.uge.projetandroid.shopping.AfficherWishlistAchat;
 
 public class MotDePasseOublie extends AppCompatActivity {
 
@@ -34,7 +37,7 @@ public class MotDePasseOublie extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 email=editText_motdepasse_email.getText().toString();
-                new MotDePasseOublieTask().execute();
+                new MotDePasseOublie.MotDePasseOublieTask().execute();
             }
         });
 
@@ -55,7 +58,7 @@ public class MotDePasseOublie extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/forgetpw/"+email;
+            String url = "http://projetandroiduge.herokuapp.com/api/forgetpw/"+email;
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
 

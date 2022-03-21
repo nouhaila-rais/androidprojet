@@ -4,7 +4,6 @@ package fr.uge.projetandroid.shopping;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,22 +15,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,10 +39,19 @@ import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
-import fr.uge.projetandroid.messages.Erreur_Produit_Achete;
-import fr.uge.projetandroid.messages.Produit_Achete;
+import fr.uge.projetandroid.messages.ErreurProduitAchete;
+import fr.uge.projetandroid.messages.ProduitAchete;
+
+
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 public class AfficherPanierAchat extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
 
     private RecyclerView RecyclerView_panier_achat;
     private List<Product> products;
@@ -69,7 +72,6 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
     private String devise;
     private double rate;
     private Boolean ChangeCurrency=false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +119,8 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             }
         });
     }
+
+
 
     private void setupBadge() {
 
@@ -182,7 +186,6 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -201,6 +204,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             }
         });
 
+
         MenuItem mSearch = menu.findItem(R.id.item_search_achat);
         SearchView mSearchView = (SearchView) mSearch.getActionView();
         mSearchView.setQueryHint("Search");
@@ -215,6 +219,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
                     myIntent.putExtra("rate",rate);
                     startActivity(myIntent);
                 }
+
                 return false;
             }
             @Override
@@ -330,7 +335,13 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         return true;
     }
 
+
+
+
     private class ShowProductsTask extends AsyncTask<Void, Void, Void> {
+
+
+
 
         public ShowProductsTask() {
             products = new ArrayList<>();
@@ -349,8 +360,9 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         @Override
         protected Void doInBackground(Void... arg0) {
 
+
             total=0;
-            String url = "https://projetandroiduge.herokuapp.com/api/cart/productInCart/"+user.getId();
+            String url = "http://projetandroiduge.herokuapp.com/api/cart/productInCart/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
@@ -418,11 +430,11 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Adapter_Panier_Achat adapter_Panier_Achat = new Adapter_Panier_Achat(products,user,devise,rate);
+            AdapterPanierAchat adapterPanierAchat = new AdapterPanierAchat(products,user,devise,rate);
 
             RecyclerView_panier_achat.setLayoutManager(new LinearLayoutManager(AfficherPanierAchat.this));
 
-            RecyclerView_panier_achat.setAdapter(adapter_Panier_Achat);
+            RecyclerView_panier_achat.setAdapter(adapterPanierAchat);
 
             textView_total_panier_achat.setText(getPriceProduct(total));
 
@@ -443,7 +455,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
+            String url = "http://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);
@@ -455,7 +467,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            Adapter_Panier_Achat adapterPanierAchat = new Adapter_Panier_Achat(products,user,devise,rate);
+            AdapterPanierAchat adapterPanierAchat = new AdapterPanierAchat(products,user,devise,rate);
 
             RecyclerView_panier_achat.setLayoutManager(new LinearLayoutManager(AfficherPanierAchat.this));
 
@@ -471,6 +483,45 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         String result  = df.format(prix)+" " +devise;
         return result ;
     }
+
+    private class ViderPanierTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(AfficherPanierAchat.this);
+            pDialog.setMessage("Traitement en cours...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+
+            String url = "http://projetandroiduge.herokuapp.com/api/cart/deleteAll/"+user.getId();
+            HttpHandler sh = new HttpHandler();
+            sh.makeServiceCall(url);
+
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
+            user.setTotalPanier(0);
+            total =0;
+            setupBadge();
+            textView_total_panier_achat.setText(getPriceProduct(total));
+            new AfficherPanierAchat.ShowProductsTask().execute();
+        }
+    }
+
+
 
     private class SupprimerProduitTask extends AsyncTask<Void, Void, Void> {
 
@@ -493,7 +544,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/cart/product/"+idProduct+"/"+user.getId();
+            String url = "http://projetandroiduge.herokuapp.com/api/cart/product/"+idProduct+"/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
 
@@ -515,39 +566,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         }
     }
 
-    private class ViderPanierTask extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(AfficherPanierAchat.this);
-            pDialog.setMessage("Traitement en cours...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-
-            String url = "https://projetandroiduge.herokuapp.com/api/cart/deleteAll/"+user.getId();
-            HttpHandler sh = new HttpHandler();
-            sh.makeServiceCall(url);
-
-            return null;
-        }
-
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            user.setTotalPanier(0);
-            total =0;
-            setupBadge();
-            textView_total_panier_achat.setText(getPriceProduct(total));
-            new AfficherPanierAchat.ShowProductsTask().execute();
-        }
-    }
 
     private class ValiderPanierTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -566,7 +585,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         protected Boolean doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/cart/buy/"+user.getId();
+            String url = "http://projetandroiduge.herokuapp.com/api/cart/buy/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String ss=sh.makeServiceCall(url);
             if(ss.contains("1")) return true;
@@ -584,7 +603,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             if(result==true){
                 user.setTotalPanier(0);
                 Log.e("ResultPanier true","->"+result);
-                Intent myIntent = new Intent(AfficherPanierAchat.this, Produit_Achete.class);
+                Intent myIntent = new Intent(AfficherPanierAchat.this, ProduitAchete.class);
                 myIntent.putExtra("user",user);
                 myIntent.putExtra("devise",devise);
                 myIntent.putExtra("rate",rate);
@@ -592,7 +611,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
             }
             else {
                 Log.e("ResultPanier false","->"+result);
-                Intent myIntent = new Intent(AfficherPanierAchat.this, Erreur_Produit_Achete.class);
+                Intent myIntent = new Intent(AfficherPanierAchat.this, ErreurProduitAchete.class);
                 myIntent.putExtra("user",user);
                 myIntent.putExtra("devise",devise);
                 myIntent.putExtra("rate",rate);
@@ -603,7 +622,10 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         }
     }
 
-    public class Adapter_Panier_Achat extends RecyclerView.Adapter<Adapter_Panier_Achat.ViewHolder> {
+
+
+
+    public class AdapterPanierAchat extends RecyclerView.Adapter<AdapterPanierAchat.ViewHolder> {
 
         private List<Product> results;
         private User user;
@@ -611,7 +633,7 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
         private Double rate;
 
 
-        public Adapter_Panier_Achat(List<Product> results, User user, String devise, Double rate) {
+        public AdapterPanierAchat(List<Product> results, User user, String devise, Double rate) {
             this.results = results;
             this.user = user;
             this.devise = devise;
@@ -748,4 +770,5 @@ public class AfficherPanierAchat extends AppCompatActivity implements Navigation
     void deleteProduit(long idProduct){
         new AfficherPanierAchat.SupprimerProduitTask(idProduct).execute();
     }
+
 }

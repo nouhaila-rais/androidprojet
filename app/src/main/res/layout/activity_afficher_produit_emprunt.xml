@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".borrow.Afficher_Produit_Emprunt">
+    tools:context=".borrow.AfficherProduitEmprunt">
 
     <ScrollView
         android:layout_width="fill_parent"

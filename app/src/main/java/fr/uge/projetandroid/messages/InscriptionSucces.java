@@ -9,7 +9,7 @@ import android.widget.Button;
 import fr.uge.projetandroid.LoginActivity;
 import fr.uge.projetandroid.R;
 
-public class Inscription_Succes extends AppCompatActivity {
+public class InscriptionSucces extends AppCompatActivity {
 
     private Button button_Seconnecter;
     private String email;
@@ -24,7 +24,7 @@ public class Inscription_Succes extends AppCompatActivity {
         button_Seconnecter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Inscription_Succes.this, LoginActivity.class);
+                Intent intent = new Intent(InscriptionSucces.this, LoginActivity.class);
                 intent.putExtra("email",email);
                 startActivity(intent);
             }

@@ -51,8 +51,8 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
     private User user;
     private String devise;
     private double rate;
-    private Boolean ChangeCurrency=false;
 
+    private Boolean ChangeCurrency=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +67,8 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         textView_solde_achat = (TextView)findViewById(R.id.textView_solde_achat);
         button_crediter_achat=(Button)findViewById(R.id.button_crediter_achat);
 
-        Log.e("Solde","rate : "+rate);
-        Log.e("Solde","devise : "+devise);
+        Log.e("@Devise","Solde->"+devise);
+        Log.e("@Rate","Solde->"+rate);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -93,6 +93,9 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
             }
         });
     }
+
+
+
 
     private void setupBadge() {
 
@@ -158,11 +161,11 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
+
                 if(ChangeCurrency){
                     Log.e("Devise",charSequence.toString());
                     devise = charSequence.toString();
@@ -431,7 +434,7 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
+            String url = "http://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);
@@ -443,8 +446,9 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            Log.e("@Devise","Solde-Afficher>"+devise);
-            Log.e("@Rate","Solde-Afficher>"+rate);
+
+            Log.e("@Devise","Solde-2>"+devise);
+            Log.e("@Rate","Solde-2>"+rate);
             textView_solde_achat.setText(getPriceProduct(solde));
         }
     }
@@ -455,4 +459,6 @@ public class AfficherSoldeAchat  extends AppCompatActivity implements Navigation
         String result  = df.format(prix)+" " +devise;
         return result ;
     }
+
+
 }

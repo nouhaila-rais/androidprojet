@@ -30,6 +30,8 @@ public class User implements Serializable{
 
     private Collection<Comment> comments;
 
+    private Account account;
+
     private Collection<Notification> notifications;
 
     private Collection<Borrow> borrows;
@@ -53,7 +55,7 @@ public class User implements Serializable{
         this.password = password;
     }
 
-    public User(long id, String login, String lastName, String firstName, String email, String password, String phone, String address, String role, String updatedAt, String updatedBy, Collection<Product> products, Collection<Comment> comments,Collection<Notification> notifications, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows) {
+    public User(long id, String login, String lastName, String firstName, String email, String password, String phone, String address, String role, String updatedAt, String updatedBy, Collection<Product> products, Collection<Comment> comments, Account account, Collection<Notification> notifications, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows) {
         this.id = id;
         this.login = login;
         this.lastName = lastName;
@@ -67,12 +69,13 @@ public class User implements Serializable{
         this.updatedBy = updatedBy;
         this.products = products;
         this.comments = comments;
+        this.account = account;
         this.notifications = notifications;
         this.borrows = borrows;
         this.requestBorrows = requestBorrows;
     }
 
-    public User(long id, String login, String lastName, String firstName, String email, String password, String phone, String address, String role, String updatedAt, String updatedBy, Collection<Product> products, Collection<Comment> comments,Collection<Notification> notifications, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows, int totalNotification, int totalProduitEmprunte, int totalPanier, int totalWishlist) {
+    public User(long id, String login, String lastName, String firstName, String email, String password, String phone, String address, String role, String updatedAt, String updatedBy, Collection<Product> products, Collection<Comment> comments, Account account, Collection<Notification> notifications, Collection<Borrow> borrows, Collection<RequestBorrow> requestBorrows, int totalNotification, int totalProduitEmprunte, int totalPanier, int totalWishlist) {
         this.id = id;
         this.login = login;
         this.lastName = lastName;
@@ -86,6 +89,7 @@ public class User implements Serializable{
         this.updatedBy = updatedBy;
         this.products = products;
         this.comments = comments;
+        this.account = account;
         this.notifications = notifications;
         this.borrows = borrows;
         this.requestBorrows = requestBorrows;
@@ -199,6 +203,14 @@ public class User implements Serializable{
         this.comments = comments;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     public Collection<Notification> getNotifications() {
         return notifications;
     }
@@ -271,6 +283,7 @@ public class User implements Serializable{
                 ", updatedBy='" + updatedBy + '\'' +
                 ", products=" + products +
                 ", comments=" + comments +
+                ", account=" + account +
                 ", notifications=" + notifications +
                 ", borrows=" + borrows +
                 ", requestBorrows=" + requestBorrows +
@@ -300,5 +313,4 @@ public class User implements Serializable{
                 "        \"address\": \"" + address + "\"\n" +
                 "    }";
     }
-
 }

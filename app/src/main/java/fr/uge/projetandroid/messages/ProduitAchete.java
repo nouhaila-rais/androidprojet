@@ -2,14 +2,15 @@ package fr.uge.projetandroid.messages;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +30,7 @@ import fr.uge.projetandroid.shopping.AfficherProduitsRechercheAchat;
 import fr.uge.projetandroid.shopping.AfficherSoldeAchat;
 import fr.uge.projetandroid.shopping.AfficherWishlistAchat;
 
-public class Erreur_Produit_Achete extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ProduitAchete extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView textView_nombre_panier_achat;
     private TextView textView_nombre_wishlist_achat;
@@ -39,11 +40,10 @@ public class Erreur_Produit_Achete extends AppCompatActivity implements Navigati
     private String devise;
     private double rate;
     private Boolean ChangeCurrency=false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_erreur_produit_achete);
+        setContentView(R.layout.activity_produit_achete);
 
         Intent myIntent = getIntent();
         devise = myIntent.getStringExtra("devise");
@@ -130,14 +130,13 @@ public class Erreur_Produit_Achete extends AppCompatActivity implements Navigati
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
                 if(ChangeCurrency){
                     devise = charSequence.toString();
-                    new Erreur_Produit_Achete.ChangeCurrencyTask().execute();
+                    new ProduitAchete.ChangeCurrencyTask().execute();
                 }
                 ChangeCurrency=true;
 
@@ -157,7 +156,7 @@ public class Erreur_Produit_Achete extends AppCompatActivity implements Navigati
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query!=null){
-                    Intent myIntent = new Intent(Erreur_Produit_Achete.this, AfficherProduitsRechercheAchat.class);
+                    Intent myIntent = new Intent(ProduitAchete.this, AfficherProduitsRechercheAchat.class);
                     myIntent.putExtra("user",user);
                     myIntent.putExtra("Keyword",query);
                     myIntent.putExtra("devise",devise);
@@ -282,6 +281,7 @@ public class Erreur_Produit_Achete extends AppCompatActivity implements Navigati
 
 
 
+
     private class ChangeCurrencyTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -293,7 +293,7 @@ public class Erreur_Produit_Achete extends AppCompatActivity implements Navigati
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
+            String url = "http://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);
@@ -307,5 +307,4 @@ public class Erreur_Produit_Achete extends AppCompatActivity implements Navigati
             super.onPostExecute(result);
         }
     }
-
 }

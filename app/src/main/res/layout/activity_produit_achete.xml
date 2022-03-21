@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".messages.Produit_Achete">
+    tools:context=".messages.ProduitAchete">
 
     <LinearLayout
         android:layout_width="wrap_content"

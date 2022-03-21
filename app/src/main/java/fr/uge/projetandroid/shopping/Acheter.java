@@ -1,5 +1,6 @@
 package fr.uge.projetandroid.shopping;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,11 +32,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.uge.projetandroid.LoginActivity;
-import fr.uge.projetandroid.adapters.Adapter_ProduitsRecherche_Achat;
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheAchat;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
+import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheEmprunt;
 import fr.uge.projetandroid.entities.Product;
+
+
+
 
 public class Acheter extends AppCompatActivity implements AdapterView.OnItemSelectedListener,NavigationView.OnNavigationItemSelectedListener {
 
@@ -43,7 +49,7 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
     private RecyclerView RecyclerView_layout_achat;
     private Spinner spinner_categorie_achat;
     private Spinner spinner_type_achat;
-    private String keyword="dell";
+    private String keyword="mac";
     private String url;
     private ProgressDialog pDialog;
     private String TAG = Acheter.class.getSimpleName();
@@ -57,8 +63,6 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
     private String devise;
     private double rate;
     private Boolean ChangeCurrency=false;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,12 +137,15 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
                             R.array.type_bibliotheque_array, R.layout.spinner_item);
                     adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_type_achat.setAdapter(adapterType);
+
                 }
                 else if(categrorie.equals("Electronique")){
                     ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(Acheter.this,
                             R.array.type_electronique_array, R.layout.spinner_item);
                     adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_type_achat.setAdapter(adapterType);
+
+
                 }
                 else if(categrorie.equals("Mode et vetements")){
                     ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(Acheter.this,
@@ -184,6 +191,9 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
+
 
     private void setupBadge() {
 
@@ -249,7 +259,6 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -361,6 +370,8 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);
+            Log.e("Acheter","rate : "+rate);
+            Log.e("Acheter","devise : "+devise);
             startActivity(myIntent);
 
         } else if (id == R.id.nav_achat_panier) {
@@ -376,8 +387,6 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);
-            Log.e("Acheter","rate : "+rate);
-            Log.e("Acheter","devise : "+devise);
             startActivity(myIntent);
         }
 
@@ -399,6 +408,12 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
+
+
     void showProducts(){
         if(search) {
             new Acheter.ShowProductsTask().execute();
@@ -409,6 +424,9 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
 
     private class ShowProductsTask extends AsyncTask<Void, Void, Void> {
 
+
+
+
         public ShowProductsTask() {
             products = new ArrayList<>();
         }
@@ -418,15 +436,19 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
             super.onPreExecute();
 
             pDialog = new ProgressDialog(Acheter.this);
-            pDialog.setMessage("Chargement des produits en cours");
+            pDialog.setMessage("Chargement des produits...");
             pDialog.setCancelable(false);
             pDialog.show();
+
+
+
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String url = "https://projetandroiduge.herokuapp.com/api/product/key/"+keyword;
+
+            String url = "http://projetandroiduge.herokuapp.com/api/product/key/"+keyword;
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
@@ -461,7 +483,7 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),
-                                    "mouna" + e.getMessage(),
+                                    "mamadou" + e.getMessage(),
                                     Toast.LENGTH_LONG)
                                     .show();
                         }
@@ -493,7 +515,7 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Adapter_ProduitsRecherche_Achat adapterProduitsRechercheAchat   = new Adapter_ProduitsRecherche_Achat(products,user,devise,rate);
+            AdapterProduitsRechercheAchat adapterProduitsRechercheAchat   = new AdapterProduitsRechercheAchat(products,user,devise,rate);
 
             RecyclerView_layout_achat.setLayoutManager(new LinearLayoutManager(Acheter.this));
 
@@ -516,7 +538,7 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
+            String url = "http://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);
@@ -528,7 +550,7 @@ public class Acheter extends AppCompatActivity implements AdapterView.OnItemSele
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            Adapter_ProduitsRecherche_Achat adapterProduitsRechercheAchat   = new Adapter_ProduitsRecherche_Achat(products,user,devise,rate);
+            AdapterProduitsRechercheAchat adapterProduitsRechercheAchat   = new AdapterProduitsRechercheAchat(products,user,devise,rate);
 
             RecyclerView_layout_achat.setLayoutManager(new LinearLayoutManager(Acheter.this));
 

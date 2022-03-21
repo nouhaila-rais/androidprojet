@@ -5,21 +5,31 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
+import fr.uge.projetandroid.borrow.AjouterProduit;
 import fr.uge.projetandroid.entities.User;
-import fr.uge.projetandroid.messages.Inscription_Succes;
+import fr.uge.projetandroid.messages.InscriptionSucces;
+import fr.uge.projetandroid.messages.ProduitAjoute;
+import fr.uge.projetandroid.shopping.AfficherSoldeAchat;
 
 public class InscriptionActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
@@ -58,6 +68,7 @@ public class InscriptionActivity extends AppCompatActivity {
                 user.setPhone(editText_telephone_inscription.getText().toString());
                 user.setAddress(editText_adresse_inscription.getText().toString());
                 user.setRole("Customer");
+                Log.e("user",user.userRegisterToJson());
                 new InscriptionActivity.InscriptionTask().execute();
             }
         });
@@ -80,7 +91,7 @@ public class InscriptionActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "https://projetandroiduge.herokuapp.com/register";
+            String url2 = "http://projetandroiduge.herokuapp.com/register";
             String data = user.userRegisterToJson();
             Log.e("user",user.userRegisterToJson());
             String result = null;
@@ -123,6 +134,9 @@ public class InscriptionActivity extends AppCompatActivity {
             return null;
         }
 
+
+
+
         @Override
         protected void onPostExecute(Void result) {
 
@@ -131,15 +145,23 @@ public class InscriptionActivity extends AppCompatActivity {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
+
             Log.e("inscription","votre compte a bien été créé");
+
+
+
             test();
+
+
+
         }
+
     }
 
     void test(){
-        Intent intent = new Intent(this, Inscription_Succes.class);
+        Intent intent = new Intent(this, InscriptionSucces.class);
         intent.putExtra("email",user.getEmail());
         startActivity(intent);
+
     }
 }
-

@@ -2,15 +2,15 @@ package fr.uge.projetandroid.entities;
 
 public class ReturnProduct {
 
-   private long id;
+    private long id;
 
-   private String returnAt;
+    private String returnAt;
 
-   private long product;
+    private long product;
 
-   private String state;
+    private String state;
 
-   public ReturnProduct() {
+    public ReturnProduct() {
     }
 
     public ReturnProduct(long id, String returnAt, long product, String state) {

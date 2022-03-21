@@ -3,6 +3,7 @@ package fr.uge.projetandroid.adapters;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +15,18 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fr.uge.projetandroid.borrow.Afficher_Produit_Emprunt;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.entities.Product;
+import fr.uge.projetandroid.entities.Notification;
 import fr.uge.projetandroid.entities.User;
 
-public class Adapter_ProduitsRecherche_Emprunt extends RecyclerView.Adapter<Adapter_ProduitsRecherche_Emprunt.ViewHolder> {
+public class AdapterNotificationEmprunt extends RecyclerView.Adapter<AdapterNotificationEmprunt.ViewHolder> {
 
-    private List<Product> results;
+    private List<Notification> results;
     private User user;
 
 
-    public Adapter_ProduitsRecherche_Emprunt(List<Product> results, User user) {
+    public AdapterNotificationEmprunt(List<Notification> results, User user) {
         this.results = results;
         this.user = user;
     }
@@ -33,7 +34,7 @@ public class Adapter_ProduitsRecherche_Emprunt extends RecyclerView.Adapter<Adap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_recherche_emprunt, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_notification_emprunt, viewGroup, false));
     }
 
     @Override
@@ -46,45 +47,55 @@ public class Adapter_ProduitsRecherche_Emprunt extends RecyclerView.Adapter<Adap
         return results.size();
     }
 
-    public void setResults(List<Product> results) {
+    public void setResults(List<Notification> results) {
         this.results = results;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView textView_nomProduit_recherche_emprunt;
-        private TextView textView_etatProduit_recherche_emprunt;
-        private ImageView imageView_ratingStar_recherche_emprunt;
-        private ImageView imageView_image_recherche_emprunt;
-        private LinearLayout LinearLayout_rechercher_produit_emprunt;
+        private TextView textView_message_notifications_emprunt;
+        private TextView textView_date_notifications_emprunt;
+        private ImageView imageView_imageProduit_notifications_emprunt;
+        private LinearLayout LinearLayout_notification_emprunt;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView_nomProduit_recherche_emprunt = itemView.findViewById(R.id.textView_nomProduit_recherche_emprunt);
-            textView_etatProduit_recherche_emprunt = itemView.findViewById(R.id.textView_etatProduit_recherche_emprunt);
-            imageView_ratingStar_recherche_emprunt = itemView.findViewById(R.id.imageView_ratingStar_recherche_emprunt);
-            imageView_image_recherche_emprunt = itemView.findViewById(R.id.imageView_image_recherche_emprunt);
-            LinearLayout_rechercher_produit_emprunt= itemView.findViewById(R.id.LinearLayout_rechercher_produit_emprunt);
+            textView_message_notifications_emprunt = itemView.findViewById(R.id.textView_message_notifications_emprunt);
+            textView_date_notifications_emprunt = itemView.findViewById(R.id.textView_date_notifications_emprunt);
+            imageView_imageProduit_notifications_emprunt = itemView.findViewById(R.id.imageView_imageProduit_notifications_emprunt);
+            LinearLayout_notification_emprunt= itemView.findViewById(R.id.LinearLayout_notification_emprunt);
         }
 
-        public void update(final Product entity){
+        public void update(final Notification entity){
 
-            textView_nomProduit_recherche_emprunt.setText(entity.getName());
-            textView_etatProduit_recherche_emprunt.setText(entity.getState());
 
-            setImageRatingStar(imageView_ratingStar_recherche_emprunt, entity.getRate());
+            textView_message_notifications_emprunt.setText(entity.getMessage());
+            textView_date_notifications_emprunt.setText(entity.getCreatedAt());
 
-            Picasso.get().load(entity.getPath())
-                    .resize(600, 600)
+
+            if(entity.isRead()){
+                LinearLayout_notification_emprunt.setBackgroundResource(R.drawable.costum_background_notification_old);
+            }
+            else{
+                LinearLayout_notification_emprunt.setBackgroundResource(R.drawable.costum_background_notification_new);
+            }
+
+
+
+            Picasso.get().load(entity.getImage())
+                    .resize(150, 150)
                     .centerCrop()
                     .error(R.drawable.erreurpicture)
-                    .into(imageView_image_recherche_emprunt);
+                    .into(imageView_imageProduit_notifications_emprunt);
 
-            LinearLayout_rechercher_produit_emprunt.setOnClickListener(new View.OnClickListener(){
+
+            LinearLayout_notification_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), Afficher_Produit_Emprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId());
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    myIntent.putExtra("idProduct",entity.getProduct());
+                    myIntent.putExtra("idNotification",entity.getId());
+                    myIntent.putExtra("readNotification",entity.isRead());
                     myIntent.putExtra("user",user);
                     v.getContext().startActivity(myIntent);
                 }
@@ -92,8 +103,11 @@ public class Adapter_ProduitsRecherche_Emprunt extends RecyclerView.Adapter<Adap
 
 
 
-
+            Log.e("idProductNotifiation","->>"+entity.getProduct()+"");
         }
+
+
+
     }
 
     public void setImageRatingStar(ImageView imageView,  int rate){
@@ -135,6 +149,8 @@ public class Adapter_ProduitsRecherche_Emprunt extends RecyclerView.Adapter<Adap
                 imageView.setImageResource(R.drawable.star_0);
         }
     }
+
+
 
 
 

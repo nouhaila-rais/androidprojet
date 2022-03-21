@@ -3,12 +3,12 @@ package fr.uge.projetandroid.borrow;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -28,33 +28,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.uge.projetandroid.LoginActivity;
+import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.adapters.AdapterPanierEmprunt;
+import fr.uge.projetandroid.entities.Borrow;
+import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
-import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.Adapter_CatalogueProduits_Emprunt;
-import fr.uge.projetandroid.entities.Product;
 
-public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class AfficherMesProduitsEmprunte extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private RecyclerView RecyclerView_CatalogueProduit_Bibliotheque_Emprunt;
-
+    private RecyclerView RecyclerView_ProduitEmprunte;
     private ProgressDialog pDialog;
-    private String TAG = Afficher_Produit_Emprunt.class.getSimpleName();
+    private String TAG = "AfficherMesProduitsEmprunte";
 
     private TextView textView_nombre_notifications_emprunt;
     private TextView textView_nombre_panier_emprunt;
     private TextView Textview_nom_prenom_utilisateur_emprunt;
     private TextView Textview_email_utilisateur_emprunt;
     private User user;
-    private String categorie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_afficher_catalogue_produits_emprunt);
+        setContentView(R.layout.activity_afficher_produits_emprunte);
 
         user = (User)getIntent().getSerializableExtra("user");
-        categorie = getIntent().getStringExtra("categorie");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -68,7 +67,7 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initUi();
-        new Afficher_Catalogue_ProduitsEmprunt.ShowProductsTask().execute();
+        new ShowProductsTask().execute();
     }
 
 
@@ -137,7 +136,7 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query!=null){
-                    Intent myIntent = new Intent(Afficher_Catalogue_ProduitsEmprunt.this, Afficher_ProduitsRecherche_Emprunt.class);
+                    Intent myIntent = new Intent(AfficherMesProduitsEmprunte.this, AfficherProduitsRechercheEmprunt.class);
                     myIntent.putExtra("user",user);
                     myIntent.putExtra("Keyword",query);
                     startActivity(myIntent);
@@ -175,13 +174,13 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.item_notifiction_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_Notifications_Emprunt.class);
+            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
         }
         else if (id == R.id.item_nombre_panier_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
@@ -202,12 +201,12 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
 
         if (id == R.id.nav_emprunt_accueil) {
 
-            Intent myIntent = new Intent(this, Accueil_Emprunt.class);
+            Intent myIntent = new Intent(this, AccueilEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
@@ -218,13 +217,13 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
 
-            Intent myIntent = new Intent(this, Afficher_Produit_Ajoute.class);
+            Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
             myIntent.putExtra("user", user);
             startActivity(myIntent);
         }
 
         else if (id == R.id.nav__emprunt_ajouterproduit) {
-            Intent myIntent = new Intent(this, Ajouter_Produit.class);
+            Intent myIntent = new Intent(this, AjouterProduit.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
         }
@@ -241,23 +240,25 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
     }
 
     private void initUi(){
-        RecyclerView_CatalogueProduit_Bibliotheque_Emprunt = (RecyclerView)findViewById(R.id.RecyclerView_CatalogueProduit_Bibliotheque_Emprunt);
+        RecyclerView_ProduitEmprunte = (RecyclerView)findViewById(R.id.RecyclerView_ProduitEmprunte);
     }
 
     private class ShowProductsTask extends AsyncTask<Void, Void, Void> {
 
-        List<Product> produitsBibliotheque;
+        List<Product> produitsEmprunte;
+        List<Borrow> borrows;
 
 
         public ShowProductsTask() {
-            produitsBibliotheque = new ArrayList<>();
+            produitsEmprunte = new ArrayList<>();
+            borrows = new ArrayList<>();
 
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Afficher_Catalogue_ProduitsEmprunt.this);
+            pDialog = new ProgressDialog(AfficherMesProduitsEmprunte.this);
             pDialog.setMessage("Chargement des produits...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -266,13 +267,7 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            produitsBibliotheque = getProductsBycategory(categorie);
-            return null;
-        }
-
-        protected List<Product> getProductsBycategory(String category){
-            List<Product> resultats= new ArrayList<>();
-            String url = "https://projetandroiduge.herokuapp.com/api/product/"+category;
+            String url = "http://projetandroiduge.herokuapp.com/api/user/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
@@ -282,22 +277,71 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
 
             if (jsonStr != null) {
                 try {
-                    JSONArray arrayResult = new JSONArray(jsonStr);
+
+                    JSONObject json = new JSONObject(jsonStr);
+                    JSONArray arrayResult = json.getJSONArray("borrows");
                     for (int i = 0; i < arrayResult.length(); i++) {
-                        Product product = new Product();
+
+
+
+                        Borrow borrow = new Borrow();
                         JSONObject jsonObj = arrayResult.getJSONObject(i);
-                        product.setId(jsonObj.getInt("id"));
-                        product.setName(jsonObj.getString("name"));
-                        product.setCategory(jsonObj.getString("category"));
-                        product.setType(jsonObj.getString("type"));
-                        product.setDescription((jsonObj.getString("description")));
-                        product.setPrice(jsonObj.getDouble("price"));
-                        product.setState(jsonObj.getString("state"));
-                        product.setAvailable(jsonObj.getBoolean("available"));
-                        product.setCreatedAt(jsonObj.getString("createdAt"));
-                        product.setPath(jsonObj.getString("path"));
-                        product.setRate(jsonObj.getInt("avgRate"));
-                        resultats.add(product);
+                        borrow.setProduct(jsonObj.getInt("product"));
+                        borrow.setEndAt(jsonObj.getString("endAt"));
+                        borrow.setStartAt(jsonObj.getString("startAt"));
+                        borrows.add(borrow);
+
+
+
+
+                        String url3 = "http://projetandroiduge.herokuapp.com/api/product/"+borrow.getProduct();
+                        HttpHandler shh = new HttpHandler();
+                        jsonStr = shh.makeServiceCall(url3);
+                        Log.e(TAG, "Response from url: " + jsonStr);
+
+                        if (jsonStr != null) {
+                            try {
+                                Product product = new Product();
+                                JSONObject jsonObj2 = new JSONObject(jsonStr);
+                                product.setId(jsonObj2.getInt("id"));
+                                product.setName(jsonObj2.getString("name"));
+                                product.setCategory(jsonObj2.getString("category"));
+                                product.setType(jsonObj2.getString("type"));
+                                product.setDescription((jsonObj2.getString("description")));
+                                product.setPrice(jsonObj2.getDouble("price"));
+                                product.setState(jsonObj2.getString("state"));
+                                product.setAvailable(jsonObj2.getBoolean("available"));
+                                product.setCreatedAt(jsonObj2.getString("createdAt"));
+                                product.setPath(jsonObj2.getString("path"));
+                                product.setRate(jsonObj2.getInt("avgRate"));
+                                produitsEmprunte.add(product);
+
+                            } catch (final JSONException e) {
+                                Log.e(TAG, "Erreur" + e.getMessage());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Erreur" + e.getMessage(),
+                                                Toast.LENGTH_LONG)
+                                                .show();
+                                    }
+                                });
+
+                            }
+                        } else {
+                            Log.e(TAG, "Couldn't get json from server.");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Couldn't get json from server. Check LogCat for possible errors!",
+                                            Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            });
+
+                        }
                     }
 
 
@@ -327,24 +371,26 @@ public class Afficher_Catalogue_ProduitsEmprunt extends AppCompatActivity implem
                 });
 
             }
-
-            return resultats;
+            return null;
         }
+
+
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
+            // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Adapter_CatalogueProduits_Emprunt adapterBibliotheque = new Adapter_CatalogueProduits_Emprunt(produitsBibliotheque,user);
+            Log.e("ListProduit",produitsEmprunte.toString());
+            Log.e("borrows",borrows.toString());
 
+            AdapterPanierEmprunt adapterPanierEmprunt = new AdapterPanierEmprunt(produitsEmprunte,borrows,user);
 
-            RecyclerView_CatalogueProduit_Bibliotheque_Emprunt.setLayoutManager(new LinearLayoutManager(Afficher_Catalogue_ProduitsEmprunt.this));
+            RecyclerView_ProduitEmprunte.setLayoutManager(new LinearLayoutManager(AfficherMesProduitsEmprunte.this));
 
-
-            RecyclerView_CatalogueProduit_Bibliotheque_Emprunt.setAdapter(adapterBibliotheque);
+            RecyclerView_ProduitEmprunte.setAdapter(adapterPanierEmprunt);
 
         }
 

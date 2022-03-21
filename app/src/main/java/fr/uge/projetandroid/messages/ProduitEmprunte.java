@@ -1,56 +1,50 @@
-package fr.uge.projetandroid.borrow;
+package fr.uge.projetandroid.messages;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.uge.projetandroid.LoginActivity;
-import fr.uge.projetandroid.entities.User;
-import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.Adapter_Notification_Emprunt;
-import fr.uge.projetandroid.entities.Notification;
+import fr.uge.projetandroid.borrow.AccueilEmprunt;
+import fr.uge.projetandroid.borrow.AfficherMesProduitsEmprunte;
+import fr.uge.projetandroid.borrow.AfficherNotificationsEmprunt;
+import fr.uge.projetandroid.borrow.AfficherProduitAjoute;
+import fr.uge.projetandroid.borrow.AfficherProduitsRechercheEmprunt;
+import fr.uge.projetandroid.borrow.AjouterProduit;
+import fr.uge.projetandroid.borrow.Emprunter;
+import fr.uge.projetandroid.entities.User;
 
-public class Afficher_Notifications_Emprunt extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-
-    private RecyclerView RecyclerView_Notifications_Emprunt;
-    private ProgressDialog pDialog;
-    private String TAG = Afficher_Produit_Emprunt.class.getSimpleName();
+public class ProduitEmprunte extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView textView_nombre_notifications_emprunt;
     private TextView textView_nombre_panier_emprunt;
     private TextView Textview_nom_prenom_utilisateur_emprunt;
     private TextView Textview_email_utilisateur_emprunt;
+    private TextView textView_nom_produit_message_emprunte;
+    private TextView textView_datedebut__message_emprunte;
+    private TextView textView_datefin__message_emprunte;
     private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_afficher_notifications_emprunt);
+        setContentView(R.layout.activity_produit_emprunte);
         user = (User)getIntent().getSerializableExtra("user");
+        String nomProduit = getIntent().getStringExtra("nomProduit");
+        String dateDebut = getIntent().getStringExtra("dateDebut");
+        String dateFin = getIntent().getStringExtra("dateFin");
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,12 +58,21 @@ public class Afficher_Notifications_Emprunt extends AppCompatActivity implements
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        initUi();
-        new Afficher_Notifications_Emprunt.ShowNotificationsTask().execute();
+
+        textView_nom_produit_message_emprunte = (TextView)findViewById(R.id.textView_nom_produit_message_emprunte);
+        textView_datedebut__message_emprunte = (TextView)findViewById(R.id.textView_datedebut__message_emprunte);
+        textView_datefin__message_emprunte = (TextView)findViewById(R.id.textView_datefin__message_emprunte);
+
+        textView_nom_produit_message_emprunte.setText(nomProduit);
+        textView_datedebut__message_emprunte.setText(dateDebut);
+        textView_datefin__message_emprunte.setText(dateFin);
     }
 
 
+
     private void setupBadge() {
+
+        user.setTotalProduitEmprunte(user.getTotalProduitEmprunte()+1);
 
         if (textView_nombre_notifications_emprunt != null) {
             if (user.getTotalNotification() == 0) {
@@ -133,7 +136,7 @@ public class Afficher_Notifications_Emprunt extends AppCompatActivity implements
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query!=null){
-                    Intent myIntent = new Intent(Afficher_Notifications_Emprunt.this, Afficher_ProduitsRecherche_Emprunt.class);
+                    Intent myIntent = new Intent(ProduitEmprunte.this, AfficherProduitsRechercheEmprunt.class);
                     myIntent.putExtra("user",user);
                     myIntent.putExtra("Keyword",query);
                     startActivity(myIntent);
@@ -171,13 +174,13 @@ public class Afficher_Notifications_Emprunt extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.item_notifiction_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_Notifications_Emprunt.class);
+            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
         }
         else if (id == R.id.item_nombre_panier_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
@@ -198,12 +201,12 @@ public class Afficher_Notifications_Emprunt extends AppCompatActivity implements
 
         if (id == R.id.nav_emprunt_accueil) {
 
-            Intent myIntent = new Intent(this, Accueil_Emprunt.class);
+            Intent myIntent = new Intent(this, AccueilEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
@@ -214,13 +217,13 @@ public class Afficher_Notifications_Emprunt extends AppCompatActivity implements
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
 
-            Intent myIntent = new Intent(this, Afficher_Produit_Ajoute.class);
+            Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
             myIntent.putExtra("user", user);
             startActivity(myIntent);
         }
 
         else if (id == R.id.nav__emprunt_ajouterproduit) {
-            Intent myIntent = new Intent(this, Ajouter_Produit.class);
+            Intent myIntent = new Intent(this, AjouterProduit.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
         }
@@ -234,104 +237,5 @@ public class Afficher_Notifications_Emprunt extends AppCompatActivity implements
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void initUi(){
-        RecyclerView_Notifications_Emprunt = (RecyclerView)findViewById(R.id.RecyclerView_Notifications_Emprunt);
-    }
-
-    private class ShowNotificationsTask extends AsyncTask<Void, Void, Void> {
-
-        List<Notification> listNotifications;
-
-
-        public ShowNotificationsTask() {
-            listNotifications = new ArrayList<>();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(Afficher_Notifications_Emprunt.this);
-            pDialog.setMessage("Chargement des notifications...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            String url = "https://projetandroiduge.herokuapp.com/api/user/"+user.getId();
-            HttpHandler sh = new HttpHandler();
-            String jsonStr = sh.makeServiceCall(url);
-
-
-
-            Log.e(TAG, "Response from url: " + jsonStr);
-
-            if (jsonStr != null) {
-                try {
-
-                    JSONObject json = new JSONObject(jsonStr);
-                    JSONArray arrayResult = json.getJSONArray("notifications");
-                    for (int i = 0; i < arrayResult.length(); i++) {
-                        Notification notification = new Notification();
-                        JSONObject jsonObj = arrayResult.getJSONObject(i);
-                        notification.setId(jsonObj.getLong("id"));
-                        notification.setMessage(jsonObj.getString("message"));
-                        notification.setProduct(jsonObj.getInt("product"));
-                        notification.setImage(jsonObj.getString("image"));
-                        notification.setCreatedAt(jsonObj.getString("createdAt"));
-                        notification.setRead(jsonObj.getBoolean("readNotification"));
-                        listNotifications.add(notification);
-                    }
-
-
-                } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "Erreur " + e.getMessage(),
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    });
-
-                }
-            } else {
-                Log.e(TAG, "Couldn't get json from server.");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                });
-
-            }
-            return null;
-        }
-
-
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            // Dismiss the progress dialog
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-
-            Adapter_Notification_Emprunt adapterNotificationEmprunt= new Adapter_Notification_Emprunt(listNotifications,user);
-
-            RecyclerView_Notifications_Emprunt.setLayoutManager(new LinearLayoutManager(Afficher_Notifications_Emprunt.this));
-
-            RecyclerView_Notifications_Emprunt.setAdapter(adapterNotificationEmprunt);
-
-        }
-
     }
 }

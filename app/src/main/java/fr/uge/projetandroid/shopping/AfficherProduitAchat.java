@@ -86,7 +86,6 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
     private double rate;
     private Boolean ChangeCurrency=false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +100,7 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         Log.e("idProductAfficher","->>"+idProduct+"");
 
         product = new Product();
-        url = "https://projetandroiduge.herokuapp.com/api/product/"+idProduct;
+        url = "http://projetandroiduge.herokuapp.com/api/product/"+idProduct;
 
 
         initUi();
@@ -555,7 +554,7 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/cart/add/"+product.getId()+"/"+user.getId();
+            String url = "http://projetandroiduge.herokuapp.com/api/cart/add/"+product.getId()+"/"+user.getId();
             Log.e("url add cart",url);
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
@@ -567,8 +566,6 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            user.setTotalPanier(user.getTotalPanier()+1);
-            setupBadge();
             if (pDialog.isShowing())
                 pDialog.dismiss();
             user.setTotalPanier(user.getTotalPanier()+1);
@@ -596,9 +593,10 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/wishlist/add/"+product.getId()+"/"+user.getId();
+            String url = "http://projetandroiduge.herokuapp.com/api/wishlist/add/"+product.getId()+"/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
+
             return null;
         }
 
@@ -628,7 +626,7 @@ public class AfficherProduitAchat extends AppCompatActivity implements Navigatio
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
+            String url = "http://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);

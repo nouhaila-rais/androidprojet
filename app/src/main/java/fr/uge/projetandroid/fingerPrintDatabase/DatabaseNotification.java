@@ -58,8 +58,8 @@ public class DatabaseNotification extends SQLiteOpenHelper {
             Notification  notif = new Notification();
             notif.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
             notif.setMessage(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE)));
-        cursor.close();
-        return notif;
+            cursor.close();
+            return notif;
         }catch(Exception e){
             cursor.close();
             return null;

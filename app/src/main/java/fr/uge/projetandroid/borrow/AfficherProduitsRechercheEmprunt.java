@@ -1,4 +1,4 @@
-package fr.uge.projetandroid.messages;
+package fr.uge.projetandroid.borrow;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,53 +18,49 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.uge.projetandroid.LoginActivity;
-import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.borrow.Accueil_Emprunt;
-import fr.uge.projetandroid.borrow.Afficher_MesProduits_Emprunte;
-import fr.uge.projetandroid.borrow.Afficher_Notifications_Emprunt;
-import fr.uge.projetandroid.borrow.Afficher_Produit_Ajoute;
-import fr.uge.projetandroid.borrow.Afficher_ProduitsRecherche_Emprunt;
-import fr.uge.projetandroid.borrow.Ajouter_Produit;
-import fr.uge.projetandroid.borrow.Emprunter;
-import fr.uge.projetandroid.entities.ReturnProduct;
 import fr.uge.projetandroid.entities.User;
+import fr.uge.projetandroid.handlers.HttpHandler;
+import fr.uge.projetandroid.MainActivity;
+import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheEmprunt;
+import fr.uge.projetandroid.entities.Product;
 
-public class Produit_Retourne extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private long idProduct;
-    private String etat;
+public class AfficherProduitsRechercheEmprunt extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    private RecyclerView RecyclerView_produit_recherche_Emprunt;
+    private String keyword;
+
+    private ProgressDialog pDialog;
+    private String TAG = AfficherProduitsRechercheEmprunt.class.getSimpleName();
 
     private TextView textView_nombre_notifications_emprunt;
     private TextView textView_nombre_panier_emprunt;
     private TextView Textview_nom_prenom_utilisateur_emprunt;
     private TextView Textview_email_utilisateur_emprunt;
     private User user;
-
-    private ProgressDialog pDialog;
-    private String TAG = Produit_Retourne.class.getSimpleName();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_produit_retourne);
+        setContentView(R.layout.activity_afficher_produits_recherche_emprunt);
 
-        Intent myIntent = getIntent();
-        etat = myIntent.getStringExtra("etat");
-        idProduct = myIntent.getLongExtra("idProduct",0);
-        Log.e("idPorduitretoune",idProduct+"");
-        Log.e("etatproduitretourne",etat);
+
         user = (User)getIntent().getSerializableExtra("user");
 
+        Intent myIntent = getIntent();
+        keyword = myIntent.getStringExtra("Keyword");
 
+        RecyclerView_produit_recherche_Emprunt = (RecyclerView)findViewById(R.id.RecyclerView_produit_recherche_Emprunt);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,14 +75,11 @@ public class Produit_Retourne extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        new Produit_Retourne.ReturnProductTask().execute();
-
+        new AfficherProduitsRechercheEmprunt.ShowProductsTask().execute();
     }
 
+
     private void setupBadge() {
-        int total =user.getTotalProduitEmprunte()-1;
-        if(total<=0) total=0;
-        user.setTotalProduitEmprunte(total);
 
         if (textView_nombre_notifications_emprunt != null) {
             if (user.getTotalNotification() == 0) {
@@ -148,7 +143,7 @@ public class Produit_Retourne extends AppCompatActivity implements NavigationVie
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query!=null){
-                    Intent myIntent = new Intent(Produit_Retourne.this, Afficher_ProduitsRecherche_Emprunt.class);
+                    Intent myIntent = new Intent(AfficherProduitsRechercheEmprunt.this, AfficherProduitsRechercheEmprunt.class);
                     myIntent.putExtra("user",user);
                     myIntent.putExtra("Keyword",query);
                     startActivity(myIntent);
@@ -186,13 +181,13 @@ public class Produit_Retourne extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.item_notifiction_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_Notifications_Emprunt.class);
+            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
         }
         else if (id == R.id.item_nombre_panier_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
@@ -213,12 +208,12 @@ public class Produit_Retourne extends AppCompatActivity implements NavigationVie
 
         if (id == R.id.nav_emprunt_accueil) {
 
-            Intent myIntent = new Intent(this, Accueil_Emprunt.class);
+            Intent myIntent = new Intent(this, AccueilEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
@@ -229,13 +224,13 @@ public class Produit_Retourne extends AppCompatActivity implements NavigationVie
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
 
-            Intent myIntent = new Intent(this, Afficher_Produit_Ajoute.class);
+            Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
             myIntent.putExtra("user", user);
             startActivity(myIntent);
         }
 
         else if (id == R.id.nav__emprunt_ajouterproduit) {
-            Intent myIntent = new Intent(this, Ajouter_Produit.class);
+            Intent myIntent = new Intent(this, AjouterProduit.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
         }
@@ -251,15 +246,20 @@ public class Produit_Retourne extends AppCompatActivity implements NavigationVie
         return true;
     }
 
+    private class ShowProductsTask extends AsyncTask<Void, Void, Void> {
+
+        List<Product> products;
 
 
-    private class ReturnProductTask extends AsyncTask<Void, Void, Void> {
+        public ShowProductsTask() {
+            products = new ArrayList<>();
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Produit_Retourne.this);
-            pDialog.setMessage("Traitement en cours...");
+            pDialog = new ProgressDialog(AfficherProduitsRechercheEmprunt.this);
+            pDialog.setMessage("Chargement des produits...");
             pDialog.setCancelable(false);
             pDialog.show();
 
@@ -268,63 +268,79 @@ public class Produit_Retourne extends AppCompatActivity implements NavigationVie
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            HttpURLConnection urlConnection;
-            String url2 = "https://projetandroiduge.herokuapp.com/api/return/";
 
-            ReturnProduct returnProduct = new ReturnProduct(idProduct,etat);
+            String url = "http://projetandroiduge.herokuapp.com/api/product/key/"+keyword;
+            HttpHandler sh = new HttpHandler();
+            String jsonStr = sh.makeServiceCall(url);
 
-            String data = returnProduct.toJson();
-            Log.e("Json", data);
-            String result = null;
-            try {
-                //Connect
-                urlConnection = (HttpURLConnection) ((new URL(url2).openConnection()));
-                urlConnection.setDoOutput(true);
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-                urlConnection.setRequestProperty("Accept", "application/json");
-                urlConnection.setRequestMethod("POST");
-                urlConnection.connect();
 
-                //Write
-                OutputStream outputStream = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                writer.write(data);
-                writer.close();
-                outputStream.close();
+            Log.e(TAG, "url: " + url);
+            Log.e(TAG, "Response from url: " + jsonStr);
 
-                //Read
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+            if (jsonStr != null) {
+                try {
+                    JSONArray arrayResult = new JSONArray(jsonStr);
+                    for (int i = 0; i < arrayResult.length(); i++) {
+                        Product product = new Product();
+                        JSONObject jsonObj = arrayResult.getJSONObject(i);
+                        product.setId(jsonObj.getInt("id"));
+                        product.setName(jsonObj.getString("name"));
+                        product.setCategory(jsonObj.getString("category"));
+                        product.setType(jsonObj.getString("type"));
+                        product.setDescription((jsonObj.getString("description")));
+                        product.setPrice(jsonObj.getDouble("price"));
+                        product.setState(jsonObj.getString("state"));
+                        product.setAvailable(jsonObj.getBoolean("available"));
+                        product.setCreatedAt(jsonObj.getString("createdAt"));
+                        product.setPath(jsonObj.getString("path"));
+                        product.setRate(jsonObj.getInt("avgRate"));
+                        products.add(product);
+                    }
 
-                String line = null;
-                StringBuilder sb = new StringBuilder();
 
-                while ((line = bufferedReader.readLine()) != null) {
-                    sb.append(line);
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "mamadou" + e.getMessage(),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+
                 }
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
 
-                bufferedReader.close();
-                result = sb.toString();
-                Log.e("Json", data);
-                Log.e("Message retour", "resultat : " + result);
-
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                Log.e("Erreur", e.getMessage());
             }
+
             return null;
         }
 
 
-
-
         @Override
         protected void onPostExecute(Void result) {
-
             super.onPostExecute(result);
+            // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
+            AdapterProduitsRechercheEmprunt adapterProduitsRechercheEmprunt  = new AdapterProduitsRechercheEmprunt(products,user);
+
+            RecyclerView_produit_recherche_Emprunt.setLayoutManager(new LinearLayoutManager(AfficherProduitsRechercheEmprunt.this));
+
+            RecyclerView_produit_recherche_Emprunt.setAdapter(adapterProduitsRechercheEmprunt);
 
         }
 

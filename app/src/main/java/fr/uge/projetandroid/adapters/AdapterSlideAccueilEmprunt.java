@@ -12,17 +12,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.borrow.Afficher_ProduitsRecherche_Emprunt;
+import fr.uge.projetandroid.borrow.AfficherProduitsRechercheEmprunt;
 import fr.uge.projetandroid.entities.User;
 
-public class Adapter_SlideAccueil_Emprunt extends PagerAdapter {
+public class AdapterSlideAccueilEmprunt extends PagerAdapter {
 
     private Context context;
     private LayoutInflater inflater;
     private int current;
     private User user;
 
-    public Adapter_SlideAccueil_Emprunt(Context context, User user) {
+    public AdapterSlideAccueilEmprunt(Context context, User user) {
         this.context = context;
         this.user = user;
     }
@@ -99,7 +99,7 @@ public class Adapter_SlideAccueil_Emprunt extends PagerAdapter {
 
         linearlayout_slide_emprunt.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent myIntent = new Intent(v.getContext(), Afficher_ProduitsRecherche_Emprunt.class);
+                Intent myIntent = new Intent(v.getContext(), AfficherProduitsRechercheEmprunt.class);
                 myIntent.putExtra("Keyword",list_title[getCurrent()]);
                 myIntent.putExtra("user",user);
                 v.getContext().startActivity(myIntent);

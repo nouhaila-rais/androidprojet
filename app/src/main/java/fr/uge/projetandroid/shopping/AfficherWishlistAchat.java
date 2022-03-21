@@ -1,9 +1,9 @@
 package fr.uge.projetandroid.shopping;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,22 +15,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +39,17 @@ import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 
+
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.squareup.picasso.Picasso;
+
 public class AfficherWishlistAchat extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
 
     private RecyclerView RecyclerView_wishlist_achat;
     private List<Product> products;
@@ -114,6 +118,9 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         });
     }
 
+
+
+
     private void setupBadge() {
 
         if (textView_nombre_panier_achat != null) {
@@ -178,11 +185,11 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
+
                 if(ChangeCurrency){
                     devise = charSequence.toString();
                     new AfficherWishlistAchat.ChangeCurrencyTask().execute();
@@ -196,6 +203,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
 
             }
         });
+
 
         MenuItem mSearch = menu.findItem(R.id.item_search_achat);
         SearchView mSearchView = (SearchView) mSearch.getActionView();
@@ -271,6 +279,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -326,7 +335,15 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         return true;
     }
 
+
+
+
+
+
     private class ShowProductsTask extends AsyncTask<Void, Void, Void> {
+
+
+
 
         public ShowProductsTask() {
             products = new ArrayList<>();
@@ -345,11 +362,12 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String url = "https://projetandroiduge.herokuapp.com/api/cart/productInWishlist/"+user.getId();
+
+            String url = "http://projetandroiduge.herokuapp.com/api/wishlist/productInWishlist/"+user.getId();
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
-            total = 0;
+            total=0;
             Log.e(TAG, "url: " + url);
             Log.e(TAG, "Response from url: " + jsonStr);
 
@@ -413,7 +431,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Adapter_Wishlist_Achat adapterWishlistAchat  = new Adapter_Wishlist_Achat(products,user,devise,rate);
+            AdapterWishlistAchat adapterWishlistAchat  = new AdapterWishlistAchat(products,user,devise,rate);
 
             RecyclerView_wishlist_achat.setLayoutManager(new LinearLayoutManager(AfficherWishlistAchat.this));
 
@@ -422,7 +440,10 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
             textView_total_wishlist_achat.setText(getPriceProduct(total));
 
         }
+
     }
+
+
 
     private class SupprimerProduitTask extends AsyncTask<Void, Void, Void> {
 
@@ -445,7 +466,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/wishlist/product/"+idProduct+"/"+user.getId();
+            String url = "http://projetandroiduge.herokuapp.com/api/wishlist/product/"+idProduct+"/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
 
@@ -468,6 +489,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
     }
 
 
+
     private class ChangeCurrencyTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -479,7 +501,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
+            String url = "http://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);
@@ -491,7 +513,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            Adapter_Wishlist_Achat adapterWishlistAchat  = new Adapter_Wishlist_Achat(products,user,devise,rate);
+            AdapterWishlistAchat adapterWishlistAchat  = new AdapterWishlistAchat(products,user,devise,rate);
 
             RecyclerView_wishlist_achat.setLayoutManager(new LinearLayoutManager(AfficherWishlistAchat.this));
 
@@ -523,12 +545,10 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/wishlist/deleteAll/"+user.getId();
+            String url = "http://projetandroiduge.herokuapp.com/api/wishlist/deleteAll/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
-            user.setTotalWishlist(0);
-            total =0;
-            setupBadge();
+
             return null;
         }
 
@@ -543,7 +563,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
             setupBadge();
             List<Product> res = new ArrayList<>();
 
-            Adapter_Wishlist_Achat adapterWishlistAchat  = new Adapter_Wishlist_Achat(res,user,devise,rate);
+            AdapterWishlistAchat adapterWishlistAchat  = new AdapterWishlistAchat(res,user,devise,rate);
 
             RecyclerView_wishlist_achat.setLayoutManager(new LinearLayoutManager(AfficherWishlistAchat.this));
 
@@ -552,7 +572,6 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
             textView_total_wishlist_achat.setText(getPriceProduct(total));
         }
     }
-
 
     private class ValiderWishlistTask extends AsyncTask<Void, Void, Void> {
 
@@ -569,7 +588,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/wishlist/addInCart/"+user.getId();
+            String url = "http://projetandroiduge.herokuapp.com/api/wishlist/addInCart/"+user.getId();
             HttpHandler sh = new HttpHandler();
             sh.makeServiceCall(url);
 
@@ -597,7 +616,8 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         }
     }
 
-    public class Adapter_Wishlist_Achat extends RecyclerView.Adapter<Adapter_Wishlist_Achat.ViewHolder> {
+
+    public class AdapterWishlistAchat extends RecyclerView.Adapter<AdapterWishlistAchat.ViewHolder> {
 
         private List<Product> results;
         private User user;
@@ -605,7 +625,7 @@ public class AfficherWishlistAchat extends AppCompatActivity implements Navigati
         private Double rate;
 
 
-        public Adapter_Wishlist_Achat(List<Product> results, User user, String devise, Double rate) {
+        public AdapterWishlistAchat(List<Product> results, User user, String devise, Double rate) {
             this.results = results;
             this.user = user;
             this.devise = devise;

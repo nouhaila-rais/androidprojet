@@ -12,28 +12,34 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
-import fr.uge.projetandroid.borrow.Afficher_Produit_Emprunt;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.User;
+import fr.uge.projetandroid.shopping.AfficherProduitAchat;
 
-public class Adapter_ProduitAjoute_Emprunt extends RecyclerView.Adapter<Adapter_ProduitAjoute_Emprunt.ViewHolder> {
+public class AdapterProduitsRechercheAchat  extends RecyclerView.Adapter<AdapterProduitsRechercheAchat.ViewHolder> {
 
     private List<Product> results;
     private User user;
+    private String devise;
+    private Double rate;
 
 
-    public Adapter_ProduitAjoute_Emprunt(List<Product> results, User user) {
+    public AdapterProduitsRechercheAchat(List<Product> results, User user, String devise, Double rate) {
         this.results = results;
         this.user = user;
+        this.devise = devise;
+        this.rate = rate;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_ajouter_emprunt, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_rechercher_achat, viewGroup, false));
     }
 
     @Override
@@ -52,46 +58,45 @@ public class Adapter_ProduitAjoute_Emprunt extends RecyclerView.Adapter<Adapter_
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView textView_nomProduit_mesProduits_emprunt;
-        private TextView textView_typeCategorie_mesProduits_emprunt;
-        private TextView textView_etat_mesProduits_emprunt;
-        private TextView textView_dateAjout_mesProduits_emprunt;
-        private ImageView imageView_imageProduit_mesProduits_emprunt;
-        private ImageView imageView_ratingStar__mesProduits_emprunt;
-        private LinearLayout LinearLayout_produit_ajoute_emprunt;
+        private TextView textView_nomProduit_recherche_achat;
+        private TextView textView_etatProduit_recherche_achat;
+        private TextView textView_prix_recherche_achat;
+        private ImageView imageView_ratingStar_recherche_achat;
+        private ImageView imageView_image_recherche_achat;
+        private LinearLayout LinearLayout_rechercher_produit_achat;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView_nomProduit_mesProduits_emprunt = itemView.findViewById(R.id.textView_nomProduit_mesProduits_emprunt);
-            textView_typeCategorie_mesProduits_emprunt = itemView.findViewById(R.id.textView_typeCategorie_mesProduits_emprunt);
-            textView_etat_mesProduits_emprunt = itemView.findViewById(R.id.textView_etat_mesProduits_emprunt);
-            textView_dateAjout_mesProduits_emprunt = itemView.findViewById(R.id.textView_dateAjout_mesProduits_emprunt);
-            imageView_imageProduit_mesProduits_emprunt = itemView.findViewById(R.id.imageView_imageProduit_mesProduits_emprunt);
-            imageView_ratingStar__mesProduits_emprunt = itemView.findViewById(R.id.imageView_ratingStar__mesProduits_emprunt);
-            LinearLayout_produit_ajoute_emprunt = itemView.findViewById(R.id.LinearLayout_produit_ajoute_emprunt);
+            textView_nomProduit_recherche_achat = itemView.findViewById(R.id.textView_nomProduit_recherche_achat);
+            textView_etatProduit_recherche_achat = itemView.findViewById(R.id.textView_etatProduit_recherche_achat);
+            textView_prix_recherche_achat= itemView.findViewById(R.id.textView_prix_recherche_achat);
+            imageView_ratingStar_recherche_achat = itemView.findViewById(R.id.imageView_ratingStar_recherche_achat);
+            imageView_image_recherche_achat = itemView.findViewById(R.id.imageView_image_recherche_achat);
+            LinearLayout_rechercher_produit_achat= itemView.findViewById(R.id.LinearLayout_rechercher_produit_achat);
         }
 
         public void update(final Product entity){
 
-            textView_nomProduit_mesProduits_emprunt.setText(entity.getName());
-            textView_typeCategorie_mesProduits_emprunt.setText(entity.getCategory()+" > "+entity.getType());
-            textView_etat_mesProduits_emprunt.setText(entity.getState());
-            textView_dateAjout_mesProduits_emprunt.setText(entity.getCreatedAt());
-            setImageRatingStar(imageView_ratingStar__mesProduits_emprunt, entity.getRate());
+            textView_nomProduit_recherche_achat.setText(entity.getName());
+            textView_etatProduit_recherche_achat.setText(entity.getState());
+            textView_prix_recherche_achat.setText(getPriceProduct(entity.getPrice()));
+            setImageRatingStar(imageView_ratingStar_recherche_achat, entity.getRate());
 
             Picasso.get().load(entity.getPath())
-                    .resize(150, 150)
+                    .resize(600, 600)
                     .centerCrop()
                     .error(R.drawable.erreurpicture)
-                    .into(imageView_imageProduit_mesProduits_emprunt);
+                    .into(imageView_image_recherche_achat);
 
 
 
-            LinearLayout_produit_ajoute_emprunt.setOnClickListener(new View.OnClickListener(){
+            LinearLayout_rechercher_produit_achat.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), Afficher_Produit_Emprunt.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitAchat.class);
                     myIntent.putExtra("idProduct",entity.getId());
                     myIntent.putExtra("user",user);
+                    myIntent.putExtra("devise",devise);
+                    myIntent.putExtra("rate",rate);
                     v.getContext().startActivity(myIntent);
                 }
             });
@@ -140,5 +145,11 @@ public class Adapter_ProduitAjoute_Emprunt extends RecyclerView.Adapter<Adapter_
     }
 
 
+    public String getPriceProduct(Double price){
+        Double prix = price*rate;
+        DecimalFormat df = new DecimalFormat("0.00");
+        String result  = df.format(prix)+" " +devise;
+        return result ;
+    }
 
 }

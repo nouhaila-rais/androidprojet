@@ -25,13 +25,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".MotDePasseOublie"></activity>
-        <activity android:name=".messages.Inscription_Succes" />
+        <activity android:name=".messages.InscriptionSucces" />
         <activity android:name=".InscriptionActivity" />
         <activity
-            android:name=".messages.Demande_Emprunt"
+            android:name=".messages.DemandeEmprunt"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />r"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".shopping.AfficherProduitAchat"
             android:label="@string/app_name"
@@ -57,20 +56,19 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".shopping.Main_Activity_2"
+            android:name=".shopping.Main2Activity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".shopping.AccueilAchat"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".messages.Erreur_Produit_Achete"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
         <activity
-            android:name=".messages.Produit_Achete"
+            android:name=".messages.ErreurProduitAchete"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".messages.ProduitAchete"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -78,19 +76,19 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".borrow.Accueil_Emprunt"
+            android:name=".borrow.AccueilEmprunt"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".messages.Produit_Retourne"
+            android:name=".messages.ProduitRetourne"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".messages.Produit_Emprunte"
+            android:name=".messages.ProduitEmprunte"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".messages.Produit_Ajoute"
+            android:name=".messages.ProduitAjoute"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -103,32 +101,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".borrow.Afficher_Produit_Ajoute"
+            android:name=".borrow.AfficherProduitAjoute"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".borrow.Afficher_Notifications_Emprunt"
+            android:name=".borrow.AfficherNotificationsEmprunt"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".borrow.Afficher_MesProduits_Emprunte"
+            android:name=".borrow.AfficherMesProduitsEmprunte"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".borrow.Afficher_Catalogue_ProduitsEmprunt"
+            android:name=".borrow.AfficherCatalogueProduitsEmprunt"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".borrow.Afficher_Produit_Emprunt"
+            android:name=".borrow.AfficherProduitEmprunt"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".borrow.Ajouter_Produit"
+            android:name=".borrow.AjouterProduit"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:usesCleartextTraffic="true" />
         <activity
-            android:name=".borrow.Afficher_ProduitsRecherche_Emprunt"
+            android:name=".borrow.AfficherProduitsRechercheEmprunt"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:usesCleartextTraffic="true" />

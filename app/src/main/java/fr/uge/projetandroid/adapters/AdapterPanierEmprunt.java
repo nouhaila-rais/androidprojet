@@ -18,14 +18,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fr.uge.projetandroid.borrow.Afficher_Produit_Emprunt;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.User;
-import fr.uge.projetandroid.messages.Produit_Retourne;
+import fr.uge.projetandroid.messages.ProduitRetourne;
 
-public class Adapter_Panier_Emprunt extends RecyclerView.Adapter<Adapter_Panier_Emprunt.ViewHolder> {
+public class AdapterPanierEmprunt extends RecyclerView.Adapter<AdapterPanierEmprunt.ViewHolder> {
 
     private List<Product> results;
     private List<Borrow> borrows;
@@ -35,7 +35,7 @@ public class Adapter_Panier_Emprunt extends RecyclerView.Adapter<Adapter_Panier_
     private Context context;
     private User user;
 
-    public Adapter_Panier_Emprunt(List<Product> results, List<Borrow> borrows, User user) {
+    public AdapterPanierEmprunt(List<Product> results, List<Borrow> borrows, User user) {
         this.results = results;
         this.borrows = borrows;
         this.user = user;
@@ -102,7 +102,7 @@ public class Adapter_Panier_Emprunt extends RecyclerView.Adapter<Adapter_Panier_
 
                 imageView_imageProduit_panier_emprunt.setOnClickListener(new View.OnClickListener(){
                     public void onClick(View v){
-                        Intent myIntent = new Intent(v.getContext(), Afficher_Produit_Emprunt.class);
+                        Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                         myIntent.putExtra("idProduct",entity.getId());
                         myIntent.putExtra("user",user);
                         v.getContext().startActivity(myIntent);
@@ -111,7 +111,7 @@ public class Adapter_Panier_Emprunt extends RecyclerView.Adapter<Adapter_Panier_
 
                 textView_nomProduit_panier_emprunt.setOnClickListener(new View.OnClickListener(){
                     public void onClick(View v){
-                        Intent myIntent = new Intent(v.getContext(), Afficher_Produit_Emprunt.class);
+                        Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                         myIntent.putExtra("idProduct",entity.getId());
                         myIntent.putExtra("user",user);
                         v.getContext().startActivity(myIntent);
@@ -197,7 +197,7 @@ public class Adapter_Panier_Emprunt extends RecyclerView.Adapter<Adapter_Panier_
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.e("Etat 2 ",etats[itemSelected]);
-                        Intent myIntent = new Intent(context, Produit_Retourne.class);
+                        Intent myIntent = new Intent(context, ProduitRetourne.class);
                         myIntent.putExtra("idProduct",idProduct);
                         myIntent.putExtra("etat",etats[itemSelected]);
                         myIntent.putExtra("user",user);

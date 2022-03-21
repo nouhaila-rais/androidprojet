@@ -41,6 +41,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +70,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
-import fr.uge.projetandroid.borrow.Accueil_Emprunt;
+import fr.uge.projetandroid.borrow.AccueilEmprunt;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.fingerPrintDatabase.DatabaseFingerPrint;
 import fr.uge.projetandroid.fingerPrintDatabase.UserFingerPrint;
@@ -110,6 +111,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -138,6 +141,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 LoginActivity.this.startActivity(intent);
             }
         });
+
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -473,7 +477,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             User user = new User(mEmail,mPassword);
             HttpURLConnection urlConnection;
-            String url2 = "https://projetandroiduge.herokuapp.com/api/login";
+            String url2 = "http://projetandroiduge.herokuapp.com/api/login";
             String data = user.EmailPasswordToJson();
             String result = null;
             Log.e("Login Json", data);
@@ -518,7 +522,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Log.e("FingerPrint", "Bien ajouté");
                     }
 
-                    String url = "https://projetandroiduge.herokuapp.com/api/user/"+idUser;
+                    String url = "http://projetandroiduge.herokuapp.com/api/user/"+idUser;
                     HttpHandler sh = new HttpHandler();
                     String jsonStr = sh.makeServiceCall(url);
 
@@ -531,16 +535,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                             user = new User();
                             JSONObject jsonObj = new JSONObject(jsonStr);
-                            user.setId(jsonObj.getLong("Id"));
-                            user.setEmail(jsonObj.getString("Email"));
-                            user.setPassword(jsonObj.getString("Password"));
-                            user.setFirstName(jsonObj.getString("FirstName"));
-                            user.setLastName(jsonObj.getString("LastName"));
-                            user.setTotalNotification(jsonObj.getInt("TotalNotification"));
-                            user.setTotalPanier(jsonObj.getInt("TotalCart"));
-                            user.setTotalProduitEmprunte(jsonObj.getInt("TotalBorrow"));
-                            //user.setTotalWishlist(jsonObj.getInt("totalWishlist"));
-                            user.setTotalWishlist(7);
+                            user.setId(jsonObj.getLong("id"));
+                            user.setEmail(jsonObj.getString("email"));
+                            user.setPassword(jsonObj.getString("password"));
+                            user.setFirstName(jsonObj.getString("firstName"));
+                            user.setLastName(jsonObj.getString("lastName"));
+                            user.setTotalNotification(jsonObj.getInt("totalNotification"));
+                            user.setTotalPanier(jsonObj.getInt("totalCart"));
+                            user.setTotalProduitEmprunte(jsonObj.getInt("totalBorrow"));
+                            user.setTotalWishlist(jsonObj.getInt("totalWishlist"));
+
                             role=jsonObj.getString("role");
                             user.setRole(role);
                             devise="EUR";
@@ -575,12 +579,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if(role.equals("Customer")){
                     Intent intent = new Intent(LoginActivity.this, AccueilAchat.class);
                     intent.putExtra("devise",devise);
+                    intent.putExtra("rate",1);
                     intent.putExtra("user",user);
                     LoginActivity.this.startActivity(intent);
-                    Log.e("UserEmprunt",user.toString());
+                    Log.e("UserAchat",user.toString());
                 }
                 else {
-                    Intent intent = new Intent(LoginActivity.this, Accueil_Emprunt.class);
+                    Intent intent = new Intent(LoginActivity.this, AccueilEmprunt.class);
                     intent.putExtra("user",user);
                     LoginActivity.this.startActivity(intent);
                     Log.e("UserEmprunt",user.toString());
@@ -614,6 +619,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private Context context;
         private ImageView imageView;
         private TextView textView;
+
 
         public FingerprintHandler(Context mContext) {
             context = mContext;

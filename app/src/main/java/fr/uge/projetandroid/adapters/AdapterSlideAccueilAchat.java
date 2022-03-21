@@ -15,7 +15,7 @@ import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.shopping.AfficherProduitsRechercheAchat;
 
-public class Adapter_SlideAccueil_Achat extends PagerAdapter {
+public class AdapterSlideAccueilAchat extends PagerAdapter {
 
     private Context context;
     private LayoutInflater inflater;
@@ -24,7 +24,7 @@ public class Adapter_SlideAccueil_Achat extends PagerAdapter {
     private String devise;
     private Double rate;
 
-    public Adapter_SlideAccueil_Achat(Context context, User user, String devise, Double rate) {
+    public AdapterSlideAccueilAchat(Context context, User user, String devise, Double rate) {
         this.context = context;
         this.user = user;
         this.devise = devise;
@@ -51,8 +51,8 @@ public class Adapter_SlideAccueil_Achat extends PagerAdapter {
             "Electronique",
             "Mode et vetements",
             "Musique",
-            "Accesoires",
-            "Autres"
+            "Accessoires",
+            "Autre"
     };
 
     public String[] list_description = {
@@ -130,3 +130,4 @@ public class Adapter_SlideAccueil_Achat extends PagerAdapter {
         this.current = current;
     }
 }
+

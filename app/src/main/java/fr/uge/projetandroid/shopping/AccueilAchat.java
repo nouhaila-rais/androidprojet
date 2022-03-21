@@ -1,5 +1,4 @@
 package fr.uge.projetandroid.shopping;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
@@ -9,23 +8,28 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import fr.uge.projetandroid.LoginActivity;
+import fr.uge.projetandroid.MainActivity;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.Adapter_SlideAccueil_Achat;
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheAchat;
+import fr.uge.projetandroid.adapters.AdapterSlideAccueilAchat;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
 
@@ -33,7 +37,7 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
 
     private ViewPager viewpager_home_achat;
     private LinearLayout LinearLayout_home_dots_achat;
-    private Adapter_SlideAccueil_Achat adapterSlideAccueilAchat;
+    private AdapterSlideAccueilAchat adapterSlideAcceuilAchat;
 
     private TextView[] mdots;
     private ImageButton ImageButton_home_next_achat;
@@ -69,10 +73,11 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
+
         devise = getIntent().getStringExtra("devise");
         rate = getIntent().getDoubleExtra("rate",1);
         user = (User)getIntent().getSerializableExtra("user");
-        Log.e("UserAccueilAchat",user.toString());
+        Log.e("UserAcceuilAchat",user.toString());
 
 
         viewpager_home_achat =(ViewPager)findViewById(R.id.viewpager_home_achat);
@@ -81,8 +86,8 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
         ImageButton_home_next_achat =(ImageButton)findViewById(R.id.ImageButton_home_next_achat);
         ImageButton_home_back_achat =(ImageButton)findViewById(R.id.ImageButton_home_back_achat);
 
-        adapterSlideAccueilAchat =new Adapter_SlideAccueil_Achat(this,user,devise,rate);
-        viewpager_home_achat.setAdapter(adapterSlideAccueilAchat);
+        adapterSlideAcceuilAchat =new AdapterSlideAccueilAchat(this,user,devise,rate);
+        viewpager_home_achat.setAdapter(adapterSlideAcceuilAchat);
         adddots(0);
 
         viewpager_home_achat.addOnPageChangeListener(viewlistener);
@@ -164,7 +169,7 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
 
             adddots(position);
             mCureentPage = position;
-            adapterSlideAccueilAchat.setCurrent(mCureentPage);
+            adapterSlideAcceuilAchat.setCurrent(mCureentPage);
 
 
             if (position==0){
@@ -198,7 +203,7 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
 
             adddots(position);
             mCureentPage = position;
-            adapterSlideAccueilAchat.setCurrent(mCureentPage);
+            adapterSlideAcceuilAchat.setCurrent(mCureentPage);
 
             if (position==0){
                 ImageButton_home_next_achat.setEnabled(true);
@@ -297,7 +302,6 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -430,8 +434,8 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
 
         else if (id == R.id.nav_achat_solde) {
             Intent myIntent = new Intent(this, AfficherSoldeAchat.class);
-            Log.e("@Devise","AccueilAchat"+devise);
-            Log.e("@Rate","AccueilAchat"+rate);
+            Log.e("@Devise","AcceuilAchat"+devise);
+            Log.e("@Rate","AcceuilAchat"+rate);
             myIntent.putExtra("user",user);
             myIntent.putExtra("devise",devise);
             myIntent.putExtra("rate",rate);
@@ -460,7 +464,7 @@ public class AccueilAchat extends AppCompatActivity implements NavigationView.On
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
+            String url = "http://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);

@@ -4,12 +4,12 @@ package fr.uge.projetandroid.shopping;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -32,11 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.uge.projetandroid.LoginActivity;
-import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.adapters.Adapter_ProduitsRecherche_Achat;
-import fr.uge.projetandroid.entities.Product;
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheAchat;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
+import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheEmprunt;
+import fr.uge.projetandroid.entities.Product;
 
 public class AfficherProduitsRechercheAchat extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -56,11 +57,10 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
     private String devise;
     private double rate;
     private Boolean ChangeCurrency=false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_afficher_produits_recherche_emprunt);
+        setContentView(R.layout.activity_afficher_produit_recherche_achat);
 
         Intent myIntent = getIntent();
         keyword = myIntent.getStringExtra("Keyword");
@@ -83,7 +83,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        new ShowProductsTask().execute();
+        new AfficherProduitsRechercheAchat.ShowProductsTask().execute();
     }
 
 
@@ -151,7 +151,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
                 R.array.devise, R.layout.spinner_item_menu);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
+        spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -327,7 +327,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/product/key/"+keyword;
+            String url = "http://projetandroiduge.herokuapp.com/api/product/key/"+keyword;
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
 
@@ -394,7 +394,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Adapter_ProduitsRecherche_Achat adapterProduitsRechercheAchat  = new Adapter_ProduitsRecherche_Achat(products,user,devise,rate);
+            AdapterProduitsRechercheAchat adapterProduitsRechercheAchat  = new AdapterProduitsRechercheAchat(products,user,devise,rate);
 
             RecyclerView_produit_recherche_achat.setLayoutManager(new LinearLayoutManager(AfficherProduitsRechercheAchat.this));
 
@@ -416,7 +416,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
+            String url = "http://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);
@@ -428,7 +428,7 @@ public class AfficherProduitsRechercheAchat extends AppCompatActivity implements
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            Adapter_ProduitsRecherche_Achat adapterProduitsRechercheAchat  = new Adapter_ProduitsRecherche_Achat(products,user,devise,rate);
+            AdapterProduitsRechercheAchat adapterProduitsRechercheAchat  = new AdapterProduitsRechercheAchat(products,user,devise,rate);
 
             RecyclerView_produit_recherche_achat.setLayoutManager(new LinearLayoutManager(AfficherProduitsRechercheAchat.this));
 

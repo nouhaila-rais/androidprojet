@@ -45,9 +45,13 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import fr.uge.projetandroid.LoginActivity;
+import fr.uge.projetandroid.MainActivity;
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheEmprunt;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.fragments.DatePickerFragment;
 import fr.uge.projetandroid.fragments.TimePickerFragment;
@@ -58,9 +62,11 @@ import fr.uge.projetandroid.entities.Borrow;
 import fr.uge.projetandroid.entities.Comment;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.RequestBorrow;
-import fr.uge.projetandroid.messages.Demande_Emprunt;
+import fr.uge.projetandroid.messages.DemandeEmprunt;
+import fr.uge.projetandroid.messages.ProduitAjoute;
+import fr.uge.projetandroid.messages.ProduitEmprunte;
 
-public class Afficher_Produit_Emprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,NavigationView.OnNavigationItemSelectedListener  {
+public class AfficherProduitEmprunt extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,NavigationView.OnNavigationItemSelectedListener  {
 
     private ImageView Imageproduit_emprunt;
     private ImageView imageView_ratingstar_emprunt;
@@ -123,7 +129,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
     private String date;
     private String heure;
     private String url;
-    private String TAG = Afficher_Produit_Emprunt.class.getSimpleName();
+    private String TAG = AfficherProduitEmprunt.class.getSimpleName();
 
     private DialogFragment datePickerDebutEmprunt;
     private DialogFragment datePickerFinEmprunt;
@@ -151,7 +157,6 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
     private TextView textView_nombre_panier_emprunt;
     private TextView Textview_nom_prenom_utilisateur_emprunt;
     private TextView Textview_email_utilisateur_emprunt;
-
     private User user;
 
     @Override
@@ -164,14 +169,15 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         idNotification = myIntent.getLongExtra("idNotification",0);
         Boolean read  = myIntent.getBooleanExtra("readNotification",true);
         user = (User)getIntent().getSerializableExtra("user");
-        if(read==false) new Afficher_Produit_Emprunt.updateNotification().execute();
+        if(read==false) new AfficherProduitEmprunt.updateNotification().execute();
         Log.e("idProductAfficher","->>"+idProduct+"");
 
-        url = "https://projetandroiduge.herokuapp.com/api/product/"+idProduct;
+
+        url = "http://projetandroiduge.herokuapp.com/api/product/"+idProduct;
         //product.setAvailable(false);
 
         initUi();
-        new Afficher_Produit_Emprunt.ShowProductTask().execute();
+        new AfficherProduitEmprunt.ShowProductTask().execute();
 
         star1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -341,7 +347,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             @Override
             public void onClick(View v) {
 
-                new Afficher_Produit_Emprunt.AddBorrowTask().execute();
+                new AfficherProduitEmprunt.AddBorrowTask().execute();
             }
         });
 
@@ -349,7 +355,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             @Override
             public void onClick(View v) {
 
-                new Afficher_Produit_Emprunt.AddRequestBorrowTask().execute();
+                new AfficherProduitEmprunt.AddRequestBorrowTask().execute();
             }
         });
 
@@ -357,9 +363,10 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             @Override
             public void onClick(View v) {
 
-                new Afficher_Produit_Emprunt.AddCommentTask().execute();
+                new AfficherProduitEmprunt.AddCommentTask().execute();
             }
         });
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -433,7 +440,11 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         datePickerFinDemandeEmprunt = new DatePickerFragment();
         timePickerDebutDemandeEmprunt = new TimePickerFragment();
         timePickerFinDemandeEmprunt = new TimePickerFragment();
+
     }
+
+
+
 
     private void setupBadge() {
 
@@ -499,7 +510,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query!=null){
-                    Intent myIntent = new Intent(Afficher_Produit_Emprunt.this, Afficher_ProduitsRecherche_Emprunt.class);
+                    Intent myIntent = new Intent(AfficherProduitEmprunt.this, AfficherProduitsRechercheEmprunt.class);
                     myIntent.putExtra("user",user);
                     myIntent.putExtra("Keyword",query);
                     startActivity(myIntent);
@@ -537,13 +548,13 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.item_notifiction_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_Notifications_Emprunt.class);
+            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
         }
         else if (id == R.id.item_nombre_panier_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
@@ -564,12 +575,12 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
 
         if (id == R.id.nav_emprunt_accueil) {
 
-            Intent myIntent = new Intent(this, Accueil_Emprunt.class);
+            Intent myIntent = new Intent(this, AccueilEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
@@ -580,13 +591,13 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
 
-            Intent myIntent = new Intent(this, Afficher_Produit_Ajoute.class);
+            Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
             myIntent.putExtra("user", user);
             startActivity(myIntent);
         }
 
         else if (id == R.id.nav__emprunt_ajouterproduit) {
-            Intent myIntent = new Intent(this, Ajouter_Produit.class);
+            Intent myIntent = new Intent(this, AjouterProduit.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
         }
@@ -735,7 +746,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Afficher_Produit_Emprunt.this);
+            pDialog = new ProgressDialog(AfficherProduitEmprunt.this);
             pDialog.setMessage("Chargement du produit...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -747,6 +758,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             HttpHandler sh = new HttpHandler();
             String jsonStr = sh.makeServiceCall(url);
             product = new Product();
+
 
             Log.e(TAG, "Response from url: " + jsonStr);
 
@@ -794,7 +806,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
                     }
                     else {
 
-                        String url3 = "https://projetandroiduge.herokuapp.com/api/borrow/borrowByProduct/"+product.getId();
+                        String url3 = "http://projetandroiduge.herokuapp.com/api/borrow/borrowByProduct/"+product.getId();
                         HttpHandler shh = new HttpHandler();
                         jsonStr = shh.makeServiceCall(url3);
                         Log.e(TAG, "Response from url: " + jsonStr);
@@ -806,7 +818,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
                                 DATE_COUNTDOWN = jsonObj2.getString("endAt");
 
                             } catch (final JSONException e) {
-                                Log.e(TAG, "Mohsine" + e.getMessage());
+                                Log.e(TAG, "Nouhaila" + e.getMessage());
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -882,11 +894,12 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             textView_etat_produit_emprunt.setText(product.getState());
             setImageRatingStar(imageView_ratingstar_emprunt,avgRate);
 
+
             listView_listAvis.removeAllViews();
             listView_listAvis = (RecyclerView)findViewById(R.id.listView_listAvis);
 
             AdapterComment adapterCommenter = new AdapterComment(product.getComments());
-            listView_listAvis.setLayoutManager(new LinearLayoutManager(Afficher_Produit_Emprunt.this));
+            listView_listAvis.setLayoutManager(new LinearLayoutManager(AfficherProduitEmprunt.this));
             adapterCommenter.setResults(product.getComments());
 
             listView_listAvis.setAdapter(adapterCommenter);
@@ -900,11 +913,12 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
 
 
     private class AddBorrowTask extends AsyncTask<Void, Void, Void> {
+        private Borrow borrow;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Afficher_Produit_Emprunt.this);
+            pDialog = new ProgressDialog(AfficherProduitEmprunt.this);
             pDialog.setMessage("Traitement en cours...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -915,8 +929,8 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "https://projetandroiduge.herokuapp.com/api/borrow/";
-            Borrow borrow = new Borrow();
+            String url2 = "http://projetandroiduge.herokuapp.com/api/borrow/";
+            borrow = new Borrow();
             String startAt = button_dateDebut_emprunt.getText() + " " +button_heureDebut_emprunt.getText();
             String endAt = button_dateFin_emprunt.getText() + " " +button_heureFin_emprunt.getText();
             borrow.setStartAt(startAt);
@@ -976,7 +990,16 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Toast.makeText(Afficher_Produit_Emprunt.this, "Produit bien emprunté", Toast.LENGTH_SHORT).show();
+            Intent myIntent = new Intent(AfficherProduitEmprunt.this, ProduitEmprunte.class);
+            myIntent.putExtra("idProduct",product.getId());
+            myIntent.putExtra("nomProduit",product.getName());
+            myIntent.putExtra("dateDebut",borrow.getStartAt());
+            myIntent.putExtra("dateFin",borrow.getEndAt());
+            myIntent.putExtra("user",user);
+            startActivity(myIntent);
+
+
+            //Toast.makeText(AfficherProduitEmprunt.this, "Produit bien emprunté", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -988,7 +1011,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Afficher_Produit_Emprunt.this);
+            pDialog = new ProgressDialog(AfficherProduitEmprunt.this);
             pDialog.setMessage("Traitement en cours...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -999,7 +1022,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "https://projetandroiduge.herokuapp.com/api/requestBorrow/";
+            String url2 = "http://projetandroiduge.herokuapp.com/api/requestBorrow/";
             RequestBorrow requestBorrow = new RequestBorrow();
 
             String startAt = button_dateDebut_Demande_emprunt.getText() + " " +button_heureDebut_Demande_emprunt.getText();
@@ -1060,9 +1083,11 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Intent myIntent = new Intent(Afficher_Produit_Emprunt.this, Demande_Emprunt.class);
+            Intent myIntent = new Intent(AfficherProduitEmprunt.this, DemandeEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
+
+
         }
 
     }
@@ -1073,7 +1098,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Afficher_Produit_Emprunt.this);
+            pDialog = new ProgressDialog(AfficherProduitEmprunt.this);
             pDialog.setMessage("Traitement en cours...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -1084,7 +1109,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         protected Void doInBackground(Void... arg0) {
 
             HttpURLConnection urlConnection;
-            String url2 = "https://projetandroiduge.herokuapp.com/api/comment/";
+            String url2 = "http://projetandroiduge.herokuapp.com/api/comment/";
             Comment comment = new Comment();
             comment.setRate(note);
             comment.setContent(editText_commentaire.getText().toString());
@@ -1143,7 +1168,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            Toast.makeText(Afficher_Produit_Emprunt.this, "Commentaire bien ajouté", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AfficherProduitEmprunt.this, "Commentaire bien ajouté", Toast.LENGTH_SHORT).show();
             editText_commentaire.setText("");
 
 
@@ -1153,7 +1178,7 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
     }
 
     void updateComments(){
-        new Afficher_Produit_Emprunt.ShowProductTask().execute();
+        new AfficherProduitEmprunt.ShowProductTask().execute();
     }
 
     private class updateNotification extends AsyncTask<Void, Void, Void> {
@@ -1169,10 +1194,12 @@ public class Afficher_Produit_Emprunt extends AppCompatActivity implements DateP
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/notification/updateNotification/"+idNotification+"/"+user.getId();
+            String url = "http://projetandroiduge.herokuapp.com/api/notification/updateNotification/"+idNotification+"/"+user.getId();
             HttpHandler sh = new HttpHandler();
-            String total = sh.makeServiceCall(url);
-            user.setTotalNotification(Integer.parseInt(total));
+            sh.makeServiceCall(url);
+            int total = user.getTotalNotification()-1;
+            if(total<=0) total =0;
+            user.setTotalNotification(total);
             setupBadge();
             return null;
         }

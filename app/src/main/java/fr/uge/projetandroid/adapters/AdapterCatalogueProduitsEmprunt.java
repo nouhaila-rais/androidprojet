@@ -7,38 +7,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.User;
-import fr.uge.projetandroid.shopping.AfficherProduitAchat;
 
-public class Adapter_ProduitsRecherche_Achat extends RecyclerView.Adapter<Adapter_ProduitsRecherche_Achat.ViewHolder> {
+public class AdapterCatalogueProduitsEmprunt  extends RecyclerView.Adapter<AdapterCatalogueProduitsEmprunt.ViewHolder> {
 
     private List<Product> results;
     private User user;
-    private String devise;
-    private Double rate;
 
 
-    public Adapter_ProduitsRecherche_Achat(List<Product> results, User user, String devise, Double rate) {
+    public AdapterCatalogueProduitsEmprunt(List<Product> results, User user) {
         this.results = results;
         this.user = user;
-        this.devise = devise;
-        this.rate = rate;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_rechercher_achat, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_produits_emprunt, viewGroup, false));
     }
 
     @Override
@@ -57,45 +51,46 @@ public class Adapter_ProduitsRecherche_Achat extends RecyclerView.Adapter<Adapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView textView_nomProduit_recherche_achat;
-        private TextView textView_etatProduit_recherche_achat;
-        private TextView textView_prix_recherche_achat;
-        private ImageView imageView_ratingStar_recherche_achat;
-        private ImageView imageView_image_recherche_achat;
-        private LinearLayout LinearLayout_rechercher_produit_achat;
+        private TextView textView_nomProduit_catalogue_emprunt;
+        private TextView textView_etatProduit_catalogue_emprunt;
+        private ImageView imageView_ratingStar_catalogue_emprunt;
+        private ImageView imageView_image_catalogue_emprunt;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView_nomProduit_recherche_achat = itemView.findViewById(R.id.textView_nomProduit_recherche_achat);
-            textView_etatProduit_recherche_achat = itemView.findViewById(R.id.textView_etatProduit_recherche_achat);
-            textView_prix_recherche_achat= itemView.findViewById(R.id.textView_prix_recherche_achat);
-            imageView_ratingStar_recherche_achat = itemView.findViewById(R.id.imageView_ratingStar_recherche_achat);
-            imageView_image_recherche_achat = itemView.findViewById(R.id.imageView_image_recherche_achat);
-            LinearLayout_rechercher_produit_achat= itemView.findViewById(R.id.LinearLayout_rechercher_produit_achat);
+            textView_nomProduit_catalogue_emprunt = itemView.findViewById(R.id.textView_nomProduit_catalogue_emprunt);
+            textView_etatProduit_catalogue_emprunt = itemView.findViewById(R.id.textView_etatProduit_catalogue_emprunt);
+            imageView_ratingStar_catalogue_emprunt = itemView.findViewById(R.id.imageView_ratingStar_catalogue_emprunt);
+            imageView_image_catalogue_emprunt = itemView.findViewById(R.id.imageView_image_catalogue_emprunt);
         }
 
         public void update(final Product entity){
 
-            textView_nomProduit_recherche_achat.setText(entity.getName());
-            textView_etatProduit_recherche_achat.setText(entity.getState());
-            textView_prix_recherche_achat.setText(getPriceProduct(entity.getPrice()));
-            setImageRatingStar(imageView_ratingStar_recherche_achat, entity.getRate());
+            textView_nomProduit_catalogue_emprunt.setText(entity.getName());
+            textView_etatProduit_catalogue_emprunt.setText(entity.getState());
+
+            setImageRatingStar(imageView_ratingStar_catalogue_emprunt, entity.getRate());
 
             Picasso.get().load(entity.getPath())
                     .resize(600, 600)
                     .centerCrop()
                     .error(R.drawable.erreurpicture)
-                    .into(imageView_image_recherche_achat);
+                    .into(imageView_image_catalogue_emprunt);
 
-
-
-            LinearLayout_rechercher_produit_achat.setOnClickListener(new View.OnClickListener(){
+            imageView_image_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), AfficherProduitAchat.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                     myIntent.putExtra("idProduct",entity.getId());
                     myIntent.putExtra("user",user);
-                    myIntent.putExtra("devise",devise);
-                    myIntent.putExtra("rate",rate);
+                    v.getContext().startActivity(myIntent);
+                }
+            });
+
+            textView_nomProduit_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
+                    myIntent.putExtra("idProduct",entity.getId());
+                    myIntent.putExtra("user",user);
                     v.getContext().startActivity(myIntent);
                 }
             });
@@ -144,11 +139,5 @@ public class Adapter_ProduitsRecherche_Achat extends RecyclerView.Adapter<Adapte
     }
 
 
-    public String getPriceProduct(Double price){
-        Double prix = price*rate;
-        DecimalFormat df = new DecimalFormat("0.00");
-        String result  = df.format(prix)+" " +devise;
-        return result ;
-    }
 
 }

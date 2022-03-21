@@ -7,24 +7,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fr.uge.projetandroid.borrow.Afficher_Produit_Emprunt;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
 import fr.uge.projetandroid.R;
 import fr.uge.projetandroid.entities.Product;
 import fr.uge.projetandroid.entities.User;
 
-public class Adapter_CatalogueProduits_Emprunt extends RecyclerView.Adapter<Adapter_CatalogueProduits_Emprunt.ViewHolder> {
+public class AdapterProduitAjouteEmprunt extends RecyclerView.Adapter<AdapterProduitAjouteEmprunt.ViewHolder> {
 
     private List<Product> results;
     private User user;
 
 
-    public Adapter_CatalogueProduits_Emprunt(List<Product> results, User user) {
+    public AdapterProduitAjouteEmprunt(List<Product> results, User user) {
         this.results = results;
         this.user = user;
     }
@@ -32,7 +33,7 @@ public class Adapter_CatalogueProduits_Emprunt extends RecyclerView.Adapter<Adap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_produits_emprunt, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_produit_ajouter_emprunt, viewGroup, false));
     }
 
     @Override
@@ -51,44 +52,44 @@ public class Adapter_CatalogueProduits_Emprunt extends RecyclerView.Adapter<Adap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView textView_nomProduit_catalogue_emprunt;
-        private TextView textView_etatProduit_catalogue_emprunt;
-        private ImageView imageView_ratingStar_catalogue_emprunt;
-        private ImageView imageView_image_catalogue_emprunt;
+        private TextView textView_nomProduit_mesProduits_emprunt;
+        private TextView textView_typeCategorie_mesProduits_emprunt;
+        private TextView textView_etat_mesProduits_emprunt;
+        private TextView textView_dateAjout_mesProduits_emprunt;
+        private ImageView imageView_imageProduit_mesProduits_emprunt;
+        private ImageView imageView_ratingStar__mesProduits_emprunt;
+        private LinearLayout LinearLayout_produit_ajoute_emprunt;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView_nomProduit_catalogue_emprunt = itemView.findViewById(R.id.textView_nomProduit_catalogue_emprunt);
-            textView_etatProduit_catalogue_emprunt = itemView.findViewById(R.id.textView_etatProduit_catalogue_emprunt);
-            imageView_ratingStar_catalogue_emprunt = itemView.findViewById(R.id.imageView_ratingStar_catalogue_emprunt);
-            imageView_image_catalogue_emprunt = itemView.findViewById(R.id.imageView_image_catalogue_emprunt);
+            textView_nomProduit_mesProduits_emprunt = itemView.findViewById(R.id.textView_nomProduit_mesProduits_emprunt);
+            textView_typeCategorie_mesProduits_emprunt = itemView.findViewById(R.id.textView_typeCategorie_mesProduits_emprunt);
+            textView_etat_mesProduits_emprunt = itemView.findViewById(R.id.textView_etat_mesProduits_emprunt);
+            textView_dateAjout_mesProduits_emprunt = itemView.findViewById(R.id.textView_dateAjout_mesProduits_emprunt);
+            imageView_imageProduit_mesProduits_emprunt = itemView.findViewById(R.id.imageView_imageProduit_mesProduits_emprunt);
+            imageView_ratingStar__mesProduits_emprunt = itemView.findViewById(R.id.imageView_ratingStar__mesProduits_emprunt);
+            LinearLayout_produit_ajoute_emprunt = itemView.findViewById(R.id.LinearLayout_produit_ajoute_emprunt);
         }
 
         public void update(final Product entity){
 
-            textView_nomProduit_catalogue_emprunt.setText(entity.getName());
-            textView_etatProduit_catalogue_emprunt.setText(entity.getState());
-
-            setImageRatingStar(imageView_ratingStar_catalogue_emprunt, entity.getRate());
+            textView_nomProduit_mesProduits_emprunt.setText(entity.getName());
+            textView_typeCategorie_mesProduits_emprunt.setText(entity.getCategory()+" > "+entity.getType());
+            textView_etat_mesProduits_emprunt.setText(entity.getState());
+            textView_dateAjout_mesProduits_emprunt.setText(entity.getCreatedAt());
+            setImageRatingStar(imageView_ratingStar__mesProduits_emprunt, entity.getRate());
 
             Picasso.get().load(entity.getPath())
-                    .resize(600, 600)
+                    .resize(150, 150)
                     .centerCrop()
                     .error(R.drawable.erreurpicture)
-                    .into(imageView_image_catalogue_emprunt);
+                    .into(imageView_imageProduit_mesProduits_emprunt);
 
-            imageView_image_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), Afficher_Produit_Emprunt.class);
-                    myIntent.putExtra("idProduct",entity.getId());
-                    myIntent.putExtra("user",user);
-                    v.getContext().startActivity(myIntent);
-                }
-            });
 
-            textView_nomProduit_catalogue_emprunt.setOnClickListener(new View.OnClickListener(){
+
+            LinearLayout_produit_ajoute_emprunt.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
-                    Intent myIntent = new Intent(v.getContext(), Afficher_Produit_Emprunt.class);
+                    Intent myIntent = new Intent(v.getContext(), AfficherProduitEmprunt.class);
                     myIntent.putExtra("idProduct",entity.getId());
                     myIntent.putExtra("user",user);
                     v.getContext().startActivity(myIntent);

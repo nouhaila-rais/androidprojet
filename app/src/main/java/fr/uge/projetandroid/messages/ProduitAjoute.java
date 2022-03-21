@@ -1,45 +1,47 @@
 package fr.uge.projetandroid.messages;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import fr.uge.projetandroid.LoginActivity;
 import fr.uge.projetandroid.R;
-import fr.uge.projetandroid.borrow.Accueil_Emprunt;
-import fr.uge.projetandroid.borrow.Afficher_MesProduits_Emprunte;
-import fr.uge.projetandroid.borrow.Afficher_Notifications_Emprunt;
-import fr.uge.projetandroid.borrow.Afficher_Produit_Ajoute;
-import fr.uge.projetandroid.borrow.Afficher_ProduitsRecherche_Emprunt;
-import fr.uge.projetandroid.borrow.Ajouter_Produit;
+import fr.uge.projetandroid.borrow.AccueilEmprunt;
+import fr.uge.projetandroid.borrow.AfficherMesProduitsEmprunte;
+import fr.uge.projetandroid.borrow.AfficherNotificationsEmprunt;
+import fr.uge.projetandroid.borrow.AfficherProduitAjoute;
+import fr.uge.projetandroid.borrow.AfficherProduitEmprunt;
+import fr.uge.projetandroid.borrow.AfficherProduitsRechercheEmprunt;
+import fr.uge.projetandroid.borrow.AjouterProduit;
 import fr.uge.projetandroid.borrow.Emprunter;
 import fr.uge.projetandroid.entities.User;
 
-public class Demande_Emprunt extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+public class ProduitAjoute extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView textView_nombre_notifications_emprunt;
     private TextView textView_nombre_panier_emprunt;
     private TextView Textview_nom_prenom_utilisateur_emprunt;
     private TextView Textview_email_utilisateur_emprunt;
     private User user;
+    private long idProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_demande_emprunt);
-
+        setContentView(R.layout.activity_produit_ajoute);
         user = (User)getIntent().getSerializableExtra("user");
+        idProduct = getIntent().getLongExtra("idProduct",1);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,7 +55,11 @@ public class Demande_Emprunt extends AppCompatActivity implements NavigationView
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
+
+
 
 
     private void setupBadge() {
@@ -120,7 +126,7 @@ public class Demande_Emprunt extends AppCompatActivity implements NavigationView
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query!=null){
-                    Intent myIntent = new Intent(Demande_Emprunt.this, Afficher_ProduitsRecherche_Emprunt.class);
+                    Intent myIntent = new Intent(ProduitAjoute.this, AfficherProduitsRechercheEmprunt.class);
                     myIntent.putExtra("user",user);
                     myIntent.putExtra("Keyword",query);
                     startActivity(myIntent);
@@ -158,13 +164,13 @@ public class Demande_Emprunt extends AppCompatActivity implements NavigationView
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.item_notifiction_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_Notifications_Emprunt.class);
+            Intent myIntent = new Intent(this, AfficherNotificationsEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
         }
         else if (id == R.id.item_nombre_panier_emprunt) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
             return true;
@@ -185,12 +191,12 @@ public class Demande_Emprunt extends AppCompatActivity implements NavigationView
 
         if (id == R.id.nav_emprunt_accueil) {
 
-            Intent myIntent = new Intent(this, Accueil_Emprunt.class);
+            Intent myIntent = new Intent(this, AccueilEmprunt.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
         } else if (id == R.id.nav__emprunt_retourner) {
-            Intent myIntent = new Intent(this, Afficher_MesProduits_Emprunte.class);
+            Intent myIntent = new Intent(this, AfficherMesProduitsEmprunte.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
 
@@ -201,13 +207,13 @@ public class Demande_Emprunt extends AppCompatActivity implements NavigationView
 
         } else if (id == R.id.nav__emprunt_mesproduits) {
 
-            Intent myIntent = new Intent(this, Afficher_Produit_Ajoute.class);
+            Intent myIntent = new Intent(this, AfficherProduitAjoute.class);
             myIntent.putExtra("user", user);
             startActivity(myIntent);
         }
 
         else if (id == R.id.nav__emprunt_ajouterproduit) {
-            Intent myIntent = new Intent(this, Ajouter_Produit.class);
+            Intent myIntent = new Intent(this, AjouterProduit.class);
             myIntent.putExtra("user",user);
             startActivity(myIntent);
         }

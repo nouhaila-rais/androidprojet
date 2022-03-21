@@ -2,12 +2,14 @@ package fr.uge.projetandroid.messages;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 
 import fr.uge.projetandroid.LoginActivity;
 import fr.uge.projetandroid.R;
+import fr.uge.projetandroid.adapters.AdapterProduitsRechercheAchat;
 import fr.uge.projetandroid.entities.User;
 import fr.uge.projetandroid.handlers.HttpHandler;
 import fr.uge.projetandroid.shopping.AccueilAchat;
@@ -30,7 +33,7 @@ import fr.uge.projetandroid.shopping.AfficherProduitsRechercheAchat;
 import fr.uge.projetandroid.shopping.AfficherSoldeAchat;
 import fr.uge.projetandroid.shopping.AfficherWishlistAchat;
 
-public class Produit_Achete extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ErreurProduitAchete extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView textView_nombre_panier_achat;
     private TextView textView_nombre_wishlist_achat;
@@ -40,12 +43,10 @@ public class Produit_Achete extends AppCompatActivity implements NavigationView.
     private String devise;
     private double rate;
     private Boolean ChangeCurrency=false;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_produit_achete);
+        setContentView(R.layout.activity_erreur_produit_achete);
 
         Intent myIntent = getIntent();
         devise = myIntent.getStringExtra("devise");
@@ -132,14 +133,13 @@ public class Produit_Achete extends AppCompatActivity implements NavigationView.
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setBackgroundResource(R.drawable.bg_spinner_menu);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence charSequence = (CharSequence) parent.getItemAtPosition(position);
                 if(ChangeCurrency){
                     devise = charSequence.toString();
-                    new Produit_Achete.ChangeCurrencyTask().execute();
+                    new ErreurProduitAchete.ChangeCurrencyTask().execute();
                 }
                 ChangeCurrency=true;
 
@@ -159,7 +159,7 @@ public class Produit_Achete extends AppCompatActivity implements NavigationView.
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query!=null){
-                    Intent myIntent = new Intent(Produit_Achete.this, AfficherProduitsRechercheAchat.class);
+                    Intent myIntent = new Intent(ErreurProduitAchete.this, AfficherProduitsRechercheAchat.class);
                     myIntent.putExtra("user",user);
                     myIntent.putExtra("Keyword",query);
                     myIntent.putExtra("devise",devise);
@@ -284,7 +284,6 @@ public class Produit_Achete extends AppCompatActivity implements NavigationView.
 
 
 
-
     private class ChangeCurrencyTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -296,7 +295,7 @@ public class Produit_Achete extends AppCompatActivity implements NavigationView.
         protected Void doInBackground(Void... arg0) {
 
 
-            String url = "https://projetandroiduge.herokuapp.com/api/currency/"+devise;
+            String url = "http://projetandroiduge.herokuapp.com/api/currency/"+devise;
             HttpHandler sh = new HttpHandler();
             String result = sh.makeServiceCall(url);
             rate = Double.parseDouble(result);
@@ -310,5 +309,5 @@ public class Produit_Achete extends AppCompatActivity implements NavigationView.
             super.onPostExecute(result);
         }
     }
-}
 
+}
